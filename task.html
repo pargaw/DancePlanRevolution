@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <link rel="stylesheet" href="css/main.css">
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <!-- mobile-aware viewport -->
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,7 +37,7 @@
       </ul>
     </div>
   </nav> -->
-
+<div>
   <nav class="navbar">
     <a class="navbar-brand" href="#">dpr</a>
 
@@ -67,14 +67,20 @@
     </ul>
   </nav>
 
-
-<!-- Add and Filter -->
-<container id="add new">
-<div class="input-group">
-  <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-  <span class="input-group-addon" id="basic-addon1">@</span>
 </div>
+<!-- Add New and Filter By-->
+<container id="add new">
 
+<div class="btn-group" role="group">
+  <button type="button" class="btn btn-default"> Add New     
+    <span class="glyphicon glyphicon-plus-sign"> 
+    </span>
+  </button>
+
+  <button type="button" class="btn btn-default"> Filter by date <span class="glyphicon glyphicon-calendar"> 
+    </span>
+  </button>
+</div>
 </container>
 
 <container id="filter by"> </container>
