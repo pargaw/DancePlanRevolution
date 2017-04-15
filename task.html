@@ -15,6 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- js for individual pages -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/task.js"></script> 
 </head>
 
@@ -53,32 +54,74 @@
     </ul>
   </nav>
 
-  <nav class="navbar">
+  <nav class="tasks navbar">
     <ul class="nav nav-pills nav-fill">
       <li class="nav-item">
-        <a class="nav-link" href="#">Attendance</a>
+        <a class="nav-link" id="0" href="#">Attendance</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Videos</a>
+        <a class="nav-link" id="1" href="#">Videos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Announcements</a>
+        <a class="nav-link" id="2" href="#">Announcements</a>
       </li>
     </ul>
   </nav>
 
 
 <!-- Add and Filter -->
-<container id="add new">
-<div class="input-group">
-  <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-  <span class="input-group-addon" id="basic-addon1">@</span>
-</div>
+<container id="add new"> 
 
 </container>
 
-<container id="filter by"> </container>
+<container id="filter by">
 
+</container>
+
+
+<div class="container">
+  <br>
+  <div id="taskCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#taskCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#taskCarousel" data-slide-to="1"></li>
+      <li data-target="#taskCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <div class="Attendance">
+          <h3>Attendance info here</h3>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="Videos">
+          <h3>Videos here</h3>
+        </div>
+      </div>
+    
+      <div class="item">
+        <div class="Announcements">
+          <h3>Announcements here</h3>
+        </div>
+      </div>
+  
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#taskCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#taskCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
 
 <!-- Bootstrap scripts loaded last for performance -->
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
