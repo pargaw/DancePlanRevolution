@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <link rel="stylesheet" href="css/main.css">
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <!-- mobile-aware viewport -->
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -38,7 +38,7 @@
       </ul>
     </div>
   </nav> -->
-
+<div>
   <nav class="navbar">
     <a class="navbar-brand" href="#">dpr</a>
 
@@ -67,15 +67,20 @@
       </li>
     </ul>
   </nav>
+</div>
 
 
-<!-- Add and Filter -->
-<container id="add new"> 
+<!-- Add New and Filter By-->
+<container id="add new">
+  <div class="btn-group" role="group">
+    <button type="button" class="new_task btn btn-default">
+      <p style="display: inline; margin-right: 10px;"></p><span class="glyphicon glyphicon-plus-sign"></span>
+    </button> 
 
-</container>
-
-<container id="filter by">
-
+    <button type="button" class="btn btn-default">Filter by date
+      <span class="glyphicon glyphicon-calendar"></span>
+    </button>
+  </div>
 </container>
 
 
@@ -93,18 +98,21 @@
     <div class="carousel-inner" role="listbox">
       <div class="item active">
         <div class="Attendance">
-          <h3>Attendance info here</h3>
+          <!-- just a placeholder -->
+          <h3>Take Attendance for </h3>
         </div>
       </div>
 
       <div class="item">
         <div class="Videos">
+          <!-- just a placeholder -->
           <h3>Videos here</h3>
         </div>
       </div>
     
       <div class="item">
         <div class="Announcements">
+          <!-- just a placeholder -->
           <h3>Announcements here</h3>
         </div>
       </div>
