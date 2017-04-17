@@ -8,8 +8,6 @@ document.head.appendChild(imported);
 var TASKS = ["attendance", "videos", "announcements"]
 var currentTask = 0; // should be 0, 1, or 2, specifying one of the above tasks
 
-var taskCarousel = $('.carousel');
-
 // if we change currentTask, we change the content displayed by the carousel in task.html
 $(document).on('click', '.tasks a', function(e) {
 	currentTask = $(this).attr('id');
@@ -22,26 +20,57 @@ $(document).on('click', '#addNew', function(e) {
 
 function updateTaskContent() {
 	var newTaskButton = $('.new_task');
+	var taskCarousel = $('.carousel')[0];
 	if (currentTask == 0) { 
 		newTaskButton.find('p').text('Add new member for today');
+		// taskCarousel.carousel(0);
+		// $('#myCarousel').carousel($('.carousel-indicators li').data('slide-to')+1);
+		$('.carousel-indicators li.active').removeClass('active');
+        $('#' + PREFIX_ID_PAGINATION + current_id.replace(PREFIX_ID_SLIDESHOW,"")).addClass('active');
+
+		console.log($('.carousel-inner'));
 	} else if (currentTask == 1) {
 		newTaskButton.find('p').text('Upload new video');
+		$('#myCarousel').carousel(1);
 	} else if (currentTask == 2) {
 		newTaskButton.find('p').text('Add new announcement');
+		$('#myCarousel').carousel(2);
 	}	
 }
 
+
+
 // Attendance
-// var members = ['beth','rob','stef','david']
-// var table = $('#myTable');
-// console.log($(this));
-// var row = table.insertRow(0);
-// members.forEach(function(value){
-//   console.log(members);
-//   var cell1 = row.insertCell(0);
-//   var cell2 = row.insertCell(1);
-//   cell1.innerHTML = "hi";
-// });
+var members = ['beth','rob','stef','david']
+var t = $('.table');
+console.log(t);
+
+// var numrows = Math.ceil(members.length/3.0);
+// var counter = 0;
+// for(var i = 0; i < numrows; i++){
+//   var tr = t.insertRow();
+//   for(var j = 0; j < 3; j++){
+//       var td = tr.insertCell();
+
+//       //add member image to table
+//       var member = document.createElement("IMG");
+//       member.setAttribute("src", "img/"+members[counter]+".jpg");
+//       counter +=1;
+
+//       //add check mark in the same place
+//       var check = document.createElement("IMG");
+//       check.setAttribute("src", "img/redCheck.png")
+//       check.style.visibility = 'hidden';
+
+//       td.setAttribute("align","center");
+//       td.appendChild(member);
+//       td.appendChild(check);
+//   }
+// }
+// var div = document.getElementById("attend");
+// div.appendChild(t);
+
+
 
 //Videos
 function addButtonsUpdate(){
@@ -56,6 +85,8 @@ function addButtonsUpdate(){
 	} else if (currentTask == 2) {
 	} 
 }
+
+
 
 //Announcements
 var ANNOUNCEMENTS = {
