@@ -124,7 +124,7 @@ function addButtonsUpdate(){
 			file.previewElement.querySelector().onclick;
 		})
 	} else if (currentTask == 2) {
-
+		break;
 	} 
 }
 
