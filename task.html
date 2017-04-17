@@ -19,36 +19,39 @@
   <script src="js/task.js"></script> 
 </head>
 
-<body>
-<!-- Navbar -->
-<nav class="navbar navbar-default">
-<div class="container-fluid">
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-  <ul class="nav navbar-nav">
-    <li><a href="#">dpr</a></li>
-    <form class="navbar-form navbar-left">
-    <div class="form-group">
-    <input type="text" class="form-control" placeholder="Search">
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+<body>  
+  <!-- Navbar --> 
+  <nav class="navbar-default">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="navbar-brand" href="#">dpr</a>
+      </li>
+      <li class="nav-item">
+        <form class="form-search form-inline">
+          <input type="text" class="form-control search-query" placeholder="Search..." />
+        </form>
+      </li>
+      <li class="nav-item dance-group">
+        <a class="nav-link" href="#"></a> 
+      </li>
+    </ul>
+  </nav>
 
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Twinkle Toes <span class="caret"></span></a>
-      <ul class="dropdown-menu">
-        <li><a href="#">Attendance</a></li>
-        <li><a href="#">Videos</a></li>
-        <li><a href="#">Something else here</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Separated link</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">One more separated link</a></li>
-      </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+  <nav class="tasks navbar">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link" id="0" href="#">Attendance</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="1" href="#">Videos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="2" href="#">Announcements</a>
+      </li>
+    </ul>
+  </nav>
+  <hr>
+
 
 <!-- Add New and Filter By-->
 <div class="container" id="add new">
@@ -56,7 +59,7 @@
 <div class="col-12 col-md-auto">
 <div class="btn-group" role="group">
   <button type="button" class="new_task btn btn-default" id="addNew">
-    <p style="display: inline; margin-right: 10px;"></p><span class="glyphicon glyphicon-plus-sign"></span>
+    <p style="display: inline; margin-right: 10px;">Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
   </button> 
   <button type="button" class="btn btn-default">Filter by date
     <span class="glyphicon glyphicon-calendar"></span>
