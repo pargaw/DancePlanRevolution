@@ -42,7 +42,7 @@ $(document).on('click', '#addNew', function(e) {
 });
 
 function updateTaskContent() {
-	var taskCarousel = $('.taskCarousel');
+	var taskCarousel = $('.carousel');
 	var newTaskButton = $('.new_task');
 	if (currentTask == 0) { 
 		newTaskButton.find('p').text('Add new member for today');
@@ -54,7 +54,7 @@ function updateTaskContent() {
 }
 
 function addButtonsUpdate(){
-	var taskCarousel = $('.taskCarousel');
+	var taskCarousel = $('.carousel');
 	var newTaskButton = $('.new_task');
 	if (currentTask == 0) { 
 	} else if (currentTask == 1) {
