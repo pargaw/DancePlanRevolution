@@ -20,6 +20,8 @@ var ANNOUNCEMENTS = {
 	}
 };
 
+var VIDEOS = {
+}
 
 console.log(ANNOUNCEMENTS);
 
