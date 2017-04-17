@@ -6,18 +6,6 @@ document.head.appendChild(imported);
 
 
 // SAMPLE DATA
-var ANNOUNCEMENTS = {
-	"0" : {
-		"date": "2017-02-03T00:00:00.000Z", 
-		"message": "First post of the semester - welcome! :)"
-	},
-
-	"1" : {
-		"date": "2017-02-09T00:00:00.000Z", 
-		"message": "Office hours tomorrow are cancelled."
-	}
-};
-
 
 // GLOBALS
 var TASKS = ["attendance", "videos", "announcements"]
@@ -62,22 +50,6 @@ function initializePage() {
 	}
 }
 
-console.log(ANNOUNCEMENTS);
-
-function createNewAnnouncement() {
-	// var para = document.createElement("p");
-	// var node = document.createTextNode("This is new.");
-	// para.appendChild(node);
-	// element.appendChild(para);
-
-	var dateHeader = document.getElementById("dateHeader");
-
-	n =  new Date();
-	y = n.getFullYear();
-	m = n.getMonth() + 1;
-	d = n.getDate();
-	document.getElementById("dateHeader").innerHTML = m + "/" + d + "/" + y;
-}
 
 // if we change currentTask, we change the content displayed by the carousel in task.html
 $(document).on('click', '.tasks a', function(e) {
@@ -131,23 +103,29 @@ function addButtonsUpdate(){
 //Announcements
 var ANNOUNCEMENTS = {
 	"0" : {
-		"date": "1980-01-02T00:00:00.000Z", 
-		"message": "Sample announcement #0."
+		"date": "2017-02-03T00:00:00.000Z", 
+		"message": "First post of the semester - welcome! :)"
 	},
 
 	"1" : {
-		"date": "1980-01-03T00:00:00.000Z", 
-		"message": "Sample announcement #1."
+		"date": "2017-02-09T00:00:00.000Z", 
+		"message": "Office hours tomorrow are cancelled."
 	}
 };
-
 
 console.log(ANNOUNCEMENTS);
 
 function createNewAnnouncement() {
-	var para = document.createElement("p");
-	var node = document.createTextNode("This is new.");
-	para.appendChild(node);
-	var element = document.getElementById("div1");
-	element.appendChild(para);
+	// var para = document.createElement("p");
+	// var node = document.createTextNode("This is new.");
+	// para.appendChild(node);
+	// element.appendChild(para);
+
+	var dateHeader = document.getElementById("dateHeader");
+
+	n =  new Date();
+	y = n.getFullYear();
+	m = n.getMonth() + 1;
+	d = n.getDate();
+	document.getElementById("dateHeader").innerHTML = m + "/" + d + "/" + y;
 }
