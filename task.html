@@ -17,6 +17,7 @@
 <!-- js for individual pages -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/task.js"></script> 
+
 </head>
 
 <body>
@@ -52,36 +53,21 @@
 </div>
 
 
-<!-- Add New and Filter By-->
-<container id="add new">
-  <div class="btn-group" role="group">
-    <button type="button" class="new_task btn btn-default">
-      <p style="display: inline; margin-right: 10px;">Add new member for today</p><span class="glyphicon glyphicon-plus-sign"></span>
-    </button> 
-
-    <button type="button" class="btn btn-default">Filter by date
-      <span class="glyphicon glyphicon-calendar"></span>
-    </button>
-  </div>
-</container>
-
-<!-- Carosel with task info -->
-<head>
-  <title>Carosel</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <style>
-  .carousel-inner > .item > img,
-  .carousel-inner > .item > a > img {
-      width: 90%;
-      margin: auto;
-  }
-  </style>
-</head>
-<body>
+<!-- Add New and Filter By--> 
+<div class="container" id="add new">
+<div class="row justify-content-md-center">
+<div class="col-12 col-md-auto">
+<div class="btn-group" role="group">
+  <button type="button" class="new_task btn btn-default" id="addNew">
+    <p style="display: inline; margin-right: 10px;">Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
+  </button> 
+  <button type="button" class="btn btn-default">Filter by date
+    <span class="glyphicon glyphicon-calendar"></span>
+  </button>
+</div>
+</div>
+</div>
+</div> 
 
 <div class="container">
   <br>
@@ -96,7 +82,7 @@
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
-      <div class="item active">
+      <div class="item">
         <div class="Attendance">
           <h3>Attendance info here</h3>
 
@@ -112,20 +98,17 @@
         </div>
       </div>
 
-      <div class="item">
+      <div class="item active">
         <div class="Videos">
-          <h3>Videos here</h3>
-
-         
-
+          <h3>Videos here</h3> 
+<!--           <form action="/file-upload" class="dropzone" id="awesomedropzone"> </form>
+ --> 
         </div>
       </div>
     
       <div class="item">
         <div class="Announcements">
           <h3>Announcements here</h3>
-
-
         </div>
       </div>
   
