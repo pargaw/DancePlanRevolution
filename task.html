@@ -20,7 +20,7 @@
   <script src="js/task.js"></script> 
 </head>
 
-<body>  
+<body>   
   <!-- Navbar --> 
   <nav class="navbar-default">
     <ul class="nav nav-pills nav-fill">
@@ -51,13 +51,13 @@
         <a class="nav-link" id="2" href="#">Announcements</a>
       </li>
     </ul>
-  </nav>
+  </nav> 
 
- <!-- carousel with task info -->
+ <!-- Carousel with task info -->
   <container id="carousel">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <div id="myCarousel" class="carousel" > 
+    <div id="myCarousel" class="carousel"> 
       <!-- Wrapper for slides -->
       <div class="carousel-inner" role="listbox">
 
@@ -72,7 +72,7 @@
             <div class="col-12 col-md-auto">
               <div class="btn-group" role="group">
                 <button type="button" class="new_task btn btn-default" id="addNew">
-                  <p style="display: inline; margin-right: 10px;">Add</p><span class="glyphicon glyphicon-plus-sign"></span>
+                  <p style="display: inline; margin-right: 10px;">Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
                 </button> 
                 <button type="button" class="btn btn-default">Filter by date
                   <span class="glyphicon glyphicon-calendar"></span>
@@ -83,13 +83,9 @@
         </div>
 
         <div class="item">
-          <div class="Attendance"> 
+          <div class="Attendance" id="attend"> 
             <div id="attendance-icons">
-              <img class="img-beth" src="img/beth.jpg">
-              <img class="img-rob" src="img/rob.jpg">
-              <img class="img-stefanie" src="img/stefanie.jpg">
-              <img class="img-david" src="img/david.jpg">
-              <img class="img-redCheck" src="img/redCheck.png">
+              <table id="myTable" align="center"></table>
             </div>
           </div>
         </div>
