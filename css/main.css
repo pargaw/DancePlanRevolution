@@ -42,7 +42,7 @@ hr {
     border-bottom: 0;
 }
 
-.tasks li>a:focus, .tasks li>a:hover {
+.tasks li>a:focus, .tasks li>a:hover, .tasks li>a:active {
     background-color: transparent;
     border-bottom: 2px solid #23527c;
     outline: none;

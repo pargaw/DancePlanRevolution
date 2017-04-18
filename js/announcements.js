@@ -22,10 +22,6 @@ $(document).on('click', '#doneButton', function(e) {
 	addNewAnnouncement();
 });
 
-$(document).on('click', '#announcementInp', function(e) {
-	// e.preventDefault();
-});
-
 
 // MAIN ACTIONS ON ANNOUNCEMENTS
 function addNewAnnouncement() {
@@ -37,7 +33,7 @@ function addNewAnnouncement() {
 
 		var oldAnnouncements = JSON.parse(localStorage.getItem('announcements'));
 		oldAnnouncements.push({"date": date, "msg": msg});
-		console.log(oldAnnouncements);
+		console.log('old', oldAnnouncements);
 
 		localStorage.setItem("announcements", JSON.stringify(oldAnnouncements));
 
@@ -74,6 +70,10 @@ function displayAllAnnouncements() {
 	}
 
 	document.getElementById('display').appendChild(announcementContainer);
+
+	if (!localStorage.getItem('announcements')) {
+		localStorage.setItem("announcements", JSON.stringify(sampleAnnouncements));
+	}
 }
 
 function getAnnouncementTemplate(date, msg) { 

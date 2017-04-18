@@ -1,4 +1,7 @@
-// This will be the control page for determining which content is displayed.
+/*
+Control page for determining which content is displayed for given task
+*/
+
 //imports
 var imported = document.createElement('script'); 
 imported.src = 'js/dropzone.js'; 
@@ -20,17 +23,13 @@ var currentDanceGroup = "Twinkle Toes";
 localStorage.setItem("currentDanceGroup", currentDanceGroup);
 console.log('Local storage content: ', localStorage);
 
-$(document).ready(function() {  
-    // stop automatic carousel movement 
+function initializePage() { 	
+	// stop automatic carousel movement 
 	$("#myCarousel").carousel({
 	    pause: true,
 	    interval: false
 	});
 
-	initializePage();
-});
-
-function initializePage() { 	
 	// set page title
 	$(".task-name").text(TASKS[currentTask]);
 	console.log($(".task-name").val());
@@ -56,25 +55,29 @@ function initializePage() {
 	displayAllAnnouncements();
 }
 
+window.onload = initializePage;
+
+
 
 // CLICK HANDLERS
-// if we change currentTask, we change the content displayed by the carousel 
+// if we change currentTask, change content displayed by the carousel 
 $(document).on('click', '.tasks a', function(e) {
 	currentTask = $(this).attr('id');
-	updateTaskPgContent();
-});
-
-
-$(document).on('click', '#myCarousel', function() {
-	// subtract 2 b/c we have pg title and add/filter button divs
-	// before the main carousel items
-    currentTask = $('div.active').index() - 2;
-    updateTaskPgContent();
+	updateTaskPgContent(true);
 });
 
 $(document).on('click', '#addNew', function(e) {
-	e.preventDefault();
 	addNewTaskItem();
+});
+
+// use new index of carousel to update page content
+$(document).on('slide.bs.carousel', '.carousel', function(e) {
+	var slideFrom = $(this).find('.active').index();
+	var slideTo = $(e.relatedTarget).index();
+	// console.log(slideFrom+' => '+slideTo);
+
+    currentTask = slideTo - 2;
+    updateTaskPgContent();
 });
 
 
@@ -93,15 +96,17 @@ function addNewTaskItem(){
 	} 
 }	
 
-function updateTaskPgContent() {  
-	// move to appropriate carousel item
-	$("#myCarousel").carousel(parseInt(currentTask));
+function updateTaskPgContent(indirect) {  
+	// move to new carousel item if tab, not carousel arrow, was clicked
+	if (indirect) {
+	 	$("#myCarousel").carousel(parseInt(currentTask));
+	}
 	
 	// update page title
 	$(".task-name").text(TASKS[currentTask]);
 
 	// activate element in secondary bar
-	$(".nav-link#" + currentTask).focus();
+	$(".tasks li>a#" + currentTask).focus();
 
 	var newTaskButton = $('.new_task');
 
