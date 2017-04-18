@@ -84,27 +84,24 @@
     }
     </style>
 
-    <div id="myCarousel" class="carousel" >
+    <div id="myCarousel" class="carousel slide" >
       <!-- Indicators -->
       <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="0"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
       </ol>
 
       <!-- Wrapper for slides -->
-      <div class="carousel-inner" role="listbox">
+      <div class="carousel-inner" role="listbox"> 
         <div class="item active">
-          <div class="Attendance">
-            <h3>Attendance info here</h3>
+          <div class="Attendance" id="attend">
+            <h3>Attendance info here</h3> 
+              <table id="myTable" align="center"></table>
+            
+            <div id="attendance-icons">
 
-
-            <table id="myTable"></table>
-            <img class="img-beth" src="img/beth.jpg">
-            <img class="img-rob" src="img/rob.jpg">
-            <img class="img-stefanie" src="img/stefanie.jpg">
-            <img class="img-david" src="img/david.jpg">
-            <img class="img-redCheck" src="img/redCheck.png">
+            </div>
           </div>
         </div>
 
