@@ -8,16 +8,16 @@ document.head.appendChild(imported);
 // SAMPLE DATA
 
 // GLOBALS
-var TASKS = ["attendance", "videos", "announcements"]
+var TASKS = ["Attendance", "Videos", "Announcements"]
 var currentTask = 2; // should be 0, 1, or 2, specifying one of the above tasks
 var currentDanceGroup = "Twinkle Toes";
 // var currentDanceGroup; // TODO delete line above + uncomment this when done
 
 // TODO every time new dance group is chosen on main page,
 // update currentDanceGroup and localStorage accordingly
-localStorage.clear();
+// localStorage.clear();
 localStorage.setItem("currentDanceGroup", currentDanceGroup);
-// console.log(localStorage);
+console.log(localStorage);
 
 
 $(document).ready(function() {      
@@ -33,6 +33,10 @@ $(document).ready(function() {
 });
 
 function initializePage() { 	
+	// set page title
+	$(".task-name").text(TASKS[currentTask]);
+	console.log($(".task-name").val());
+
 	if (localStorage.currentDanceGroup != "undefined") {
 		this.currentDanceGroup = localStorage.currentDanceGroup;
 	}
@@ -48,6 +52,9 @@ function initializePage() {
 		// TODO delete line above and uncomment one below when done 
 		// $(".dance-group").text("Choose a team below");
 	}
+
+	updateTaskContent();
+	displayAllAnnouncements();
 }
 
 
@@ -57,18 +64,51 @@ $(document).on('click', '.tasks a', function(e) {
 	updateTaskContent();
 });
 
+$(".left").click(function(){
+    $("#myCarousel").carousel("prev");
+});
+
+$(".right").click(function(){
+    $("#myCarousel").carousel("next");
+});
+
+$(document).on('click', '#myCarousel', function() {
+	// subtract 2 b/c we have pg title and add/filter button divs
+	// before the main carousel items
+    currentTask = $('div.active').index() - 2;
+    updateTaskContent();
+});
+
 $(document).on('click', '#addNew', function(e) {
 	addButtonsUpdate();
 });
 
-function updateTaskContent() {
+$(document).on('click', '#cancelButton', function(e) {
+	$('#newAnnouncement').hide();
+});
+
+$(document).on('click', '#doneButton', function(e) {
+	addNewAnnouncement();
+});
+
+function updateTaskContent() {  
+	// move to appropriate carousel item
+	$("#myCarousel").carousel(parseInt(currentTask));
+	
+	// update page title
+	$(".task-name").text(TASKS[currentTask]);
+
+	// activate element in secondary bar
+	$(".nav-link#" + currentTask).focus();
+
 	var newTaskButton = $('.new_task');
+
 	if (currentTask == 0) { 
-		newTaskButton.find('p').text('Add new member for today');
+		newTaskButton.find('p').text('Add member for today');
 	} else if (currentTask == 1) {
-		newTaskButton.find('p').text('Add new video');
+		newTaskButton.find('p').text('Add video');
 	} else if (currentTask == 2) {
-		newTaskButton.find('p').text('Add new announcement');
+		newTaskButton.find('p').text('Add announcement');
 	}	
 }
 
@@ -86,7 +126,6 @@ function updateTaskContent() {
 
 //Videos
 function addButtonsUpdate(){
-	var newTaskButton = $('.new_task');
 	if (currentTask == 0) { 
 
 	} else if (currentTask == 1) {
@@ -96,36 +135,93 @@ function addButtonsUpdate(){
 			file.previewElement.querySelector().onclick;
 		})
 	} else if (currentTask == 2) {
-		break;
+		createNewAnnouncement();
 	} 
-}
+}	
 
 //Announcements
-var ANNOUNCEMENTS = {
-	"0" : {
-		"date": "2017-02-03T00:00:00.000Z", 
-		"message": "First post of the semester - welcome! :)"
+var sampleAnnouncements = [
+	{
+		"date": "02/03/2017", 
+		"msg": "First post of the semester - welcome! :)"
 	},
 
-	"1" : {
-		"date": "2017-02-09T00:00:00.000Z", 
-		"message": "Office hours tomorrow are cancelled."
+	{
+		"date": "02/09/2017", 
+		"msg": "Office hours tomorrow are cancelled."
 	}
-};
+];
 
-console.log(ANNOUNCEMENTS);
+function addNewAnnouncement() {
+	var msg = $('#announcementInp').val();
 
-function createNewAnnouncement() {
-	// var para = document.createElement("p");
-	// var node = document.createTextNode("This is new.");
-	// para.appendChild(node);
-	// element.appendChild(para);
+	if (msg) { 
+		var date = getDate();
 
-	var dateHeader = document.getElementById("dateHeader");
+		var oldAnnouncements = JSON.parse(localStorage.getItem('announcements'));
+		oldAnnouncements.push({"date": date, "msg": msg});
 
+		localStorage.setItem("announcements", JSON.stringify(oldAnnouncements));
+
+		$('#announcementInp').val(null); 
+		$('#newAnnouncement').hide();
+
+		var template = getAnnouncementTemplate(date, msg);
+		document.getElementById('display').prepend(template);
+	} else {
+		$("#announcementInp").effect("shake");
+	}
+}	
+
+function getAnnouncementTemplate(date, msg) { 
+	var dateDiv = document.createElement("div");
+  	var dateText = document.createElement("h5");	  	
+  	dateText.innerHTML = date;
+  	dateDiv.appendChild(dateText);
+
+	var msgDiv = document.createElement("div");
+	var msgText = document.createTextNode(msg); 
+  	msgDiv.appendChild(msgText);
+
+  	var announcementDiv = document.createElement("div");
+  	announcementDiv.appendChild(dateDiv);
+  	announcementDiv.appendChild(msgDiv);
+  	announcementDiv.className = "panel-body";
+
+  	var panelDiv = document.createElement("div");
+  	panelDiv.className = "panel panel-default";
+  	panelDiv.appendChild(announcementDiv);
+
+  	return panelDiv;
+}
+
+function displayAllAnnouncements() {
+	var announcementContainer = document.createElement("div");
+	var announcements = JSON.parse(localStorage.getItem('announcements'));
+
+	for (i = announcements.length; i--;) { 
+		var announcement = announcements[i];
+		var date = announcement["date"];
+		var msg = announcement["msg"]; 
+
+		var template = getAnnouncementTemplate(date, msg);
+	    announcementContainer.appendChild(template);
+	}
+
+	document.getElementById('display').appendChild(announcementContainer);
+}
+
+function getDate() {
 	n =  new Date();
 	y = n.getFullYear();
 	m = n.getMonth() + 1;
 	d = n.getDate();
-	document.getElementById("dateHeader").innerHTML = m + "/" + d + "/" + y;
+
+	var date = m + "/" + d + "/" + y;
+	return date;
+}
+
+function createNewAnnouncement() {  
+	document.getElementById("dateHeader").innerHTML = "<h4>" + getDate() + "</h4>";
+	$('#newAnnouncement').toggle();
 }
