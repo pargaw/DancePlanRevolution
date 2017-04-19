@@ -16,9 +16,10 @@
 
 <!-- js for individual pages -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="js/announcements.js"></script> 
 <script src="js/task.js"></script> 
+
 </head>
 
 <body>   
@@ -72,7 +73,7 @@
         <div class="row justify-content-md-center">
           <div class="col-12 col-md-auto">
             <div class="btn-group" role="group">
-              <button type="button" class="new_task btn btn-default" id="addNew">
+              <button type="button" class="new_task btn btn-default" id="addNew" data-toggle="modal" data-target="#myModal">
                 <p style="display: inline; margin-right: 10px;">Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
               </button> 
               <button type="button" class="btn btn-default">Filter by date
@@ -95,10 +96,48 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css" rel="stylesheet"/>
 
-<form action="/file-upload"
-      class="dropzone"
-      id="my-awesome-dropzone"></form>
+<!-- <form action="https://stuff.mit.edu/~erjonat/img/Wildlife.wlmp"  class="dropzone" id="my-awesome-dropzone"></form>
+ -->      
+<!-- videos -->
+<!--   <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add New</button>
+ -->
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Upload</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+          <input type="text" name="src" value="src"><br>
+          <input type="submit" value="Submit">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
       
+    </div>
+  </div>
+  
+</div>
+
+
+
+
+
+<!--               <iframe width="560" height="315" src="https://www.youtube.com/embed/ChV5BZ8SmS0" frameborder="0" allowfullscreen></iframe>
+ -->
+
+            <!-- List of announcements are loaded dynamically -->
+
 
 <!-- announcements -->    
       <div class="item active">

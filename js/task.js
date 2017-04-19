@@ -77,11 +77,10 @@ function addNewTaskItem(){
 	if (currentTask == 0) { 
 
 	} else if (currentTask == 1) {
-		var myDropzone = new Dropzone(document.body, 
-			{ url: "/file/post"});
-		myDropzone.on('addedfile', function(file){
-			file.previewElement.querySelector().onclick;
-		})
+		var videoNew = $('#addNew');
+		console.log(videoNew);
+
+
 	} else if (currentTask == 2) {
 		createNewAnnouncement();
 	} 
