@@ -12,13 +12,13 @@
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css" rel="stylesheet"/>
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/task.css">
 
 <!-- js -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
+<script src="js/attendance.js"></script> 
 <script src="js/announcements.js"></script> 
 <script src="js/task.js"></script> 
 </head>
@@ -115,8 +115,8 @@
                 <button type="button" class="new_task btn btn-default" id="addNew" data-toggle="modal" data-target="#myModal">
                   <p style="display: inline; margin-right: 10px;">Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
                 </button> 
-                <button type="button" class="btn btn-default">Filter by date
-                  <span class="glyphicon glyphicon-calendar"></span>
+                <button type="button" class="btn btn-default">
+                  <p>Filter by date</p><span class="glyphicon glyphicon-calendar"></span>
                 </button>
               </div>
             </div>
@@ -124,12 +124,11 @@
         </div>
 
         <!-- Attendance -->
-        <div class="item">
-          <div class="attendance" id="attend"> 
-            <div id="attendance-icons">
-              <table id="myTable" align="center"></table>
-            </div>
+        <div class="item active">
+          <div class="Attendance" id="attend" > 
+            <table id="myTable" align="center"></table>
           </div>
+          <div id="snackbar">Saved!</div>
         </div>
         
         <!-- Videos -->
@@ -156,7 +155,7 @@ $(document).on('click','#submit', function(e){
         </div>
         
         <!-- Announcements -->    
-        <div class="item active">
+        <div class="item">
           <div class="announcements">
             <div id="newAnnouncement" class="form-group">
               <div id="dateHeader"></div>
@@ -167,7 +166,7 @@ $(document).on('click','#submit', function(e){
 
               <div class="text-right">
                 <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
-                <button id="doneButton" type="submit" class="btn btn-primary">Submit</button>
+                <button id="doneButton" type="submit" class="btn btn-primary">Post</button>
               </div> 
             </div>
 
