@@ -5,141 +5,189 @@
 <meta charset="utf-8">
 <title>dpr: dance plan revolution</title>
 
+<!-- mobile-aware viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 <!-- style sheets -->
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css" rel="stylesheet"/>
 <link rel="stylesheet" href="css/main.css">
 
-<!-- mobile-aware viewport -->
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- js for individual pages -->
+<!-- js -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
 <script src="js/announcements.js"></script> 
 <script src="js/task.js"></script> 
-
 </head>
 
-<body>   
-<!-- Navbar --> 
-<nav class="navbar-default">
-<ul class="nav nav-pills nav-fill">
-  <li class="nav-item">
-    <a class="navbar-brand" href="#">dpr</a>
-  </li>
-  <li class="nav-item">
-    <form class="form-search form-inline">
-      <input type="text" class="form-control search-query" placeholder="Search..." />
-    </form>
-  </li>
-  <li class="nav-item dance-group">
-    <a class="nav-link" href="#"></a> 
-  </li>
-</ul>
-</nav>
+<body>    
+<!-- MODAL-->
 
-<!-- Secondary navbar for task pages -->
-<nav class="tasks navbar">
-<ul class="nav nav-pills nav-fill">
-  <li class="nav-item">
-    <a class="nav-link" id="0" href="#">Attendance</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="1" href="#">Videos</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="2" href="#">Announcements</a>
-  </li> 
-</ul> 
-</nav> 
 
-<!-- Carousel with task info -->
-<container id="carousel">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div class="container">
+<div class="row justify-content-md-center">
+  <div class="col-12 col-md-auto">
+    <div class="btn-group" role="group">
 
-  <div id="myCarousel" class="carousel"> 
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
+  <!-- Trigger the modal with a button -->
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Input Video URL</h4>  
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-      <!-- Page title -->
-      <div class="panel panel-default" id="ann-title">
-        <h4 class="panel-body task-name"></h4>
-      </div>
-
-      <!-- Add New and Filter By-->
-      <div class="container topButtons">
-        <div class="row justify-content-md-center">
-          <div class="col-12 col-md-auto">
-            <div class="btn-group" role="group">
-              <button type="button" class="new_task btn btn-default" id="addNew" data-toggle="modal" data-target="#myModal">
-                <p style="display: inline; margin-right: 10px;">Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
-              </button> 
-              <button type="button" class="btn btn-default">Filter by date
-                <span class="glyphicon glyphicon-calendar"></span>
-              </button>
-            </div>
-          </div>
+        </div>
+        <div class="modal-body">
+          <input type="text" name="src" id="videoURL"><br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" type="submit" id = "submit">Submit</button>
+          
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-
-      <div class="item">
-        <div class="attendance" id="attend"> 
-          <div id="attendance-icons">
-            <table id="myTable" align="center"></table>
-          </div>
-        </div>
-      </div>
-<!-- Videos -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css" rel="stylesheet"/>
-
-
-
-
-
-<!--               <iframe width="560" height="315" src="https://www.youtube.com/embed/ChV5BZ8SmS0" frameborder="0" allowfullscreen></iframe>
- -->
-
-            <!-- List of announcements are loaded dynamically -->
-
-
-<!-- announcements -->    
-      <div class="item active">
-        <div class="announcements">
-          <div id="newAnnouncement" class="form-group">
-            <div id="dateHeader"></div>
-            
-            <div id="inputText">
-              <textarea class="form-control" rows="5" id="announcementInp" placeholder="Type announcement here..."></textarea>
-            </div>
-
-            <div id="ann-buttons">
-              <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
-              <button id="doneButton" type="submit" class="btn btn-primary">Submit</button>
-            </div>
-
-          </div>
-
-          <div id="display">
-            <!-- List of announcements are loaded dynamically -->
-          </div>
-        </div>
-      </div>
+      
     </div>
-
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
   </div>
+  
+</div>
+</div>
+</div>
+</div>
+
+
+  <!-- Navbar --> 
+  <nav class="navbar-default">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="navbar-brand" href="#">dpr</a>
+      </li>
+      <li class="nav-item">
+        <form class="form-search form-inline">
+          <input type="text" class="form-control search-query" placeholder="Search..." />
+        </form>
+      </li>
+      <li class="nav-item dance-group">
+        <a class="nav-link" href="#"></a> 
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Secondary navbar for task pages -->
+  <nav class="tasks navbar">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link" id="0" href="#">Attendance</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="1" href="#">Videos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="2" href="#">Announcements</a>
+      </li>
+    </ul>
+  </nav> 
+
+ <!-- Carousel with task info -->
+  <container id="carousel">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <div id="myCarousel" class="carousel"> 
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox">
+
+        <!-- Page title -->
+        <div class="panel panel-default" id="panel-title">
+          <h4 class="panel-body task-name"></h4>
+        </div>
+
+        <!-- Add New and Filter By-->
+        <div class="container topButtons">
+          <div class="row justify-content-md-center">
+            <div class="col-12 col-md-auto">
+              <div class="btn-group" role="group">
+                <button type="button" class="new_task btn btn-default" id="addNew" data-toggle="modal" data-target="#myModal">
+                  <p style="display: inline; margin-right: 10px;">Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
+                </button> 
+                <button type="button" class="btn btn-default">Filter by date
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Attendance -->
+        <div class="item">
+          <div class="attendance" id="attend"> 
+            <div id="attendance-icons">
+              <table id="myTable" align="center"></table>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Videos -->
+        <div class="item">
+          <div class="videos"> 
+
+
+
+<div>
+<iframe src="" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+</div>
+
+
+<script>
+$(document).on('click','#submit', function(e){
+  console.log("is this clicking?");
+  var videoInputURL = $('#videoURL').val();
+  var iframe = $('iframe').attr('src', videoInputURL);
+})
+</script>
+
+
+          </div>
+        </div>
+        
+        <!-- Announcements -->    
+        <div class="item active">
+          <div class="announcements">
+            <div id="newAnnouncement" class="form-group">
+              <div id="dateHeader"></div>
+              
+              <div id="inputText">
+                <textarea class="form-control" rows="5" id="announcementInp" placeholder="Type announcement here..."></textarea>
+              </div>
+
+              <div class="text-right">
+                <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
+                <button id="doneButton" type="submit" class="btn btn-primary">Submit</button>
+              </div> 
+            </div>
+
+            <div id="display">
+              <!-- List of announcements are loaded dynamically -->
+            </div>
+          </div>
+        </div> 
+      </div>
+
+      <!-- Left and right controls -->
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a> 
+    </div>
 </container>
 </body>
 </html>

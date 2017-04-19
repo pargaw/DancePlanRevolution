@@ -108,6 +108,13 @@ function updateTaskPgContent(indirect) {
 		newTaskButton.find('p').text('Add member for today');
 	} else if (currentTask == 1) {
 		newTaskButton.find('p').text('Add video');
+		var videos = $('.videos');
+
+		// $('#addNew').onclick(function(e){
+		// 	// console.log()
+		// 	// videos.html += '<div class="modal fade" id="myModal" role="dialog"><div class="modal-dialog">'
+		// })
+
 	} else if (currentTask == 2) {
 		newTaskButton.find('p').text('Add announcement');
 	}	
@@ -125,4 +132,20 @@ function getDate() {
 	var date = m + "/" + d + "/" + y;
 	return date;
 }
+
+$(document).on('click','#addNew', function(evt){
+	var newTaskButton = $('.new_task');
+	$(".task-name").text(TASKS[currentTask]);
+
+	// activate element in secondary bar
+	$(".tasks li>a#" + currentTask).focus();
+
+	if (currentTask == 1) {
+
+	} 
+
+});
+
+
+
 
