@@ -112,7 +112,7 @@ function updateTaskPgContent(indirect) {
 	var newTaskButton = $('.new_task');
 
 	if (currentTask == 0) { 
-		newTaskButton.find('p').text('Add member for today');
+		newTaskButton.find('p').text('Add member');
 	} else if (currentTask == 1) {
 		newTaskButton.find('p').text('Add video');
 	} else if (currentTask == 2) {
