@@ -1,0 +1,38 @@
+.group-name {
+	background-color: #eee;
+}
+
+.group-name:hover, .group-name:focus {
+	background-color: #ddd;
+}
+
+.topButtons {
+	display: block;
+	margin: 20px 0; 
+} 
+
+.center {
+	text-align: center;
+}
+
+#newGroup {
+	display: none;
+	background-color: #eee;
+	padding: 15px;
+	border: 5px dotted #ddd;
+	margin-bottom: 20px;
+}
+
+.width-50 {
+	width: 50%;
+	display: inline;
+	margin: 2px 4px 0 0;
+}
+
+.remove_field {
+	vertical-align: middle;
+}
+ 
+.navbar-default {
+	padding-top: 20px;
+}

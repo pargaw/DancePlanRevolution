@@ -82,7 +82,7 @@ hr {
 
 
 /* ANNOUNCEMENTS */
-#ann-title {
+#panel-title {
     border: 0;
 }
 
@@ -93,10 +93,6 @@ hr {
 
 #announcementInp {
     margin-bottom: 10px;
-}
-
-#ann-buttons { 
-    text-align: right;
 }
 
 

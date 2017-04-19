@@ -60,6 +60,10 @@ window.onload = initializePage;
 
 
 // CLICK HANDLERS
+$(document).on('click', '.navbar-brand', function(e) {
+	window.location.href='index.html';		
+});
+
 // if we change currentTask, change content displayed by the carousel 
 $(document).on('click', '.tasks a', function(e) {
 	currentTask = $(this).attr('id');
