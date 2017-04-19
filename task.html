@@ -16,10 +16,12 @@
 
   <!-- js for individual pages -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script src="js/announcements.js"></script> 
   <script src="js/task.js"></script> 
 </head>
 
-<body>  
+<body>   
   <!-- Navbar --> 
   <nav class="navbar-default">
     <ul class="nav nav-pills nav-fill">
@@ -37,6 +39,7 @@
     </ul>
   </nav>
 
+  <!-- Secondary navbar for task pages -->
   <nav class="tasks navbar">
     <ul class="nav nav-pills nav-fill">
       <li class="nav-item">
@@ -49,91 +52,69 @@
         <a class="nav-link" id="2" href="#">Announcements</a>
       </li>
     </ul>
-  </nav>
-  <hr>
+  </nav> 
 
-
-<!-- Add New and Filter By-->
-<div class="container" id="add new">
-<div class="row justify-content-md-center">
-<div class="col-12 col-md-auto">
-<div class="btn-group" role="group">
-  <button type="button" class="new_task btn btn-default" id="addNew">
-    <p style="display: inline; margin-right: 10px;">Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
-  </button> 
-  <button type="button" class="btn btn-default">Filter by date
-    <span class="glyphicon glyphicon-calendar"></span>
-  </button>
-</div>
-</div>
-</div>
-</div>
-
- <!-- carousel with task info -->
+ <!-- Carousel with task info -->
   <container id="carousel">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <div id="myCarousel" class="carousel" > 
+    <div id="myCarousel" class="carousel"> 
       <!-- Wrapper for slides -->
       <div class="carousel-inner" role="listbox">
-        <div class="item">
-          <div class="Attendance">
-            <h3>Attendance info here</h3>
 
-            <div id="attendance-icons">
-              <img class="img-beth" src="img/beth.jpg">
-              <img class="img-rob" src="img/rob.jpg">
-              <img class="img-stefanie" src="img/stefanie.jpg">
-              <img class="img-david" src="img/david.jpg">
-              <img class="img-redCheck" src="img/redCheck.png">
+        <!-- Page title -->
+        <div class="panel panel-default" id="ann-title">
+          <h4 class="panel-body task-name"></h4>
+        </div>
+
+        <!-- Add New and Filter By-->
+        <div class="container topButtons">
+          <div class="row justify-content-md-center">
+            <div class="col-12 col-md-auto">
+              <div class="btn-group" role="group">
+                <button type="button" class="new_task btn btn-default" id="addNew">
+                  <p style="display: inline; margin-right: 10px;">Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
+                </button> 
+                <button type="button" class="btn btn-default">Filter by date
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="item">
-          <div class="Videos">
-            <h3>Videos here</h3>
-            <!-- form upload -->
-            <form class="box" method="post" action="" enctype="multipart/form-data">
-              <div class="box__input">
-                <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
-                <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
-                <button class="box__button" type="submit">Upload</button>
-              </div>
-              <div class="box__uploading">Uploading&hellip;</div>
-              <div class="box__success">Done!</div>
-              <div class="box__error">Error! <span></span>.</div>
-            </form>
+          <div class="attendance" id="attend"> 
+            <div id="attendance-icons">
+              <table id="myTable" align="center"></table>
+            </div>
+          </div>
+        </div>
 
+        <div class="item">
+          <div class="videos">
           </div>
         </div>
       
         <div class="item active">
-          <div class="Announcements">
-            <h3>Announcements here</h3>
-              <div class="newAnnouncement">
-                <div id="dateHeader"> 
-                </div>
-                <div id="inputText">
-                  
-                </div>
-                <div id="doneButton">
-                  
-                </div>
+          <div class="announcements">
+            <div id="newAnnouncement" class="form-group">
+              <div id="dateHeader"></div>
+              
+              <div id="inputText">
+                <textarea class="form-control" rows="5" id="announcementInp" placeholder="Type announcement here..."></textarea>
               </div>
 
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Modal Header</h4>
-                </div>
-                <div class="modal-body">
-                  <p>Some text in the modal.</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+              <div id="ann-buttons">
+                <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
+                <button id="doneButton" type="submit" class="btn btn-primary">Submit</button>
               </div>
+
+            </div>
+
+            <div id="display">
+              <!-- List of announcements are loaded dynamically -->
+            </div>
           </div>
         </div>
       </div>
