@@ -4,7 +4,7 @@ Control page for determining which content is displayed for given task
 
 // GLOBALS
 var TASKS = ["Attendance", "Videos", "Announcements"]
-var currentTask = 2; // should be 0, 1, or 2, specifying one of the above tasks
+var currentTask = 0; // should be 0, 1, or 2, specifying one of the above tasks
 var currentDanceGroup = "Twinkle Toes";
 // var currentDanceGroup; // TODO delete line above + uncomment this when done
 
@@ -23,7 +23,11 @@ function initializePage() {
 	});
 
 	// set page title
-	$(".task-name").text(TASKS[currentTask]);
+	if (currentTask==0){
+		$(".task-name").text(TASKS[currentTask]+" for: "+getDate());
+	}else{
+		$(".task-name").text(TASKS[currentTask]);	
+	}
 	console.log($(".task-name").val());
 
 	// set dance group
@@ -45,6 +49,7 @@ function initializePage() {
 
 	updateTaskPgContent();
 	displayAllAnnouncements();
+	setupMembers();
 }
 
 window.onload = initializePage;
@@ -98,7 +103,11 @@ function updateTaskPgContent(indirect) {
 	}
 	
 	// update page title
-	$(".task-name").text(TASKS[currentTask]);
+	if (currentTask==0){
+		$(".task-name").text(TASKS[currentTask]+" for: "+getDate());
+	}else{
+		$(".task-name").text(TASKS[currentTask]);	
+	}
 
 	// activate element in secondary bar
 	$(".tasks li>a#" + currentTask).focus();
@@ -116,7 +125,7 @@ function updateTaskPgContent(indirect) {
 
 
 // UTILITIES
-// return date in mm/dd/yy string form
+// return date in mm/dd/yy starting form
 function getDate() {
 	n =  new Date();
 	y = n.getFullYear();

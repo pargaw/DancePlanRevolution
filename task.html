@@ -19,6 +19,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
+<script src="js/attendance.js"></script> 
 <script src="js/announcements.js"></script> 
 <script src="js/task.js"></script> 
 </head>
@@ -86,11 +87,9 @@
         </div>
 
         <!-- Attendance -->
-        <div class="item">
-          <div class="attendance" id="attend"> 
-            <div id="attendance-icons">
-              <table id="myTable" align="center"></table>
-            </div>
+        <div class="item active">
+          <div class="Attendance" id="attend" > 
+            <table id="myTable" align="center"></table>
           </div>
         </div>
         
@@ -102,7 +101,7 @@
         </div>
         
         <!-- Announcements -->    
-        <div class="item active">
+        <div class="item">
           <div class="announcements">
             <div id="newAnnouncement" class="form-group">
               <div id="dateHeader"></div>
