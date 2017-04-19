@@ -49,32 +49,12 @@ hr {
 }
 
 /* ADD AND FILTER BUTTONS */
-.topButtons {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 .topButtons button {
     font-size: 11px;
 }
 
-.topButtons p {
-    display: inline;
-    margin-right: 10px;
-}
-
 
 /* CAROUSEL CUSTOMIZATION */
-.carousel-control {
-    background-image: none !important;
-    color: #ddd;
-    opacity: 1;
-}
-
-.carousel-control:hover, .carousel-control:focus {
-    color: #aaa;
-}
-
 .carousel-inner {
     /*border: 1px solid gray;*/
     width: 75%;
@@ -118,6 +98,5 @@ hr {
 
 
 
-/*.modal-backdrop.in{
-    opacity:0;
-}*/
+
+
