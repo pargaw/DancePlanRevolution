@@ -87,16 +87,8 @@ function updateTaskContent() {
 //Videos
 function addButtonsUpdate(){
 	var newTaskButton = $('.new_task');
-	if (currentTask == 0) { 
-
-	} else if (currentTask == 1) {
-		var myDropzone = new Dropzone(document.body, 
-			{ url: "/file/post"});
-		myDropzone.on('addedfile', function(file){
-			file.previewElement.querySelector().onclick;
-		})
-	} else if (currentTask == 2) {
-		break;
+	if (currentTask == 1) {
+	
 	} 
 }
 
