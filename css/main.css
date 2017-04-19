@@ -71,6 +71,7 @@ hr {
     /*border: 1px solid gray;*/
     width: 75%;
     margin: auto;
+    min-height: 600px;
 }
 
 .carousel-inner > .item > img,
