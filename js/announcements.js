@@ -26,14 +26,13 @@ $(document).on('click', '#doneButton', function(e) {
 // MAIN ACTIONS ON ANNOUNCEMENTS
 function addNewAnnouncement() {
 	var msg = $('#announcementInp').val();
-	console.log('add new ancmt', msg);
 
 	if (msg) { 
 		var date = getDate();
 
 		var oldAnnouncements = JSON.parse(localStorage.getItem('announcements'));
 		oldAnnouncements.push({"date": date, "msg": msg});
-		console.log('old', oldAnnouncements);
+		// console.log('old', oldAnnouncements);
 
 		localStorage.setItem("announcements", JSON.stringify(oldAnnouncements));
 
@@ -59,7 +58,6 @@ function displayAllAnnouncements() {
 		announcements = sampleAnnouncements;
 	}
 
-	console.log(sampleAnnouncements);
 	for (i = announcements.length; i--;) { 
 		var announcement = announcements[i];
 		var date = announcement["date"];
