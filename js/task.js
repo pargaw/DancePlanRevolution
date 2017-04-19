@@ -2,19 +2,11 @@
 Control page for determining which content is displayed for given task
 */
 
-//imports
-var imported = document.createElement('script'); 
-imported.src = 'js/dropzone.js'; 
-document.head.appendChild(imported);
-
-
 // GLOBALS
 var TASKS = ["Attendance", "Videos", "Announcements"]
 var currentTask = 2; // should be 0, 1, or 2, specifying one of the above tasks
 var currentDanceGroup = "Twinkle Toes";
 // var currentDanceGroup; // TODO delete line above + uncomment this when done
-
-
 
 // SETUP
 // TODO every time new dance group is chosen on main page,
@@ -75,7 +67,6 @@ $(document).on('slide.bs.carousel', '.carousel', function(e) {
 	var slideFrom = $(this).find('.active').index();
 	var slideTo = $(e.relatedTarget).index();
 	// console.log(slideFrom+' => '+slideTo);
-
     currentTask = slideTo - 2;
     updateTaskPgContent();
 });
