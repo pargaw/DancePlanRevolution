@@ -83,6 +83,19 @@ hr {
     margin-bottom: 10px;
 }
 
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #009900;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 10px;
+    position: fixed;
+    z-index: 1;
+    font-size: 15px;
+}
+
 
 
 

@@ -13,7 +13,6 @@ var currentDanceGroup = "Twinkle Toes";
 // update currentDanceGroup and localStorage accordingly
 // localStorage.clear();
 localStorage.setItem("currentDanceGroup", currentDanceGroup);
-console.log('Local storage content: ', localStorage);
 
 function initializePage() { 	
 	// stop automatic carousel movement 
@@ -28,14 +27,12 @@ function initializePage() {
 	}else{
 		$(".task-name").text(TASKS[currentTask]);	
 	}
-	console.log($(".task-name").val());
 
 	// set dance group
 	if (localStorage.currentDanceGroup != "undefined") {
 		this.currentDanceGroup = localStorage.currentDanceGroup;
 	}
 
-	console.log(localStorage.currentDanceGroup);
 
 	// set current dance group based on the last one seen
 	if (this.currentDanceGroup) {

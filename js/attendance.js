@@ -25,9 +25,6 @@ function setupMembers(){
 	      member.style.position = "relative";
 	      console.log(member.offsetLeft);
 
-	      figMem.appendChild(member)
-	      tdMem.appendChild(figMem);
-
 	      //add check mark in the same place
 	      var tdCheck = tr.insertCell();
 	      var check = document.createElement("IMG");
@@ -37,9 +34,11 @@ function setupMembers(){
 	      check.width = "60";
 	      check.height = "60";
 	      
-	      var leftVal = 80*j+17+10+6*j;
+	      var horizPadding = 6;
+	      var vertPadding = 40;
+	      var leftVal = member.width*j+17+10+horizPadding*j;
 	      check.style.left = leftVal+"px";
-	      var topVal = 80*i+16+10+40*i;
+	      var topVal = member.width*i+16+10+vertPadding*i;
 	      check.style.top = topVal+"px";
 	      check.style.zIndex = "2";
 	      check.style.position = "absolute";
@@ -47,6 +46,8 @@ function setupMembers(){
 	      check.style.opacity = "0";
 	      check.onclick= function() {changeOpacity(this.id);};
 
+	      figMem.appendChild(member)
+	      tdMem.appendChild(figMem);
 	      tdCheck.appendChild(check);
 
 	      //update counter to new member
@@ -75,4 +76,10 @@ function changeOpacity(id){
     } else {
         document.getElementById(id).style.opacity = "1";;
     }
+    //add saved toast 
+	var x = document.getElementById("snackbar")
+	console.log();
+    // x.className = "show";
+    x.style.visibility = "visible";
+    setTimeout(function(){ x.style.visibility = "hidden"; }, 500);
 }
