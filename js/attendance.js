@@ -1,3 +1,10 @@
+//put member dictionary into local storage
+if (localStorage.getItem('memberDict')==null){
+	localStorage.setItem("memberDict", JSON.stringify({ 'Beth':0, 'Rob':0, 'Stefanie':0,'David':0}));
+} 
+var memberDict1 = JSON.parse(window.localStorage.getItem("memberDict"));
+var members = Object.keys(memberDict1);
+
 function setupMembers(){
 	var t = document.getElementById('myTable');
 
@@ -23,7 +30,6 @@ function setupMembers(){
 	      member.height = "80";
 	      member.style.borderRadius  = "50%";
 	      member.style.position = "relative";
-	      console.log(member.offsetLeft);
 
 	      //add check mark in the same place
 	      var tdCheck = tr.insertCell();
@@ -42,8 +48,11 @@ function setupMembers(){
 	      check.style.top = topVal+"px";
 	      check.style.zIndex = "2";
 	      check.style.position = "absolute";
-	      check.style.display = 'block';
-	      check.style.opacity = "0";
+	      if (memberDict1[members[counter]]==1){
+	      	check.style.opacity = "1";
+	      } else{
+	      	check.style.opacity = "0";
+	      }
 	      check.onclick= function() {changeOpacity(this.id);};
 
 	      figMem.appendChild(member)
@@ -71,15 +80,27 @@ function setupMembers(){
 
 //hide and view check mark on member images
 function changeOpacity(id){
+	var index = id.match(/([A-Za-z]+)([0-9]+)/)[2];
 	if (document.getElementById(id).style.opacity != "0") {
         document.getElementById(id).style.opacity = "0";
     } else {
-        document.getElementById(id).style.opacity = "1";;
+        document.getElementById(id).style.opacity = "1";
     }
-    //add saved toast 
-	var x = document.getElementById("snackbar")
-	console.log();
-    // x.className = "show";
-    x.style.visibility = "visible";
-    setTimeout(function(){ x.style.visibility = "hidden"; }, 500);
+}
+
+function saveAttendance(){
+	for (var c=0;c<members.length;c++){
+		var id = "check"+c;
+		if (document.getElementById(id).style.opacity ==0) {
+	        memberDict1[members[c]]=0;
+	        localStorage.setItem("memberDict", JSON.stringify(memberDict1));
+	    } else {
+	        memberDict1[members[c]]=1;
+	        localStorage.setItem("memberDict", JSON.stringify(memberDict1));
+	    }
+	    //add saved toast 
+		var x = document.getElementById("snackbar")
+	    x.style.visibility = "visible";
+	    setTimeout(function(){ x.style.visibility = "hidden"; }, 500);
+	}
 }
