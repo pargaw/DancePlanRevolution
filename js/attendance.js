@@ -16,8 +16,12 @@ function setupMembers(){
 	  	  figMem.setAttribute("id","fig"+counter);
 	  	  figMem.style.textAlign= "center";
 
+	  	  //get relative server paths
+	  	  var full_path = location.pathname;
+	      var path = full_path.substr(0, full_path.lastIndexOf("/") + 1);
+
 	      var member = document.createElement("IMG");
-	      member.setAttribute("src", "img/"+members[counter]+".jpg");
+	      member.setAttribute("src", path + "img/"+members[counter]+".jpg");
 	      member.setAttribute("id","member"+counter);
 	      member.width = "80";
 	      member.height = "80";
@@ -28,7 +32,7 @@ function setupMembers(){
 	      //add check mark in the same place
 	      var tdCheck = tr.insertCell();
 	      var check = document.createElement("IMG");
-	      check.setAttribute("src", "img/redCheck.png")
+	      check.setAttribute("src", path + "img/redCheck.png")
 	      check.setAttribute("id","check"+counter);
 	      check.style.display = "block";
 	      check.width = "60";
