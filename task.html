@@ -47,8 +47,7 @@
           <input type="text" name="src" id="videoURL"><br>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" type="submit" id = "submit">Submit</button>
-          
+          <button type="button" class="btn btn-default" data-dismiss="modal" type="submit" id ="submitVideo">Submit</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -142,16 +141,6 @@
 <div>
 <iframe src="" width="560" height="315" frameborder="0" allowfullscreen></iframe>
 </div>
-
-
-<script>
-$(document).on('click','#submit', function(e){
-  console.log("is this clicking?");
-  var videoInputURL = $('#videoURL').val();
-  var iframe = $('iframe').attr('src', videoInputURL);
-})
-</script>
-
 
           </div>
         </div>

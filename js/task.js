@@ -68,6 +68,12 @@ $(document).on('click', '#addNew', function(e) {
 	addNewTaskItem();
 });
 
+$(document).on('click','#submitVideo', function(e){
+  console.log("is this clicking?");
+  var videoInputURL = $('#videoURL').val();
+  var iframe = $('iframe').attr('src', videoInputURL);
+})
+
 // use new index of carousel to update page content
 $(document).on('slide.bs.carousel', '.carousel', function(e) {
 	var slideFrom = $(this).find('.active').index();
@@ -75,6 +81,14 @@ $(document).on('slide.bs.carousel', '.carousel', function(e) {
 	// console.log(slideFrom+' => '+slideTo);
     currentTask = slideTo - 2;
     updateTaskPgContent();
+});
+
+$(document).on('show.bs.modal', '#myModal', function(e) {
+	var button = e.relatedTarget;
+	if (currentTask != 1) {
+		console.log(button, currentTask);
+		e.stopPropagation();
+	};
 });
 
 
@@ -85,7 +99,6 @@ function addNewTaskItem(){
 	} else if (currentTask == 1) {
 		var videoNew = $('#addNew');
 		console.log(videoNew);
-
 
 	} else if (currentTask == 2) {
 		createNewAnnouncement();
@@ -138,20 +151,5 @@ function getDate() {
 	var date = m + "/" + d + "/" + y;
 	return date;
 }
-
-$(document).on('click','#addNew', function(evt){
-	var newTaskButton = $('.new_task');
-	$(".task-name").text(TASKS[currentTask]);
-
-	// activate element in secondary bar
-	$(".tasks li>a#" + currentTask).focus();
-
-	if (currentTask == 1) {
-
-	} 
-
-});
-
-
 
 
