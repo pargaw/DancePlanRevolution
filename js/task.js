@@ -69,7 +69,6 @@ $(document).on('click', '#addNew', function(e) {
 });
 
 $(document).on('click','#submitVideo', function(e){
-  console.log("is this clicking?");
   var videoInputURL = $('#videoURL').val();
   var iframe = $('iframe').attr('src', videoInputURL);
 })
@@ -83,23 +82,20 @@ $(document).on('slide.bs.carousel', '.carousel', function(e) {
     updateTaskPgContent();
 });
 
-$(document).on('show.bs.modal', '#myModal', function(e) {
-	var button = e.relatedTarget;
-	if (currentTask != 1) {
-		console.log(button, currentTask);
-		e.stopPropagation();
-	};
-});
+// $(document).on('show.bs.modal', '#myModal', function(e) {
+// 	var button = e.relatedTarget;
+
+// 	if (currentTask != 1) {
+// 		console.log(button, currentTask);
+// 		e.stopPropagation();
+// 	};
+// });
 
 
 // GENERAL TASK MANIPULATION
 function addNewTaskItem(){
 	if (currentTask == 0) { 
-
-	} else if (currentTask == 1) {
-		var videoNew = $('#addNew');
-		console.log(videoNew);
-
+		// ???
 	} else if (currentTask == 2) {
 		createNewAnnouncement();
 	} 
@@ -112,29 +108,25 @@ function updateTaskPgContent(indirect) {
 	}
 	
 	// update page title
-	if (currentTask==0){
-		$(".task-name").text(TASKS[currentTask]+" for: "+getDate());
-	}else{
+	if (currentTask == 0){
+		$(".task-name").text(TASKS[currentTask] + " for: " + getDate());
+	} else {
 		$(".task-name").text(TASKS[currentTask]);	
 	}
 
 	// activate element in secondary bar
 	$(".tasks li>a#" + currentTask).focus();
 
-	var newTaskButton = $('.new_task');
+	var newTaskButton = $('#addNew');
 
 	if (currentTask == 0) { 
 		newTaskButton.find('p').text('Add member');
-	} else if (currentTask == 1) {
-		newTaskButton.find('p').text('Add video');
-		var videos = $('.videos');
-
-		// $('#addNew').onclick(function(e){
-		// 	// console.log()
-		// 	// videos.html += '<div class="modal fade" id="myModal" role="dialog"><div class="modal-dialog">'
-		// })
-
+	} else if (currentTask == 1) { 
+		$('#addNewVideo').show();
+		$('#addNew').hide();
 	} else if (currentTask == 2) {
+		$('#addNewVideo').hide();
+		$('#addNew').show();
 		newTaskButton.find('p').text('Add announcement');
 	}	
 }

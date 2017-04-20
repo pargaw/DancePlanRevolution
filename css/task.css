@@ -63,6 +63,10 @@ hr {
     margin-right: 10px;
 }
 
+#addNewVideo {
+    display: none;
+}
+
 
 /* CAROUSEL CUSTOMIZATION */
 .carousel-control {
@@ -115,9 +119,3 @@ hr {
     margin-bottom: 10px;
 }
 
-
-
-
-/*.modal-backdrop.in{
-    opacity:0;
-}*/
