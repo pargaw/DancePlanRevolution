@@ -83,11 +83,10 @@ function addNewTaskItem(){
 	if (currentTask == 0) { 
 
 	} else if (currentTask == 1) {
-		var myDropzone = new Dropzone(document.body, 
-			{ url: "/file/post"});
-		myDropzone.on('addedfile', function(file){
-			file.previewElement.querySelector().onclick;
-		})
+		var videoNew = $('#addNew');
+		console.log(videoNew);
+
+
 	} else if (currentTask == 2) {
 		createNewAnnouncement();
 	} 
@@ -115,6 +114,13 @@ function updateTaskPgContent(indirect) {
 		newTaskButton.find('p').text('Add member');
 	} else if (currentTask == 1) {
 		newTaskButton.find('p').text('Add video');
+		var videos = $('.videos');
+
+		// $('#addNew').onclick(function(e){
+		// 	// console.log()
+		// 	// videos.html += '<div class="modal fade" id="myModal" role="dialog"><div class="modal-dialog">'
+		// })
+
 	} else if (currentTask == 2) {
 		newTaskButton.find('p').text('Add announcement');
 	}	
@@ -132,4 +138,20 @@ function getDate() {
 	var date = m + "/" + d + "/" + y;
 	return date;
 }
+
+$(document).on('click','#addNew', function(evt){
+	var newTaskButton = $('.new_task');
+	$(".task-name").text(TASKS[currentTask]);
+
+	// activate element in secondary bar
+	$(".tasks li>a#" + currentTask).focus();
+
+	if (currentTask == 1) {
+
+	} 
+
+});
+
+
+
 

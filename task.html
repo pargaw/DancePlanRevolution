@@ -24,6 +24,44 @@
 </head>
 
 <body>    
+<!-- MODAL-->
+
+
+<div class="container">
+<div class="row justify-content-md-center">
+  <div class="col-12 col-md-auto">
+    <div class="btn-group" role="group">
+
+  <!-- Trigger the modal with a button -->
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Input Video URL</h4>  
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+        </div>
+        <div class="modal-body">
+          <input type="text" name="src" id="videoURL"><br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" type="submit" id = "submit">Submit</button>
+          
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+</div>
+</div>
+</div>
+
+
   <!-- Navbar --> 
   <nav class="navbar-default">
     <ul class="nav nav-pills nav-fill">
@@ -74,8 +112,8 @@
           <div class="row justify-content-md-center">
             <div class="col-12 col-md-auto">
               <div class="btn-group" role="group">
-                <button type="button" class="new_task btn btn-default" id="addNew">
-                  <p>Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
+                <button type="button" class="new_task btn btn-default" id="addNew" data-toggle="modal" data-target="#myModal">
+                  <p style="display: inline; margin-right: 10px;">Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
                 </button> 
                 <button type="button" class="btn btn-default">
                   <p>Filter by date</p><span class="glyphicon glyphicon-calendar"></span>
@@ -90,13 +128,31 @@
           <div class="Attendance" id="attend" > 
             <table id="myTable" align="center"></table>
           </div>
-          <div id="snackbar">Saved!</div>
+          <button id="saveButton" style="float:right" class="btn btn-primary" onclick="saveAttendance()">Save</button>
+          <br></br>
+          <div id="snackbar" style="float:right">Saved!</div>
         </div>
         
         <!-- Videos -->
         <div class="item">
           <div class="videos"> 
-            <form action="/file-upload" class="dropzone" id="my-awesome-dropzone"></form>
+
+
+
+<div>
+<iframe src="" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+</div>
+
+
+<script>
+$(document).on('click','#submit', function(e){
+  console.log("is this clicking?");
+  var videoInputURL = $('#videoURL').val();
+  var iframe = $('iframe').attr('src', videoInputURL);
+})
+</script>
+
+
           </div>
         </div>
         
