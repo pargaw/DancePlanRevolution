@@ -1,3 +1,11 @@
+/* COLOR SCHEME */
+/* Aquamarine: #02C8A7
+    Golden: #F9BE02
+    Bright coral: #F53240
+    Sky: #7CDBD5
+*/
+
+
 /* SEARCH BAR */
 input.search-query {
     padding-left: 26px;
@@ -25,6 +33,7 @@ form.form-search:before {
 
 .navbar-default {
     padding-top: 20px;
+    background-color: #7CDBD5; /*sky*/
 }
 
 .navbar {
