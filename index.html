@@ -53,7 +53,7 @@
     <form id="newGroup" data-toggle="validator" role="form">
       <div class="form-group">
         <label for="name">Group Name</label>
-        <input type="name" class="form-control" id="groupInp" aria-describedby="groupName" placeholder="e.g. Twinkle Toes" required></input>
+        <input type="name" class="form-control width-50" id="groupInp" aria-describedby="groupName" placeholder="e.g. Twinkle Toes" required></input>
         <div class="help-block with-errors"></div>
       </div>
 
@@ -63,10 +63,9 @@
         <div id="inputText">
           <div class="input_fields_wrap">
             <label for="name">Add Members</label>
-            <div><input class="form-control width-50 main-member" type="text" name="mytext[]" placeholder="e.g. Beth Hadley" required></div>
-            <div class="help-block with-errors"></div>
+            <div><input class="form-control width-50 inline" type="text" name="mytext[]" placeholder="e.g. Beth Hadley"><span class="glyphicon glyphicon-remove remove_field" aria-hidden="true"></span></div>
           </div>
-          <button class="btn btn-link add_field_button">Add another!</button>
+          <button class="btn btn-link add_field_button">Add another member</button>
         </div>
       </div>
 

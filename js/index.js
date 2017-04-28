@@ -9,7 +9,7 @@ $(document).ready(function() {
         e.preventDefault();
         if(x < max_fields){ //max input box allowed
             x++; //text box increment
-            $(wrapper).append('<div><input class="form-control width-50" type="text" name="mytext[]"/><span class="glyphicon glyphicon-remove remove_field" aria-hidden="true"></span></div>'); //add input box
+            $(wrapper).append('<div><input class="form-control width-50 inline" type="text" name="mytext[]" placeholder="e.g. Beth Hadley"/><span class="glyphicon glyphicon-remove remove_field" aria-hidden="true"></span></div>'); //add input box
         }
     });
     
@@ -76,9 +76,8 @@ $(document).on('click', '.group-name h4', function(e) {
 
 function addNewGroup() {
 	var name = $('#groupInp').val();
-	var member = $('.main-member').val();
 
-	if (name && member) { 
+	if (name) { 
 		var template = getGroupTemplate(name);
 		document.getElementById('groups').prepend(template);
 
