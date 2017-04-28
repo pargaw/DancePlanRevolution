@@ -124,31 +124,36 @@
         <!-- Videos -->
         <div class="item">
           <div class="videos"> 
-
-
-
-<div>
-<iframe src="" width="100%" frameborder="0" allowfullscreen></iframe>
-</div>
-
+            <div>
+              <iframe src="" width="100%" frameborder="0" allowfullscreen></iframe>
+            </div>
           </div>
         </div>
         
         <!-- Announcements -->    
         <div class="item">
           <div class="announcements">
-            <div id="newAnnouncement" class="form-group">
-              <div id="dateHeader"></div>
-              
-              <div id="inputText">
-                <textarea class="form-control" rows="5" id="announcementInp" placeholder="Type announcement here..."></textarea>
-              </div>
 
-              <div class="text-right">
-                <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
-                <button id="doneButton" type="submit" class="btn btn-primary">Post</button>
-              </div> 
-            </div>
+            <form id="newAnnouncement" data-toggle="validator" role="form">
+              <div class="form-group">
+                <div id="dateHeader"></div>
+
+                <div class="form-group">
+                  <div id="inputText">
+                    <textarea class="form-control" rows="5" id="announcementInp" placeholder="Type announcement here..." data-minlength="15" required></textarea>
+                    <div class="help-block with-errors">Minimum of 15 characters, please!</div>
+                  </div>
+                </div> 
+
+                <div class="form-group">
+                  <div class="text-right">
+                    <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
+                    <button id="doneButton" type="submit" class="btn btn-primary">Post</button>
+                  </div>
+                </div>
+
+              </div>
+            </form> 
 
             <div id="display">
               <!-- List of announcements are loaded dynamically -->

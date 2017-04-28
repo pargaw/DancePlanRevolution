@@ -114,6 +114,9 @@ hr {
 #newAnnouncement {
     padding: 15px;
     display: none;
+    background-color: #eee;
+    border: 5px dotted #ddd;
+    margin-bottom: 20px;
 }
 
 #announcementInp {
