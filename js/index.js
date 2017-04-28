@@ -1,6 +1,6 @@
 // https://www.sanwebe.com/2013/03/addremove-input-fields-dynamically-with-jquery
 $(document).ready(function() {
-    var max_fields      = 10; //maximum input boxes allowed
+    var max_fields      = 20; //maximum input boxes allowed
     var wrapper         = $(".input_fields_wrap"); //Fields wrapper
     var add_button      = $(".add_field_button"); //Add button ID
     
@@ -9,12 +9,29 @@ $(document).ready(function() {
         e.preventDefault();
         if(x < max_fields){ //max input box allowed
             x++; //text box increment
-            $(wrapper).append('<div><input class="form-control width-50 inline" type="text" name="mytext[]" placeholder="e.g. Beth Hadley"/><span class="glyphicon glyphicon-remove remove_field" aria-hidden="true"></span></div>'); //add input box
+            $(wrapper).append('<div><input class="form-control width-50 inline member" type="text" name="mytext[]"/><span class="glyphicon glyphicon-remove remove_field" aria-hidden="true"></span></div>'); //add input box
+        	$(wrapper).last().find('input').focus();
         }
+    });
+
+    $(wrapper).on('keyup', '.member', function(e) {
+		e.preventDefault();
+
+		if ($(this).val()) {
+			if (e.keyCode == 13) {
+		        if(x < max_fields){ //max input box allowed
+		            x++; //text box increment
+		            $(wrapper).append('<div><input class="form-control width-50 inline member" type="text" name="mytext[]"/><span class="glyphicon glyphicon-remove remove_field" aria-hidden="true"></span></div>'); //add input box
+		        	$(wrapper).last().find('input').focus();
+		        }
+		    }
+		};	
     });
     
     $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-        e.preventDefault(); $(this).parent('div').remove(); x--;
+        e.preventDefault(); 
+        $(this).parent('div').remove(); 
+        x--;
     })
 });
 
