@@ -123,20 +123,24 @@ function updateTaskPgContent(indirect) {
 	$(".tasks li>a#" + currentTask).addClass('active');
 
 	var newTaskButton = $('#addNew');
+	var dateButton = $('#dateButton');
 
 	if (currentTask == 0) { 
 		$('#addNewVideo').hide();
 		$('#addNew').show();
 		newTaskButton.find('p').text('Add member');
+		dateButton.find('p').text('Choose date');
 	} else if (currentTask == 1) { 
 		console.log(currentTask);
 		$('#addNewVideo').show();
 		$('#addNew').hide();
+		dateButton.find('p').text('Filter by date');
 	} else if (currentTask == 2) {
 		console.log(currentTask);
 		$('#addNewVideo').hide();
 		$('#addNew').show();
 		newTaskButton.find('p').text('Add announcement');
+		dateButton.find('p').text('Filter by date');
 	}	
 }
 
