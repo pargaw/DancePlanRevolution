@@ -60,21 +60,25 @@ $(document).on('click', '.navbar-brand', function(e) {
 
 // if we change currentTask, change content displayed by the carousel 
 $(document).on('click', '.tasks a', function(e) {
+	console.log('taks a');
 	currentTask = $(this).attr('id');
 	updateTaskPgContent(true);
 });
 
 $(document).on('click', '#addNew', function(e) {
+	console.log('new');
 	addNewTaskItem();
 });
 
 $(document).on('click','#submitVideo', function(e){
+	console.log('vid');
   var videoInputURL = $('#videoURL').val();
   var iframe = $('iframe').attr('src', videoInputURL);
 })
 
 // use new index of carousel to update page content
 $(document).on('slide.bs.carousel', '.carousel', function(e) {
+	console.log('caro');
 	var slideFrom = $(this).find('.active').index();
 	var slideTo = $(e.relatedTarget).index();
 	// console.log(slideFrom+' => '+slideTo);
@@ -115,16 +119,21 @@ function updateTaskPgContent(indirect) {
 	}
 
 	// activate element in secondary bar
-	$(".tasks li>a#" + currentTask).focus();
+	$(".tasks li>a").removeClass('active');
+	$(".tasks li>a#" + currentTask).addClass('active');
 
 	var newTaskButton = $('#addNew');
 
 	if (currentTask == 0) { 
+		$('#addNewVideo').hide();
+		$('#addNew').show();
 		newTaskButton.find('p').text('Add member');
 	} else if (currentTask == 1) { 
+		console.log(currentTask);
 		$('#addNewVideo').show();
 		$('#addNew').hide();
 	} else if (currentTask == 2) {
+		console.log(currentTask);
 		$('#addNewVideo').hide();
 		$('#addNew').show();
 		newTaskButton.find('p').text('Add announcement');
