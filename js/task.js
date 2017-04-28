@@ -59,7 +59,7 @@ $(document).on('click', '.navbar-brand', function(e) {
 });
 
 // if we change currentTask, change content displayed by the carousel 
-$(document).on('click', '.tasks a', function(e) {
+$(document).on('click', '.taskbar a', function(e) {
 	console.log('taks a');
 	currentTask = $(this).attr('id');
 	updateTaskPgContent(true);
@@ -119,8 +119,8 @@ function updateTaskPgContent(indirect) {
 	}
 
 	// activate element in secondary bar
-	$(".tasks li>a").removeClass('active');
-	$(".tasks li>a#" + currentTask).addClass('active');
+	$(".taskbar li>a").removeClass('active');
+	$(".taskbar li>a#" + currentTask).addClass('active');
 
 	var newTaskButton = $('#addNew');
 	var dateButton = $('#dateButton');

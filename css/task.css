@@ -28,6 +28,13 @@ form.form-search:before {
     background-color: #7CDBD5; /*sky*/
 }
 
+.nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
+    color: #23527c;
+    background-color: transparent;
+    border-bottom: 2px solid #23527c;
+    outline: none;
+}
+
 .navbar {
     margin-bottom: 0;
 }
@@ -38,12 +45,11 @@ hr {
 
 
 /* SECONDARY NAVBAR */
-.tasks {
-    padding-bottom: 0;
-    border-bottom: 0;
+.taskbar {
+    border-bottom: 1px solid gray;
 }
 
-.tasks li>a:focus, .tasks li>a:hover, .tasks li>a:active {
+.taskbar li>a:focus, .taskbar li>a:hover, .taskbar li>a:active {
     background-color: transparent;
     border-bottom: 2px solid #23527c;
     outline: none;
