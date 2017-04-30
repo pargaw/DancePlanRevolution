@@ -1,25 +1,22 @@
-//imports
-var imported = document.createElement('script'); 
-imported.src = 'js/dropzone.js'; 
-document.head.appendChild(imported);
-
-// SAMPLE DATA
-Dropzone.autoDiscover = false;
-
-// Putting a <button> element in the dropzone message which can be targeted by the keyboard.
-// Note: Clicking the dropzone area or the button will trigger the file browser.
-var myDropzone = new Dropzone('#my-awesome-dropzone', { 
-	dictDefaultMessage: "Drop files here or <button type='button'>select</button> to upload.",
-	createImageThumbnails: false,
-	addedfile: true
+$(document).on('click', '#submitVideo', function(e) {
+	var inputURL = $('#videoURL').val();
+	console.log(inputURL);
+	var re = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
+	var link = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\/)/;
+	if(!re.test(inputURL)){
+		$(".help-block with-errors").visibility = "visible";
+		console.log("error");
+	}
+	else{
+		var newinput = inputURL.replace(link, 'https://www.youtube.com/embed/' );
+		$('#iframeVideo').attr('src', newinput);
+		uploadedVideo();
+	}
 });
 
-myDropzone.on("addedfile", function(file) {
-	console.log("is this being triggered");
-    // This is not an image, so Dropzone doesn't create a thumbnail.
-    // Set a default thumbnail:
-	myDropzone.emit("thumbnail", rob.jpg, "https://stuff.mit.edu/~erjonat/img/rob.jpg");
-
-    // You could of course generate another image yourself here,
-    // and set it as a data url.
-});
+function uploadedVideo(){
+	var x = $("#doneUpload");
+	console.log(x, x.style);
+    x.style.visibility = "visible";
+    setTimeout(function(){ x.style.visibility = "hidden"; }, 500);
+}

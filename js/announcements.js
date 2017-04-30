@@ -4,7 +4,6 @@ var sampleAnnouncements = [
 		"date": "02/03/2017", 
 		"msg": "First post of the semester - welcome! :)"
 	},
-
 	{
 		"date": "02/09/2017", 
 		"msg": "Office hours tomorrow are cancelled."
@@ -32,7 +31,6 @@ function addNewAnnouncement() {
 
 		var oldAnnouncements = JSON.parse(localStorage.getItem('announcements'));
 		oldAnnouncements.push({"date": date, "msg": msg});
-		// console.log('old', oldAnnouncements);
 
 		localStorage.setItem("announcements", JSON.stringify(oldAnnouncements));
 

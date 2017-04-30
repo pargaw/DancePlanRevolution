@@ -66,12 +66,10 @@ $(document).on('click', '.taskbar a', function(e) {
 });
 
 $(document).on('click', '#addNew', function(e) {
-	console.log('new');
 	addNewTaskItem();
 });
 
 $(document).on('click','#submitVideo', function(e){
-	console.log('vid');
   var videoInputURL = $('#videoURL').val();
   var iframe = $('iframe').attr('src', videoInputURL);
 })
@@ -85,15 +83,6 @@ $(document).on('slide.bs.carousel', '.carousel', function(e) {
     currentTask = slideTo - 2;
     updateTaskPgContent();
 });
-
-// $(document).on('show.bs.modal', '#myModal', function(e) {
-// 	var button = e.relatedTarget;
-
-// 	if (currentTask != 1) {
-// 		console.log(button, currentTask);
-// 		e.stopPropagation();
-// 	};
-// });
 
 
 // GENERAL TASK MANIPULATION
@@ -128,19 +117,19 @@ function updateTaskPgContent(indirect) {
 	if (currentTask == 0) { 
 		$('#addNewVideo').hide();
 		$('#addNew').show();
-		newTaskButton.find('p').text('Add member');
-		dateButton.find('p').text('Choose date');
+		// newTaskButton.find('p').text('Add member');
+		// dateButton.find('p').text('Choose date');
 	} else if (currentTask == 1) { 
 		console.log(currentTask);
 		$('#addNewVideo').show();
 		$('#addNew').hide();
-		dateButton.find('p').text('Filter by date');
+		// dateButton.find('p').text('Filter by date');
 	} else if (currentTask == 2) {
 		console.log(currentTask);
 		$('#addNewVideo').hide();
 		$('#addNew').show();
-		newTaskButton.find('p').text('Add announcement');
-		dateButton.find('p').text('Filter by date');
+		// newTaskButton.find('p').text('Add announcement');
+		// dateButton.find('p').text('Filter by date');
 	}	
 }
 
