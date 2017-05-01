@@ -54,7 +54,6 @@ function displayAllAnnouncements() {
 	if (!announcements) {
 		announcements = sampleAnnouncements;
 	}
-
 	for (i = announcements.length; i--;) { 
 		var announcement = announcements[i];
 		var date = announcement["date"];
