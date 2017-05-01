@@ -104,7 +104,7 @@ function addNewGroup() {
         $('#newGroup').get(0).reset();
 		$('#newGroup').toggle();
 	} else {
-		$("#newGroup").effect( "shake", {direction: 'up'} );
+		$("#newGroup").effect( "shake", {direction: 'left'} );
 	}
 }
 
