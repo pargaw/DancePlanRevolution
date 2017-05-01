@@ -15,25 +15,6 @@
 <link rel="stylesheet" href="css/task.css">
 
 <!-- js -->
-<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyB4LJ5wNEafW7IntL13fcE3OzlxwYRWwXo",
-    authDomain: "danceplanrevolution.firebaseapp.com",
-    databaseURL: "https://danceplanrevolution.firebaseio.com",
-    projectId: "danceplanrevolution",
-    storageBucket: "danceplanrevolution.appspot.com",
-    messagingSenderId: "1066153127830"
-  };
-  // firebase.initializeApp(config);
-  var danceApp = firebase.initializeApp(config);
-  console.log(danceApp.name);  // "[DEFAULT]"
-
-  var danceStorage = danceApp.storage();
-  var danceDatabase = danceApp.database();
-</script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
@@ -61,17 +42,13 @@
         </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="uploadedVideo()" data-dismiss="modal" type="submit" id ="submitVideo" disabled="enabled">Upload</button>
+          <button type="button" class="btn btn-primary" onclick="uploadedVideo()" data-dismiss="modal" type="submit" id ="submitVideo" disabled="disabled">Upload</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
         </div>
       </div>
       
     </div>
   </div>
-
-  <button id='home' type="button" class="btn btn-default">
-    <span class="glyphicon glyphicon-home"></span>
-  </button>
 
   <!-- Navbar --> 
   <nav class="navbar-default">
@@ -155,9 +132,7 @@
           <div class="videos"> 
             <table id="myTable" align="center">
             <!-- List of announcements are loaded dynamically -->
-
               <div id="videoDisplay">
-
               <iframe src="" width="100%" frameborder="0" allowfullscreen id="iframeVideo"></iframe>
             </div>
 

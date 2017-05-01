@@ -10,6 +10,7 @@ var sampleAnnouncements = [
 	}
 ];	
 
+
 // CLICK HANDLERS
 $(document).on('click', '#cancelButton', function(e) {
 	$('#newAnnouncement').hide();
@@ -54,6 +55,7 @@ function displayAllAnnouncements() {
 	if (!announcements) {
 		announcements = sampleAnnouncements;
 	}
+
 	for (i = announcements.length; i--;) { 
 		var announcement = announcements[i];
 		var date = announcement["date"];
