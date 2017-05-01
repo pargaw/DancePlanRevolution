@@ -129,6 +129,7 @@ hr {
     margin-bottom: 10px;
 }
 
+<<<<<<< HEAD
 /* video */
 #doneUpload {
     visibility: hidden;
@@ -143,3 +144,18 @@ hr {
 }
 
 
+=======
+
+/* FLOATING HOME BUTTON */
+#home {
+    position: fixed; 
+    bottom: 20px;
+    right: 20px;
+    border-radius: 50%;
+    /*border: 2px solid blue;*/
+}
+
+#home span {
+    font-size: 20px;
+}
+>>>>>>> b9af76b1b2ee8681954ab849203b999498aa497c
