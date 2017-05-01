@@ -129,3 +129,16 @@ hr {
     margin-bottom: 10px;
 }
 
+
+/* FLOATING HOME BUTTON */
+#home {
+    position: fixed; 
+    bottom: 20px;
+    right: 20px;
+    border-radius: 50%;
+    /*border: 2px solid blue;*/
+}
+
+#home span {
+    font-size: 20px;
+}
