@@ -33,19 +33,16 @@
         <div class="modal-header">
           <h4 class="modal-title">Input Video URL</h4>  
         </div>
-
-
         <div class="modal-body">
         <form id="videoForm" data-toggle="validator" role="form">
           <div class="form-group">
-            <input type="text" name="src" id="videoURL"><br>
-            <div class="help-block with-errors">The URL is not valid!</div> 
+            <div id="date"></div> <!--TODO: check for others with same id -->
+            <input type="text" name="src" id="videoURL" required><br>
           </div>
-          </form>
+        </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="uploadedVideo()" data-dismiss="modal" type="submit" id ="submitVideo">Upload</button>
-          <div id="doneUpload" style="float:right"> Done </div> 
+          <button type="button" class="btn btn-primary" onclick="uploadedVideo()" data-dismiss="modal" type="submit" id ="submitVideo" disabled="enabled">Upload</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
         </div>
       </div>
@@ -133,21 +130,33 @@
         <!-- Videos -->
         <div class="item">
           <div class="videos"> 
-            <div>
-              <iframe src="" width="100%" frameborder="0" allowfullscreen id="iframeVideo">
-              </iframe>
+            <table id="myTable" align="center">
+            <!-- List of announcements are loaded dynamically -->
+
+              <div id="videoDisplay">
+
+              <iframe src="" width="100%" frameborder="0" allowfullscreen id="iframeVideo"></iframe>
             </div>
+
+            </table>
           </div>
+            <div id="doneUpload" style="float:center">Done!</div>
         </div>
+          </div>
+        </div> 
+      </div>
+
+
+
+
+
         
         <!-- Announcements -->    
         <div class="item">
           <div class="announcements">
-
             <form id="newAnnouncement" data-toggle="validator" role="form">
               <div class="form-group">
                 <div id="dateHeader"></div>
-
                 <div class="form-group">
                   <div id="inputText">
                     <textarea class="form-control" rows="5" id="announcementInp" placeholder="Type announcement here..." data-minlength="15" required></textarea>

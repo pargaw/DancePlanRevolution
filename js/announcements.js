@@ -10,7 +10,6 @@ var sampleAnnouncements = [
 	}
 ];	
 
-
 // CLICK HANDLERS
 $(document).on('click', '#cancelButton', function(e) {
 	$('#newAnnouncement').hide();
