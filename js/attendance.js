@@ -103,8 +103,8 @@ function saveAttendance(){
 	        localStorage.setItem("memberDict", JSON.stringify(memberDict1));
 	    }
 	    //add saved toast 
-		var x = document.getElementById("snackbar")
+		var x = document.getElementById("savedToast");
 	    x.style.visibility = "visible";
-	    setTimeout(function(){ x.style.visibility = "hidden"; }, 500);
+	    setTimeout(function(){ x.style.visibility = "hidden"; }, 800);
 	}
 }

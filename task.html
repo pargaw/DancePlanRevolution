@@ -53,7 +53,7 @@
       </li>
       <li class="nav-item">
         <form class="form-search form-inline">
-          <input type="text" class="form-control search-query" placeholder="Search..." />
+          <input id="searchText" type="text" class="form-control search-query" placeholder="Search..." />
         </form>
       </li>
       <li class="nav-item dance-group">
@@ -113,12 +113,11 @@
 
         <!-- Attendance -->
         <div class="item active">
+          <div id="savedToast" style="float:right">Saved!</div>
           <div class="Attendance" id="attend" > 
             <table id="myTable" align="center"></table>
           </div>
           <button id="saveButton" style="float:right" class="btn btn-primary" onclick="saveAttendance()">Save</button>
-          <br></br>
-          <div id="snackbar" style="float:right">Saved!</div>
         </div>
         
         <!-- Videos -->
@@ -136,8 +135,9 @@
         
         <!-- Announcements -->    
         <div class="item">
+          <div id="sentToast" style="float:right">Sent announcement to dance team!</div>
           <div class="announcements">
-            <div id="newAnnouncement" class="form-group">
+            <div id="newAnnouncement" class="form-group">           
               <div id="dateHeader"></div>
               
               <div id="inputText">

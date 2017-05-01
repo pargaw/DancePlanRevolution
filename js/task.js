@@ -114,6 +114,18 @@ function updateTaskPgContent(indirect) {
 		$(".task-name").text(TASKS[currentTask]);	
 	}
 
+	//set Search textbox text
+	var searchTxt = document.getElementById('searchText');
+	if (currentTask==0){
+		searchText.placeholder = "Search people...";
+	} 
+	if (currentTask==1){
+		searchText.placeholder = "Search video...";
+	} 
+	if (currentTask==2){
+		searchText.placeholder = "Search announcement...";
+	}
+
 	// activate element in secondary bar
 	$(".tasks li>a#" + currentTask).focus();
 
