@@ -59,7 +59,8 @@ $(document).on('click', '.navbar-brand', function(e) {
 });
 
 // if we change currentTask, change content displayed by the carousel 
-$(document).on('click', '.tasks a', function(e) {
+$(document).on('click', '.taskbar a', function(e) {
+	console.log('taks a');
 	currentTask = $(this).attr('id');
 	updateTaskPgContent(true);
 });
@@ -75,21 +76,13 @@ $(document).on('click','#submitVideo', function(e){
 
 // use new index of carousel to update page content
 $(document).on('slide.bs.carousel', '.carousel', function(e) {
+	console.log('caro');
 	var slideFrom = $(this).find('.active').index();
 	var slideTo = $(e.relatedTarget).index();
 	// console.log(slideFrom+' => '+slideTo);
     currentTask = slideTo - 2;
     updateTaskPgContent();
 });
-
-// $(document).on('show.bs.modal', '#myModal', function(e) {
-// 	var button = e.relatedTarget;
-
-// 	if (currentTask != 1) {
-// 		console.log(button, currentTask);
-// 		e.stopPropagation();
-// 	};
-// });
 
 
 // GENERAL TASK MANIPULATION
@@ -127,19 +120,28 @@ function updateTaskPgContent(indirect) {
 	}
 
 	// activate element in secondary bar
-	$(".tasks li>a#" + currentTask).focus();
+	$(".taskbar li>a").removeClass('active');
+	$(".taskbar li>a#" + currentTask).addClass('active');
 
 	var newTaskButton = $('#addNew');
+	var dateButton = $('#dateButton');
 
 	if (currentTask == 0) { 
-		newTaskButton.find('p').text('Add member');
-	} else if (currentTask == 1) { 
-		$('#addNewVideo').show();
-		$('#addNew').hide();
-	} else if (currentTask == 2) {
 		$('#addNewVideo').hide();
 		$('#addNew').show();
-		newTaskButton.find('p').text('Add announcement');
+		// newTaskButton.find('p').text('Add member');
+		// dateButton.find('p').text('Choose date');
+	} else if (currentTask == 1) { 
+		console.log(currentTask);
+		$('#addNewVideo').show();
+		$('#addNew').hide();
+		// dateButton.find('p').text('Filter by date');
+	} else if (currentTask == 2) {
+		console.log(currentTask);
+		$('#addNewVideo').hide();
+		$('#addNew').show();
+		// newTaskButton.find('p').text('Add announcement');
+		// dateButton.find('p').text('Filter by date');
 	}	
 }
 

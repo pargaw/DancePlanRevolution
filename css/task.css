@@ -28,6 +28,13 @@ form.form-search:before {
     background-color: #7CDBD5; /*sky*/
 }
 
+.nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
+    color: #23527c;
+    background-color: transparent;
+    border-bottom: 2px solid #23527c;
+    outline: none;
+}
+
 .navbar {
     margin-bottom: 0;
 }
@@ -38,12 +45,11 @@ hr {
 
 
 /* SECONDARY NAVBAR */
-.tasks {
-    padding-bottom: 0;
-    border-bottom: 0;
+.taskbar {
+    border-bottom: 1px solid gray;
 }
 
-.tasks li>a:focus, .tasks li>a:hover, .tasks li>a:active {
+.taskbar li>a:focus, .taskbar li>a:hover, .taskbar li>a:active {
     background-color: transparent;
     border-bottom: 2px solid #23527c;
     outline: none;
@@ -121,6 +127,9 @@ hr {
 #newAnnouncement {
     padding: 15px;
     display: none;
+    background-color: #eee;
+    border: 5px dotted #ddd;
+    margin-bottom: 20px;
 }
 
 #announcementInp {
@@ -144,4 +153,31 @@ hr {
     width: 50%;
     height: 50%;
     font-size: 100%;
+}
+
+/* video */
+#doneUpload {
+    visibility: hidden;
+    min-width: 100%;
+    background-color: #009900;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 10px;
+    z-index: 1;
+    font-size: 15px;
+}
+
+
+/* FLOATING HOME BUTTON */
+/*#home {
+    position: fixed; 
+    bottom: 20px;
+    right: 20px;
+    border-radius: 50%;
+    border: 2px solid blue;
+}
+
+#home span {
+    font-size: 20px;
 }

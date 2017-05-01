@@ -15,12 +15,32 @@
 <link rel="stylesheet" href="css/task.css">
 
 <!-- js -->
+<!-- <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB4LJ5wNEafW7IntL13fcE3OzlxwYRWwXo",
+    authDomain: "danceplanrevolution.firebaseapp.com",
+    databaseURL: "https://danceplanrevolution.firebaseio.com",
+    projectId: "danceplanrevolution",
+    storageBucket: "danceplanrevolution.appspot.com",
+    messagingSenderId: "1066153127830"
+  };
+  // firebase.initializeApp(config);
+  var danceApp = firebase.initializeApp(config);
+  console.log(danceApp.name);  // "[DEFAULT]"
+
+  var danceStorage = danceApp.storage();
+  var danceDatabase = danceApp.database();
+</script> -->
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
 <script src="js/attendance.js"></script> 
 <script src="js/announcements.js"></script> 
 <script src="js/task.js"></script> 
+<script src="js/videos.js"></script> 
 </head>
 
 <body>    
@@ -31,19 +51,27 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Input Video URL</h4>  
-
         </div>
         <div class="modal-body">
-          <input type="text" name="src" id="videoURL"><br>
+        <form id="videoForm" data-toggle="validator" role="form">
+          <div class="form-group">
+            <div id="date"></div> <!--TODO: check for others with same id -->
+            <input type="text" name="src" id="videoURL" required><br>
+          </div>
+        </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" type="submit" id ="submitVideo">Submit</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="uploadedVideo()" data-dismiss="modal" type="submit" id ="submitVideo" disabled="disabled">Upload</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
         </div>
       </div>
       
     </div>
   </div>
+  
+  <!-- <button id='home' type="button" class="btn btn-default">
+    <span class="glyphicon glyphicon-home"></span>
+  </button> -->
 
   <!-- Navbar --> 
   <nav class="navbar-default">
@@ -63,8 +91,8 @@
   </nav>
 
   <!-- Secondary navbar for task pages -->
-  <nav class="tasks navbar">
-    <ul class="nav nav-pills nav-fill">
+  <nav class="navbar">
+    <ul class="taskbar nav nav-pills nav-fill">
       <li class="nav-item">
         <a class="nav-link" id="0" href="#">Attendance</a>
       </li>
@@ -96,15 +124,16 @@
             <div class="col-12 col-md-auto">
               <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default" id="addNew">
-                  <p style="display: inline; margin-right: 10px;">Add new</p><span class="glyphicon glyphicon-plus-sign"></span>
+                      <span class="glyphicon glyphicon-plus-sign">
+                      <link href="icons/green_plus.ico" rel="shortcut icon" type="image/x-icon" />
                 </button>
 
                 <!-- Trigger the modal with a button -->
                 <button type="button" class="btn btn-default" id="addNewVideo" data-toggle="modal" data-target="#myModal">
-                  <p style="display: inline; margin-right: 10px;">Upload video</p><span class="glyphicon glyphicon-plus-sign"></span>
+                  <span class="glyphicon glyphicon-plus-sign"> </span>
                 </button>  
-                <button type="button" class="btn btn-default">
-                  <p>Filter by date</p><span class="glyphicon glyphicon-calendar"></span>
+                <button type="button" class="btn btn-default" id="dateButton" background-color="green">
+                <span class="glyphicon glyphicon-calendar"></span>
                 </button>
               </div>
             </div>
@@ -117,44 +146,72 @@
           <div class="Attendance" id="attend" > 
             <table id="myTable" align="center"></table>
           </div>
+<<<<<<< HEAD
           <button id="saveButton" style="float:right" class="btn btn-primary" onclick="saveAttendance()">Save</button>
+=======
+          <button id="saveButton" style="position:center" class="btn btn-primary" onclick="saveAttendance()">Save</button>
+          <br></br>
+          <div id="snackbar" style="float:center">Saved!</div>
+>>>>>>> 46875b6f43478e91b1d120160bb32220c7023a3c
         </div>
         
         <!-- Videos -->
         <div class="item">
           <div class="videos"> 
+            <table id="myTable" align="center">
+            <!-- List of announcements are loaded dynamically -->
+              <div id="videoDisplay">
+              <iframe src="" width="100%" frameborder="0" allowfullscreen id="iframeVideo"></iframe>
+            </div>
 
-
-
-<div>
-<iframe src="" width="100%" frameborder="0" allowfullscreen></iframe>
-</div>
-
+            </table>
           </div>
+            <div id="doneUpload" style="float:center">Done!</div>
         </div>
-        
+
         <!-- Announcements -->    
         <div class="item">
           <div id="sentToast" style="float:right">Sent announcement to dance team!</div>
           <div class="announcements">
+<<<<<<< HEAD
             <div id="newAnnouncement" class="form-group">           
               <div id="dateHeader"></div>
               
               <div id="inputText">
                 <textarea class="form-control" rows="5" id="announcementInp" placeholder="Type announcement here..."></textarea>
               </div>
+=======
+            <form id="newAnnouncement" data-toggle="validator" role="form">
+              <div class="form-group">
+                <div id="dateHeader"></div>
+                <div class="form-group">
+                  <div id="inputText">
+                    <textarea class="form-control" rows="5" id="announcementInp" placeholder="Type announcement here..." data-minlength="15" required></textarea>
+                    <div class="help-block with-errors">Minimum of 15 characters, please!</div>
+                  </div>
+                </div> 
 
-              <div class="text-right">
-                <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
-                <button id="doneButton" type="submit" class="btn btn-primary">Post</button>
-              </div> 
-            </div>
+                <div class="form-group">
+                  <div class="text-right">
+                    <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
+                    <button id="doneButton" type="submit" class="btn btn-primary">Post</button>
+                  </div>
+                </div>
+>>>>>>> 46875b6f43478e91b1d120160bb32220c7023a3c
+
+              </div>
+            </form> 
 
             <div id="display">
               <!-- List of announcements are loaded dynamically -->
             </div>
           </div>
         </div> 
+          </div>
+        </div> 
+      </div>
+        
+        
       </div>
 
       <!-- Left and right controls -->

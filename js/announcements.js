@@ -4,7 +4,6 @@ var sampleAnnouncements = [
 		"date": "02/03/2017", 
 		"msg": "First post of the semester - welcome! :)"
 	},
-
 	{
 		"date": "02/09/2017", 
 		"msg": "Office hours tomorrow are cancelled."

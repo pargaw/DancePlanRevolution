@@ -25,8 +25,11 @@
 
 .width-50 {
 	width: 50%;
-	display: inline;
 	margin: 2px 4px 0 0;
+}
+
+.inline {
+	display: inline;
 }
 
 .remove_field {
