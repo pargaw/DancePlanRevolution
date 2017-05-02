@@ -19,7 +19,7 @@ function initializePage() {
 
 	// set page title
 	if (currentTask==0){
-		$(".task-name").text(TASKS[currentTask]+" for: "+getDate());
+		$(".task-name").text(TASKS[currentTask]+" for "+getDate());
 	}else{
 		$(".task-name").text(TASKS[currentTask]);	
 	}
@@ -96,21 +96,9 @@ function updateTaskPgContent(indirect) {
 	
 	// update page title
 	if (currentTask == 0){
-		$(".task-name").text(TASKS[currentTask] + " for: " + getDate());
+		$(".task-name").text(TASKS[currentTask] + " for " + getDate());
 	} else {
 		$(".task-name").text(TASKS[currentTask]);	
-	}
-
-	//set Search textbox text
-	var searchTxt = document.getElementById('searchText');
-	if (currentTask==0){
-		searchText.placeholder = "Search people...";
-	} 
-	if (currentTask==1){
-		searchText.placeholder = "Search video...";
-	} 
-	if (currentTask==2){
-		searchText.placeholder = "Search announcement...";
 	}
 
 	// activate element in secondary bar
@@ -118,21 +106,28 @@ function updateTaskPgContent(indirect) {
 	$(".taskbar li>a#" + currentTask).addClass('active');
 
 	var newTaskButton = $('#addNew');
+	var newVideoButton = $('#addNewVideo');
 	var dateButton = $('#dateButton');
-	// console.log(currentTask);
+	var searchText = $('#searchText')[0]; 
 
 	if (currentTask == 0) { 
-		$('#addNewVideo').hide();
-		$('#addNew').show();
+		searchText.placeholder = "Search dancers...";
+
+		newVideoButton.hide();
+		newTaskButton.show();
 		// newTaskButton.find('p').text('Add member');
 		// dateButton.find('p').text('Choose date');
 	} else if (currentTask == 1) { 
-		$('#addNewVideo').show();
-		$('#addNew').hide();
+		searchText.placeholder = "Search videos...";
+
+		newVideoButton.show();
+		newTaskButton.hide();
 		// dateButton.find('p').text('Filter by date');
 	} else if (currentTask == 2) {
-		$('#addNewVideo').hide();
-		$('#addNew').show();
+		searchText.placeholder = "Search announcements...";
+
+		newVideoButton.hide();
+		newTaskButton.show();
 		// newTaskButton.find('p').text('Add announcement');
 		// dateButton.find('p').text('Filter by date');
 	}	
