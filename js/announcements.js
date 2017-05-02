@@ -1,16 +1,3 @@
-// SAMPLE DATA
-var sampleAnnouncements = [
-	{
-		"date": "02/03/2017", 
-		"msg": "First post of the semester - welcome! :)"
-	},
-	{
-		"date": "02/09/2017", 
-		"msg": "Office hours tomorrow are cancelled."
-	}
-];	
-
-
 // CLICK HANDLERS
 $(document).on('click', '#cancelButton', function(e) {
 	$('#newAnnouncement').hide();
@@ -27,55 +14,70 @@ function addNewAnnouncement() {
 	var msg = $('#announcementInp').val();
 
 	if (msg) { 
-		var date = getDate();
+		var date = getDate(true);
+		var ref = danceDatabase.ref('announcements/' + currentDanceGroup);
 
-		var oldAnnouncements = JSON.parse(localStorage.getItem('announcements'));
-		oldAnnouncements.push({"date": date, "msg": msg});
+		// create new ref and save data to it in one step
+		var userRef = ref.push({
+			date: date,
+			msg: msg
+		});
 
-		localStorage.setItem("announcements", JSON.stringify(oldAnnouncements));
+		console.log('user key', userRef.key); 
+
+		// var oldAnnouncements = JSON.parse(localStorage.getItem('announcements'));
+		// oldAnnouncements.push({"date": date, "msg": msg});
+
+		// localStorage.setItem("announcements", JSON.stringify(oldAnnouncements));
 
 		$('#announcementInp').val(null); 
 		$('#newAnnouncement').hide();
 
 		var template = getAnnouncementTemplate(date, msg);
 		document.getElementById('display').prepend(template);
+		
+		//show toast of sent announcement
+		sentAnnouncement();
 	} else {
 		$("#announcementInp").effect("shake");
 	}
-	//show toast of sent announcement
-	sentAnnouncement();
 }
 
 function createNewAnnouncement() {  
-	document.getElementById("dateHeader").innerHTML = "<h4>" + getDate() + "</h4>";
+	document.getElementById("dateHeader").innerHTML = "<h4>" + getDate(true) + "</h4>";
 	$('#newAnnouncement').toggle();
 }
 
 function displayAllAnnouncements() {
 	var announcementContainer = document.createElement("div");
-	var announcements = JSON.parse(localStorage.getItem('announcements'));
-	if (!announcements) {
-		announcements = sampleAnnouncements;
-	}
+	var ref = danceDatabase.ref('announcements/' + currentDanceGroup);
 
-	for (i = announcements.length; i--;) { 
-		var announcement = announcements[i];
-		var date = announcement["date"];
-		var msg = announcement["msg"]; 
+    ref.on("value", function(snapshot) {
+    	var announcements = snapshot.val();
+    	var num_announcements = Object.keys(announcements).length;
 
-		var template = getAnnouncementTemplate(date, msg);
-	    announcementContainer.appendChild(template);
-	}
+    	// TODO note the backward iteration
+    	// must be consistent with display order of other tasks
+		for (i = num_announcements; i--;) {
+			if (announcements[i]) {
+				var announcement = announcements[i];
+				var date = announcement["date"];
+				var msg = announcement["msg"]; 
 
-	document.getElementById('display').appendChild(announcementContainer);
+				var template = getAnnouncementTemplate(date, msg);
+			    announcementContainer.appendChild(template);
+			}
+		}
 
-	if (!localStorage.getItem('announcements')) {
-		localStorage.setItem("announcements", JSON.stringify(sampleAnnouncements));
-	}
+		document.getElementById('display').appendChild(announcementContainer);
+
+    }, function(error) {
+        console.log("Error: " + error.code);
+    });
 }
 
 function sentAnnouncement(){
-	//show toast of announcement has been sent 
+	// show toast of announcement has been sent 
 	var x = document.getElementById("sentToast");
 	x.style.visibility = "visible";
 	setTimeout(function(){ x.style.visibility = "hidden"; }, 800);
@@ -84,6 +86,7 @@ function sentAnnouncement(){
 
 var editing = false; 
 var messageNum = 0;
+
 function getAnnouncementTemplate(date, msg) { 
 	messageNum +=1;
 	var dateDiv = document.createElement("div");
@@ -158,3 +161,4 @@ function getAnnouncementTemplate(date, msg) {
 
   	return panelDiv;
 }
+

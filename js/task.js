@@ -5,7 +5,7 @@ Control page for determining which content is displayed for given task
 // GLOBALS
 var TASKS = ["Attendance", "Videos", "Announcements"]
 var currentTask = 0; // should be 0, 1, or 2, specifying one of the above tasks
-var currentDanceGroup = "Twinkle Toes";
+var currentDanceGroup = "twinkletoes";
 // var currentDanceGroup; // TODO delete line above + uncomment this when done
 
 // SETUP
@@ -60,7 +60,6 @@ $(document).on('click', '.navbar-brand', function(e) {
 
 // if we change currentTask, change content displayed by the carousel 
 $(document).on('click', '.taskbar a', function(e) {
-	console.log('taks a');
 	currentTask = $(this).attr('id');
 	updateTaskPgContent(true);
 });
@@ -76,7 +75,7 @@ $(document).on('click','#submitVideo', function(e){
 
 // use new index of carousel to update page content
 $(document).on('slide.bs.carousel', '.carousel', function(e) {
-	console.log('caro');
+	console.log('carousel slid...');
 	var slideFrom = $(this).find('.active').index();
 	var slideTo = $(e.relatedTarget).index();
 	// console.log(slideFrom+' => '+slideTo);
@@ -125,6 +124,7 @@ function updateTaskPgContent(indirect) {
 
 	var newTaskButton = $('#addNew');
 	var dateButton = $('#dateButton');
+	console.log(currentTask);
 
 	if (currentTask == 0) { 
 		$('#addNewVideo').hide();
@@ -132,12 +132,10 @@ function updateTaskPgContent(indirect) {
 		// newTaskButton.find('p').text('Add member');
 		// dateButton.find('p').text('Choose date');
 	} else if (currentTask == 1) { 
-		console.log(currentTask);
 		$('#addNewVideo').show();
 		$('#addNew').hide();
 		// dateButton.find('p').text('Filter by date');
 	} else if (currentTask == 2) {
-		console.log(currentTask);
 		$('#addNewVideo').hide();
 		$('#addNew').show();
 		// newTaskButton.find('p').text('Add announcement');
@@ -147,14 +145,28 @@ function updateTaskPgContent(indirect) {
 
 
 // UTILITIES
-// return date in mm/dd/yy starting form
-function getDate() {
-	n =  new Date();
-	y = n.getFullYear();
-	m = n.getMonth() + 1;
-	d = n.getDate();
-
+// return date in mm/dd/yy hh:mm starting form
+function getDate(time_included) {
+	var n =  new Date();
+	var y = n.getFullYear();
+	var m = n.getMonth() + 1;
+	var d = n.getDate();
 	var date = m + "/" + d + "/" + y;
+
+	if (time_included) {
+		h = n.getHours();
+		min = n.getMinutes();
+		if (h > 12) {
+			ap = 'pm';
+			h -= 12;
+		} else {
+			ap = 'am';
+		}
+
+		var time = " " + h + ":" + min + ap;
+		return date + time;
+	};
+
 	return date;
 }
 

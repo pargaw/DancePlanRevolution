@@ -1,33 +1,8 @@
-/* SEARCH BAR */
-input.search-query {
-    padding-left: 26px;
-    font-size: 12px;
-}
+/*
+This CSS is for the announcement/video/attendance pages ONLY.
+*/
 
-form.form-search {
-    position: relative;
-    margin: 0; 
-}
-
-form.form-search:before {
-    display: block;
-    width: 14px;
-    height: 14px;
-    content: "\e003";
-    font-family: 'Glyphicons Halflings';
-    background-position: -48px 0;
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    opacity: .5;
-    z-index: 1000;
-}
-
-.navbar-default {
-    padding-top: 20px;
-    background-color: #7CDBD5; /*sky*/
-}
-
+/* SECONDARY NAVBAR */
 .nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
     color: #23527c;
     background-color: transparent;
@@ -35,16 +10,6 @@ form.form-search:before {
     outline: none;
 }
 
-.navbar {
-    margin-bottom: 0;
-}
-
-hr { 
-    margin-top: 0;
-}
-
-
-/* SECONDARY NAVBAR */
 .taskbar {
     border-bottom: 1px solid gray;
 }
@@ -54,6 +19,8 @@ hr {
     border-bottom: 2px solid #23527c;
     outline: none;
 }
+
+
 
 /* ADD AND FILTER BUTTONS */
 .topButtons {
@@ -73,6 +40,7 @@ hr {
 #addNewVideo {
     display: none;
 }
+
 
 
 /* CAROUSEL CUSTOMIZATION */
@@ -98,6 +66,8 @@ hr {
   width: 90%;
   margin: auto;
 }
+
+
 
 /* ATTENDANCE */
 #sentToast, #savedToast{
@@ -155,7 +125,9 @@ hr {
     font-size: 100%;
 }
 
-/* video */
+
+
+/* VIDEOS */
 #doneUpload {
     visibility: hidden;
     min-width: 100%;
@@ -169,8 +141,9 @@ hr {
 }
 
 
+
 /* FLOATING HOME BUTTON */
-/*#home {
+#home {
     position: fixed; 
     bottom: 20px;
     right: 20px;
