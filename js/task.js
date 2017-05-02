@@ -5,16 +5,12 @@ Control page for determining which content is displayed for given task
 // GLOBALS
 var TASKS = ["Attendance", "Videos", "Announcements"]
 var currentTask = 0; // should be 0, 1, or 2, specifying one of the above tasks
-var currentDanceGroup = "twinkletoes";
-// var currentDanceGroup; // TODO delete line above + uncomment this when done
+var currentDanceGroup = localStorage.getItem("currentDanceGroup");
 
 // SETUP
-// TODO every time new dance group is chosen on main page,
-// update currentDanceGroup and localStorage accordingly
-// localStorage.clear();
-localStorage.setItem("currentDanceGroup", currentDanceGroup);
+function initializePage() { 
+	console.log(currentDanceGroup);
 
-function initializePage() { 	
 	// stop automatic carousel movement 
 	$("#myCarousel").carousel({
 	    pause: true,
@@ -75,7 +71,6 @@ $(document).on('click','#submitVideo', function(e){
 
 // use new index of carousel to update page content
 $(document).on('slide.bs.carousel', '.carousel', function(e) {
-	console.log('carousel slid...');
 	var slideFrom = $(this).find('.active').index();
 	var slideTo = $(e.relatedTarget).index();
 	// console.log(slideFrom+' => '+slideTo);
@@ -124,7 +119,7 @@ function updateTaskPgContent(indirect) {
 
 	var newTaskButton = $('#addNew');
 	var dateButton = $('#dateButton');
-	console.log(currentTask);
+	// console.log(currentTask);
 
 	if (currentTask == 0) { 
 		$('#addNewVideo').hide();
@@ -156,11 +151,15 @@ function getDate(time_included) {
 	if (time_included) {
 		h = n.getHours();
 		min = n.getMinutes();
-		if (h > 12) {
+		if (h >= 13) {
 			ap = 'pm';
 			h -= 12;
 		} else {
 			ap = 'am';
+		}
+
+		if (min < 10) {
+			min = '0' + min;
 		}
 
 		var time = " " + h + ":" + min + ap;

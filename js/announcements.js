@@ -4,7 +4,6 @@ $(document).on('click', '#cancelButton', function(e) {
 });
 
 $(document).on('click', '#doneButton', function(e) {
-	// e.preventDefault();
 	addNewAnnouncement();
 });
 
@@ -22,13 +21,6 @@ function addNewAnnouncement() {
 			date: date,
 			msg: msg
 		});
-
-		console.log('user key', userRef.key); 
-
-		// var oldAnnouncements = JSON.parse(localStorage.getItem('announcements'));
-		// oldAnnouncements.push({"date": date, "msg": msg});
-
-		// localStorage.setItem("announcements", JSON.stringify(oldAnnouncements));
 
 		$('#announcementInp').val(null); 
 		$('#newAnnouncement').hide();
@@ -49,18 +41,21 @@ function createNewAnnouncement() {
 }
 
 function displayAllAnnouncements() {
-	var announcementContainer = document.createElement("div");
-	var ref = danceDatabase.ref('announcements/' + currentDanceGroup);
+	var announcementContainer = document.getElementById("announcements");
+	var ref = danceDatabase.ref('announcements/' + currentDanceGroup + '/'); 
 
     ref.on("value", function(snapshot) {
     	var announcements = snapshot.val();
-    	var num_announcements = Object.keys(announcements).length;
+    	console.log(announcements);
+    	var announcement_list = Object.keys(announcements);
 
     	// TODO note the backward iteration
     	// must be consistent with display order of other tasks
-		for (i = num_announcements; i--;) {
-			if (announcements[i]) {
-				var announcement = announcements[i];
+		for (i = announcement_list.length; i--;) {
+			var announcement = announcements[announcement_list[i]];
+			console.log(announcement);
+
+			if (announcement) {
 				var date = announcement["date"];
 				var msg = announcement["msg"]; 
 
@@ -68,11 +63,8 @@ function displayAllAnnouncements() {
 			    announcementContainer.appendChild(template);
 			}
 		}
-
-		document.getElementById('display').appendChild(announcementContainer);
-
     }, function(error) {
-        console.log("Error: " + error.code);
+        console.log("Oops, could not display all announcements... " + error.code);
     });
 }
 
@@ -108,6 +100,8 @@ function getAnnouncementTemplate(date, msg) {
   	announcementDiv.className = "panel-body";
   	announcementDiv.id = "announDiv";
 
+
+  	// for editing the announcements
   	var input = document.createElement('input');
 	input.id = "inputTxt"+messageNum;
 	input.style.display = "none";
@@ -124,6 +118,7 @@ function getAnnouncementTemplate(date, msg) {
   	editButton.id = "editBtn";
   	editButton.className = "editBtn"+messageNum;
     editButton.innerHTML = '<img src="img/edit.png" id="imgBtn"/>';
+
  	editButton.onclick = function(){
 	 	if (!editing){
 			editing = true;

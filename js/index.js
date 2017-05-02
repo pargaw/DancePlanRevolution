@@ -47,36 +47,18 @@ $(document).on('click', '#doneButton', function(e) {
 	addNewGroup();
 });
 
-function getGroupTemplate(name) { 
+function getGroupTemplate(name, id) { 
 	var groupDiv = document.createElement("div");
 	groupDiv.className = "panel panel-default group-name";
 
   	var groupName = document.createElement("h4");	  	
   	groupName.className = "panel-body";
   	groupName.innerHTML = name;
+  	groupName.id = id;
 
   	groupDiv.appendChild(groupName);
   	return groupDiv;
 }
-
-
-var sampleGroups = [
-	{
-		"name": "Kool Kids"
-	},
-
-	{
-		"name": "Cosmic Chaos"
-	},
-
-	{
-		"name": "Ultralife"
-	},
-
-	{
-		"name": "Foo Fite or Flite"
-	}
-];
 
 
 $(document).on('keydown', 'input', function(e) {
@@ -85,48 +67,77 @@ $(document).on('keydown', 'input', function(e) {
     }
 });
 
+
 $(document).on('click', '.group-name h4', function(e) {
-	if ($(this).text() == 'Twinkle Toes') {
-		window.location.href='task.html';		
+	console.log($(this));
+
+	// TODO every time new dance group is chosen on main page,
+	// update currentDanceGroup and localStorage accordingly
+	// localStorage.clear();
+	currentDanceGroup = $(this).attr('id');
+	if (currentDanceGroup) {
+		localStorage.setItem("currentDanceGroup", currentDanceGroup);
 	}
+	console.log(currentDanceGroup);
+	window.location.href = 'task.html';		
 });
 
 function addNewGroup() {
 	var name = $('#groupInp').val();
+	console.log(name);
 
-	if (name) { 
-		var template = getGroupTemplate(name);
+	// TODO get and save members
+	// var members;
+
+
+	if (name) {
+		// replace spaces with dashes and convert to lowercase
+		var id = name.replace(/\s+/g, '-').toLowerCase();
+		console.log(id);
+		var template = getGroupTemplate(name, id);
 		document.getElementById('groups').prepend(template);
 
-		sampleGroups.push({"name": name});
-		localStorage.setItem("groups", JSON.stringify(sampleGroups));
+		var ref = danceDatabase.ref('groups/');
+
+		// write child with custom key and save
+		ref.child(id).setValue({
+			name: name
+		});
 
         $('#newGroup').get(0).reset();
 		$('#newGroup').toggle();
 	} else {
-		$("#newGroup").effect( "shake", {direction: 'left'} );
+		$("#newGroup").effect("shake");
 	}
 }
 
 
 function displayAllGroups() {
-	var groupContainer = document.getElementById("groups");
-	var groups = JSON.parse(localStorage.getItem('groups'));
-	if (!groups) {
-		groups = sampleGroups;
-	}
+	var groupContainer = document.getElementById('groups');
+	var ref = danceDatabase.ref('groups/');
 
-	for (i = groups.length; i--;) { 
-		var group = groups[i];
-		var name = group["name"];
+    ref.orderByChild('timestamp').on("value", function(snapshot) {
+    	var groups = snapshot.val();
+    	var group_list = Object.keys(groups);
+    	console.log(group_list);
 
-		var template = getGroupTemplate(name);
-	    groupContainer.appendChild(template);
-	}
+    	// TODO note the backward iteration
+    	// must be consistent with display order of other tasks
+		for (i = group_list.length; i>=0; i--) {
+			console.log(i);
+			var group = groups[group_list[i]];
 
-	if (!localStorage.getItem('groups')) {
-		localStorage.setItem("groups", JSON.stringify(sampleGroups));
-	}
+			if (group) {
+				console.log(group);
+				var name = group['name'];
+				var id = group['id'];
+				var template = getGroupTemplate(name, id);
+	    		groupContainer.appendChild(template);
+			}
+		}
+    }, function(error) {
+        console.log("Oops, could not display all groups... " + error.code);
+    }); 
 }
 
 window.onload = displayAllGroups;
