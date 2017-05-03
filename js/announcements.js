@@ -26,12 +26,10 @@ function addNewAnnouncement() {
         $('#newAnnouncement').hide();
 
         var template = getAnnouncementTemplate(date, msg);
-
-        // TODO fix bug here ('display' div is null for some time)
-        document.getElementById('display').prepend(template);
+        document.getElementById('announcementsDisplay').prepend(template);
 
         //show toast of sent announcement
-        sentAnnouncement();
+        showSentToast();
     } else {
         $("#announcementInp").effect("shake");
     }
@@ -43,7 +41,7 @@ function createNewAnnouncement() {
 }
 
 function displayAllAnnouncements() {
-    var announcementContainer = document.getElementById("announcements");
+    var announcementContainer = document.getElementById("announcementsDisplay");
     var ref = danceDatabase.ref('announcements/' + currentDanceGroup + '/');
 
     ref.on("value", function(snapshot) {
@@ -70,7 +68,7 @@ function displayAllAnnouncements() {
     });
 }
 
-function sentAnnouncement() {
+function showSentToast() {
     // show toast of announcement has been sent 
     var x = document.getElementById("sentToast");
     x.style.visibility = "visible";
