@@ -71,6 +71,24 @@ This CSS is for the announcement/video/attendance pages ONLY.
 
 
 /* ATTENDANCE */
+#myTable td {
+    padding: 3px 3px 20px 3px;
+}
+
+#myTable img:hover {
+    cursor: pointer;
+}
+
+#myTable figure {
+    text-align: center;
+    position: relative;
+}
+.checkmark {
+    display: block;
+    position: absolute; 
+    top: 0px; 
+}
+
 #sentToast, #savedToast{
     visibility: hidden;
     width: 50%;
@@ -89,6 +107,7 @@ This CSS is for the announcement/video/attendance pages ONLY.
 #savedToast{
     position: fixed;
 }
+
 
 /* ANNOUNCEMENTS */
 #panel-title {
