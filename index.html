@@ -1,88 +1,90 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>dpr: dance plan revolution</title>
 
-        <!-- mobile-aware viewport -->
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+    <meta charset="utf-8">
+    <title>dpr: dance plan revolution</title>
 
-        <!-- stylesheets -->
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/index.css">
+    <!-- mobile-aware viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- JS -->
-        <!-- firebase for database and storage -->
-        <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
-        <script src="js/firebase-credentials.js"></script>
+    <!-- stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
 
-        <!-- jquery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- JS -->
+    <!-- firebase for database and storage -->
+    <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+    <script src="js/firebase-credentials.js"></script>
 
-        <!-- local scripts -->
-        <script src="js/validator.js"></script>
-        <script src="js/index.js"></script> 
-    </head>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-    <body>
-        <!-- Placebo Navbar --> 
-        <nav class="navbar-default">
-            <ul class="nav nav-pills nav-fill">
-                <li class="nav-item">
-                    <a class="navbar-brand" href="#">dance plan revolution</a>
-                </li>
-            </ul>
-        </nav>
+    <!-- local scripts -->
+    <script src="js/validator.js"></script>
+    <script src="js/index.js"></script>
+</head>
 
-        <!-- Carousel with task info --> 
-        <div class="container">
-            <!-- Add New and Sort By-->
-            <div class="topButtons">
-                <div class="row justify-content-md-center">
-                    <div class="col-12 col-md-auto center">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="new_task btn btn-default" id="addNew">
+<body>
+    <!-- Placebo Navbar -->
+    <nav class="navbar-default">
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item">
+                <a class="navbar-brand" href="#">dance plan revolution</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Carousel with task info -->
+    <div class="container">
+        <!-- Add New and Sort By-->
+        <div class="topButtons">
+            <div class="row justify-content-md-center">
+                <div class="col-12 col-md-auto center">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="new_task btn btn-default" id="addNew">
                                 <p style="display: inline; margin-right: 10px;">Add new group</p>
                                 <span class="glyphicon glyphicon-plus-sign"></span>
                             </button>
-                            <button type="button" class="btn btn-default">Sort by...
+                        <button type="button" class="btn btn-default">Sort by...
                             <span class="glyphicon glyphicon-sort"></span>
                             </button>
-                        </div>
                     </div>
                 </div>
             </div>
-
-            <form id="newGroup" data-toggle="validator" role="form">
-                <div class="form-group">
-                    <label for="name">Group Name</label>
-                    <input type="name" class="form-control width-50" id="groupInp" aria-describedby="groupName" placeholder="e.g. Twinkle Toes" data-minlength="6" required></input>
-                    <div class="help-block with-errors"></div>
-                </div>
-                <br>
-                <div class="form-group">
-                    <div id="inputText">
-                        <div class="input_fields_wrap">
-                            <label for="name">Add Members</label>
-                            <div><input class="form-control width-50 inline member" type="text" name="mytext[]" placeholder="e.g. Beth Hadley"><span class="glyphicon glyphicon-remove remove_field" aria-hidden="true"></span></div>
-                        </div>
-                        <button class="btn btn-default add_field_button">Add another member</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="text-right">
-                        <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
-                        <button id="doneButton" type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </div>
-            </form>
-            
-            <!-- group names -->
-            <div id="groups"></div>
         </div>
-    </body>
+
+        <form id="newGroup" data-toggle="validator" role="form">
+            <div class="form-group">
+                <label for="name">Group Name</label>
+                <input type="name" class="form-control width-50" id="groupInp" aria-describedby="groupName" placeholder="e.g. Twinkle Toes" data-minlength="6" required></input>
+                <div class="help-block with-errors"></div>
+            </div>
+            <br>
+            <div class="form-group">
+                <div id="inputText">
+                    <div class="input_fields_wrap">
+                        <label for="name">Add Members</label>
+                        <div><input class="form-control width-50 inline member" type="text" name="mytext[]" placeholder="e.g. Beth Hadley"><span class="glyphicon glyphicon-remove remove_field" aria-hidden="true"></span></div>
+                    </div>
+                    <button class="btn btn-default add_field_button">Add another member</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="text-right">
+                    <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
+                    <button id="doneButton" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- group names -->
+        <div id="groups"></div>
+    </div>
+</body>
+
 </html>

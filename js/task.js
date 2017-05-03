@@ -1,48 +1,47 @@
 /*
 Control page for determining which content is displayed for given task
 */
-
 // GLOBALS
 var TASKS = ["Attendance", "Videos", "Announcements"]
 var currentTask = 0; // should be 0, 1, or 2, specifying one of the above tasks
 var currentDanceGroup = localStorage.getItem("currentDanceGroup");
 
 // SETUP
-function initializePage() { 
-	console.log(currentDanceGroup);
+function initializePage() {
+    console.log(currentDanceGroup);
 
-	// stop automatic carousel movement 
-	$("#myCarousel").carousel({
-	    pause: true,
-	    interval: false
-	});
+    // stop automatic carousel movement 
+    $("#myCarousel").carousel({
+        pause: true,
+        interval: false
+    });
 
-	// set page title
-	if (currentTask==0){
-		$(".task-name").text(TASKS[currentTask]+" for "+getDate());
-	}else{
-		$(".task-name").text(TASKS[currentTask]);	
-	}
+    // set page title
+    if (currentTask == 0) {
+        $(".task-name").text(TASKS[currentTask] + " for " + getDate());
+    } else {
+        $(".task-name").text(TASKS[currentTask]);
+    }
 
-	// set dance group
-	if (localStorage.currentDanceGroup != "undefined") {
-		this.currentDanceGroup = localStorage.currentDanceGroup;
-	}
+    // set dance group
+    if (localStorage.currentDanceGroup != "undefined") {
+        this.currentDanceGroup = localStorage.currentDanceGroup;
+    }
 
 
-	// set current dance group based on the last one seen
-	if (this.currentDanceGroup) {
-		$(".dance-group a").text(this.currentDanceGroup);
-	} else {		
-		$(".dance-group a").text(this.currentDanceGroup);
+    // set current dance group based on the last one seen
+    if (this.currentDanceGroup) {
+        $(".dance-group a").text(this.currentDanceGroup);
+    } else {
+        $(".dance-group a").text(this.currentDanceGroup);
 
-		// TODO delete line above and uncomment one below when done 
-		// $(".dance-group").text("Choose a team below");
-	}
+        // TODO delete line above and uncomment one below when done 
+        // $(".dance-group").text("Choose a team below");
+    }
 
-	updateTaskPgContent();
-	displayAllAnnouncements();
-	setupMembers();
+    updateTaskPgContent();
+    displayAllAnnouncements();
+    setupMembers();
 }
 
 window.onload = initializePage;
@@ -51,117 +50,115 @@ window.onload = initializePage;
 
 // CLICK HANDLERS
 $(document).on('click', '.navbar-brand', function(e) {
-	window.location.href='index.html';		
+    window.location.href = 'index.html';
 });
 
 // if we change currentTask, change content displayed by the carousel 
 $(document).on('click', '.taskbar a', function(e) {
-	currentTask = $(this).attr('id');
-	updateTaskPgContent(true);
+    currentTask = $(this).attr('id');
+    updateTaskPgContent(true);
 });
 
 $(document).on('click', '#addNew', function(e) {
-	addNewTaskItem();
+    addNewTaskItem();
 });
 
-$(document).on('click','#submitVideo', function(e){
-  var videoInputURL = $('#videoURL').val();
-  var iframe = $('iframe').attr('src', videoInputURL);
+$(document).on('click', '#submitVideo', function(e) {
+    var videoInputURL = $('#videoURL').val();
+    var iframe = $('iframe').attr('src', videoInputURL);
 })
 
 // use new index of carousel to update page content
 $(document).on('slide.bs.carousel', '.carousel', function(e) {
-	var slideFrom = $(this).find('.active').index();
-	var slideTo = $(e.relatedTarget).index();
-	// console.log(slideFrom+' => '+slideTo);
+    var slideFrom = $(this).find('.active').index();
+    var slideTo = $(e.relatedTarget).index();
+    // console.log(slideFrom+' => '+slideTo);
     currentTask = slideTo - 2;
     updateTaskPgContent();
 });
 
 
 // GENERAL TASK MANIPULATION
-function addNewTaskItem(){
-	if (currentTask == 0) { 
-		// ???
-	} else if (currentTask == 2) {
-		createNewAnnouncement();
-	} 
-}	
+function addNewTaskItem() {
+    if (currentTask == 0) {
+        // ???
+    } else if (currentTask == 2) {
+        createNewAnnouncement();
+    }
+}
 
-function updateTaskPgContent(indirect) {  
-	// move to new carousel item if tab, not carousel arrow, was clicked
-	if (indirect) {
-	 	$("#myCarousel").carousel(parseInt(currentTask));
-	}
-	
-	// update page title
-	if (currentTask == 0){
-		$(".task-name").text(TASKS[currentTask] + " for " + getDate());
-	} else {
-		$(".task-name").text(TASKS[currentTask]);	
-	}
+function updateTaskPgContent(indirect) {
+    // move to new carousel item if tab, not carousel arrow, was clicked
+    if (indirect) {
+        $("#myCarousel").carousel(parseInt(currentTask));
+    }
 
-	// activate element in secondary bar
-	$(".taskbar li>a").removeClass('active');
-	$(".taskbar li>a#" + currentTask).addClass('active');
+    // update page title
+    if (currentTask == 0) {
+        $(".task-name").text(TASKS[currentTask] + " for " + getDate());
+    } else {
+        $(".task-name").text(TASKS[currentTask]);
+    }
 
-	var newTaskButton = $('#addNew');
-	var newVideoButton = $('#addNewVideo');
-	var dateButton = $('#dateButton');
-	var searchText = $('#searchText')[0]; 
+    // activate element in secondary bar
+    $(".taskbar li>a").removeClass('active');
+    $(".taskbar li>a#" + currentTask).addClass('active');
 
-	if (currentTask == 0) { 
-		searchText.placeholder = "Search dancers...";
+    var newTaskButton = $('#addNew');
+    var newVideoButton = $('#addNewVideo');
+    var dateButton = $('#dateButton');
+    var searchText = $('#searchText')[0];
 
-		newVideoButton.hide();
-		newTaskButton.show();
-		// newTaskButton.find('p').text('Add member');
-		// dateButton.find('p').text('Choose date');
-	} else if (currentTask == 1) { 
-		searchText.placeholder = "Search videos...";
+    if (currentTask == 0) {
+        searchText.placeholder = "Search dancers...";
 
-		newVideoButton.show();
-		newTaskButton.hide();
-		// dateButton.find('p').text('Filter by date');
-	} else if (currentTask == 2) {
-		searchText.placeholder = "Search announcements...";
+        newVideoButton.hide();
+        newTaskButton.show();
+        // newTaskButton.find('p').text('Add member');
+        // dateButton.find('p').text('Choose date');
+    } else if (currentTask == 1) {
+        searchText.placeholder = "Search videos...";
 
-		newVideoButton.hide();
-		newTaskButton.show();
-		// newTaskButton.find('p').text('Add announcement');
-		// dateButton.find('p').text('Filter by date');
-	}	
+        newVideoButton.show();
+        newTaskButton.hide();
+        // dateButton.find('p').text('Filter by date');
+    } else if (currentTask == 2) {
+        searchText.placeholder = "Search announcements...";
+
+        newVideoButton.hide();
+        newTaskButton.show();
+        // newTaskButton.find('p').text('Add announcement');
+        // dateButton.find('p').text('Filter by date');
+    }
 }
 
 
 // UTILITIES
 // return date in mm/dd/yy hh:mm starting form
 function getDate(time_included) {
-	var n =  new Date();
-	var y = n.getFullYear();
-	var m = n.getMonth() + 1;
-	var d = n.getDate();
-	var date = m + "/" + d + "/" + y;
+    var n = new Date();
+    var y = n.getFullYear();
+    var m = n.getMonth() + 1;
+    var d = n.getDate();
+    var date = m + "/" + d + "/" + y;
 
-	if (time_included) {
-		h = n.getHours();
-		min = n.getMinutes();
-		if (h >= 13) {
-			ap = 'pm';
-			h -= 12;
-		} else {
-			ap = 'am';
-		}
+    if (time_included) {
+        h = n.getHours();
+        min = n.getMinutes();
+        if (h >= 13) {
+            ap = 'pm';
+            h -= 12;
+        } else {
+            ap = 'am';
+        }
 
-		if (min < 10) {
-			min = '0' + min;
-		}
+        if (min < 10) {
+            min = '0' + min;
+        }
 
-		var time = " " + h + ":" + min + ap;
-		return date + time;
-	};
+        var time = " " + h + ":" + min + ap;
+        return date + time;
+    };
 
-	return date;
+    return date;
 }
-
-

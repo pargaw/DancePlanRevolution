@@ -1,182 +1,186 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>dpr: dance plan revolution</title>
 
-        <!-- mobile-aware viewport -->
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+    <meta charset="utf-8">
+    <title>dpr: dance plan revolution</title>
 
-        <!-- stylesheets -->
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/task.css">
+    <!-- mobile-aware viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- JS -->
-        <!-- firebase for database and storage -->
-        <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
-        <script src="js/firebase-credentials.js"></script>
+    <!-- stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/task.css">
 
-        <!-- jquery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- JS -->
+    <!-- firebase for database and storage -->
+    <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+    <script src="js/firebase-credentials.js"></script>
 
-        <!-- local scripts -->
-        <script src="js/attendance.js"></script> 
-        <script src="js/announcements.js"></script> 
-        <script src="js/videos.js"></script> 
-        <script src="js/task.js"></script> 
-    </head>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-    <body>
-        <!-- Modal for video upload -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Input Video URL</h4>
+    <!-- local scripts -->
+    <script src="js/attendance.js"></script>
+    <script src="js/announcements.js"></script>
+    <script src="js/videos.js"></script>
+    <script src="js/task.js"></script>
+</head>
+
+<body>
+    <!-- Modal for video upload -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Input Video URL</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="videoForm" data-toggle="validator" role="form">
+                        <div class="form-group">
+                            <div id="date"></div>
+                            <!--TODO: check for others with same id -->
+                            <input type="text" name="src" id="videoURL" required><br>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="uploadedVideo()" data-dismiss="modal" type="submit" id="submitVideo" disabled="disabled">Upload</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <button id='home' type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-home"></span>
+            </button> -->
+
+    <!-- Navbar -->
+    <nav class="navbar-default">
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item">
+                <a class="navbar-brand" href="#">dpr</a>
+            </li>
+            <li class="nav-item">
+                <form class="form-search form-inline">
+                    <input id="searchText" type="text" class="form-control search-query" placeholder="Search..." />
+                </form>
+            </li>
+            <li class="nav-item dance-group">
+                <a class="nav-link" href="#"></a>
+            </li>
+        </ul>
+    </nav>
+    <!-- Secondary navbar for task pages -->
+    <nav class="navbar">
+        <ul class="taskbar nav nav-pills nav-fill">
+            <li class="nav-item">
+                <a class="nav-link" id="0" href="#">Attendance</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="1" href="#">Videos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="2" href="#">Announcements</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- Carousel with task info -->
+    <container id="carousel">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <div id="myCarousel" class="carousel">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <!-- Page title -->
+                <div class="panel panel-default" id="panel-title">
+                    <h4 class="panel-body task-name"></h4>
+                </div>
+                <!-- Add New and Filter By-->
+                <div class="container topButtons">
+                    <div class="row justify-content-md-center">
+                        <div class="col-12 col-md-auto">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" id="addNew">
+                                        <span class="glyphicon glyphicon-plus-sign">
+                                        <link href="icons/green_plus.ico" rel="shortcut icon" type="image/x-icon" />
+                                    </button>
+                                <!-- Trigger the modal with a button -->
+                                <button type="button" class="btn btn-default" id="addNewVideo" data-toggle="modal" data-target="#myModal">
+                                    <span class="glyphicon glyphicon-plus-sign"> </span>
+                                    </button>
+                                <button type="button" class="btn btn-default" id="dateButton" background-color="green">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <form id="videoForm" data-toggle="validator" role="form">
+                </div>
+                <!-- Attendance -->
+                <div class="item active">
+                    <div id="savedToast" style="float:right">Saved!</div>
+                    <div class="Attendance" id="attend">
+                        <table id="myTable" align="center"></table>
+                    </div>
+                    <button id="saveButton" style="float:right" class="btn btn-primary" onclick="saveAttendance()">Save</button>
+                </div>
+                <!-- Videos -->
+                <div class="item">
+                    <div class="videos">
+                        <table id="myTable" align="center">
+                            <!-- List of announcements are loaded dynamically -->
+                            <div id="videoDisplay">
+                                <iframe src="" width="100%" frameborder="0" allowfullscreen id="iframeVideo"></iframe>
+                            </div>
+                        </table>
+                    </div>
+                    <div id="doneUpload" style="float:center">Done!</div>
+                </div>
+                <!-- Announcements -->
+                <div class="item">
+                    <div id="sentToast" style="float:right">Sent announcement to dance team!</div>
+                    <div class="announcements">
+                        <form id="newAnnouncement" data-toggle="validator" role="form">
                             <div class="form-group">
-                                <div id="date"></div>
-                                <!--TODO: check for others with same id -->
-                                <input type="text" name="src" id="videoURL" required><br>
+                                <div id="dateHeader"></div>
+                                <div class="form-group">
+                                    <div id="inputText">
+                                        <textarea class="form-control" rows="5" id="announcementInp" placeholder="Type announcement here..." data-minlength="15" required></textarea>
+                                        <div class="help-block with-errors">Minimum of 15 characters, please!</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="text-right">
+                                        <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
+                                        <button id="doneButton" type="submit" class="btn btn-primary">Post</button>
+                                    </div>
+                                </div>
                             </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="uploadedVideo()" data-dismiss="modal" type="submit" id ="submitVideo" disabled="disabled">Upload</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <div id="announcements">
+                            <!-- announcements loaded dynamically -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- <button id='home' type="button" class="btn btn-default">
-            <span class="glyphicon glyphicon-home"></span>
-            </button> -->
-
-        <!-- Navbar --> 
-        <nav class="navbar-default">
-            <ul class="nav nav-pills nav-fill">
-                <li class="nav-item">
-                    <a class="navbar-brand" href="#">dpr</a>
-                </li>
-                <li class="nav-item">
-                    <form class="form-search form-inline">
-                        <input id="searchText" type="text" class="form-control search-query" placeholder="Search..." />
-                    </form>
-                </li>
-                <li class="nav-item dance-group">
-                    <a class="nav-link" href="#"></a> 
-                </li>
-            </ul>
-        </nav>
-        <!-- Secondary navbar for task pages -->
-        <nav class="navbar">
-            <ul class="taskbar nav nav-pills nav-fill">
-                <li class="nav-item">
-                    <a class="nav-link" id="0" href="#">Attendance</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="1" href="#">Videos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="2" href="#">Announcements</a>
-                </li>
-            </ul>
-        </nav>
-        <!-- Carousel with task info -->
-        <container id="carousel">
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-            <div id="myCarousel" class="carousel">
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner" role="listbox">
-                    <!-- Page title -->
-                    <div class="panel panel-default" id="panel-title">
-                        <h4 class="panel-body task-name"></h4>
-                    </div>
-                    <!-- Add New and Filter By-->
-                    <div class="container topButtons">
-                        <div class="row justify-content-md-center">
-                            <div class="col-12 col-md-auto">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-default" id="addNew">
-                                        <span class="glyphicon glyphicon-plus-sign">
-                                        <link href="icons/green_plus.ico" rel="shortcut icon" type="image/x-icon" />
-                                    </button>
-                                    <!-- Trigger the modal with a button -->
-                                    <button type="button" class="btn btn-default" id="addNewVideo" data-toggle="modal" data-target="#myModal">
-                                    <span class="glyphicon glyphicon-plus-sign"> </span>
-                                    </button>  
-                                    <button type="button" class="btn btn-default" id="dateButton" background-color="green">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Attendance -->
-                    <div class="item active">
-                        <div id="savedToast" style="float:right">Saved!</div>
-                        <div class="Attendance" id="attend" >
-                            <table id="myTable" align="center"></table>
-                        </div>
-                        <button id="saveButton" style="float:right" class="btn btn-primary" onclick="saveAttendance()">Save</button>
-                    </div>
-                    <!-- Videos -->
-                    <div class="item">
-                        <div class="videos">
-                            <table id="myTable" align="center">
-                                <!-- List of announcements are loaded dynamically -->
-                                <div id="videoDisplay">
-                                    <iframe src="" width="100%" frameborder="0" allowfullscreen id="iframeVideo"></iframe>
-                                </div>
-                            </table>
-                        </div>
-                        <div id="doneUpload" style="float:center">Done!</div>
-                    </div>
-                    <!-- Announcements -->    
-                    <div class="item">
-                        <div id="sentToast" style="float:right">Sent announcement to dance team!</div>
-                        <div class="announcements">
-                            <form id="newAnnouncement" data-toggle="validator" role="form">
-                                <div class="form-group">
-                                    <div id="dateHeader"></div>
-                                    <div class="form-group">
-                                        <div id="inputText">
-                                            <textarea class="form-control" rows="5" id="announcementInp" placeholder="Type announcement here..." data-minlength="15" required></textarea>
-                                            <div class="help-block with-errors">Minimum of 15 characters, please!</div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="text-right">
-                                            <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
-                                            <button id="doneButton" type="submit" class="btn btn-primary">Post</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                            <div id="announcements"><!-- announcements loaded dynamically --></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            </div>
-            <!-- Left and right controls -->
-            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        </div>
+        </div>
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
-            </a> 
-            </div>
-        </container>
-    </body>
+        </a>
+        </div>
+    </container>
+</body>
+
 </html>

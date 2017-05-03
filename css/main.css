@@ -1,5 +1,5 @@
 /*
-This CSS is for ALL pages thus far, and should be loaded first.
+Styling for ALL pages thus far, so it must be loaded first!
 */
 
 /* COLOR SCHEME */
@@ -10,12 +10,10 @@ This CSS is for ALL pages thus far, and should be loaded first.
 */
 
 
-
 /* FONT */
 body {
     font-family: 'Lato';
 }
-
 
 
 /* SEARCH BAR */
@@ -26,7 +24,7 @@ input.search-query {
 
 form.form-search {
     position: relative;
-    margin: 0; 
+    margin: 0;
 }
 
 form.form-search:before {
@@ -52,10 +50,6 @@ form.form-search:before {
     margin-bottom: 0;
 }
 
-hr { 
+hr {
     margin-top: 0;
 }
-
-
-
-

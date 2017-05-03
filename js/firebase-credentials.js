@@ -9,7 +9,7 @@ var config = {
 };
 
 var danceApp = firebase.initializeApp(config);
-console.log(danceApp.name);  // "[DEFAULT]" sanity check
+console.log(danceApp.name); // "[DEFAULT]" sanity check
 
 var danceStorage = danceApp.storage();
 var danceDatabase = danceApp.database();
