@@ -3,24 +3,30 @@ Announcement/video/attendance styling ONLY
 */
 
 /* SECONDARY NAVBAR */
-.nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
-    color: #23527c;
+.taskbar a {
+    color: black;
+} 
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active,
+.taskbar li>a:focus,
+.taskbar li>a:hover,
+.taskbar li>a:active {
+    color: black;
     background-color: transparent;
-    border-bottom: 3px solid #23527c;
+    border-bottom: 3px solid black;
     outline: none;
     border-radius: 0px;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+    font-weight: 500;    
 }
 
 .taskbar {
     border-bottom: 1px solid gray;
 }
-
-.taskbar li>a:focus, .taskbar li>a:hover, .taskbar li>a:active {
-    background-color: transparent;
-    border-bottom: 2px solid #23527c;
-    outline: none;
-}
-
 
 
 /* ADD AND FILTER BUTTONS */
@@ -29,13 +35,21 @@ Announcement/video/attendance styling ONLY
     margin-bottom: 20px;
 }
 
-.topButtons button {
-    font-size: 11px;
+.topButtons img {
+    width: 25%;
+}
+
+.topButtons img:hover {
+    cursor: pointer;
 }
 
 .topButtons p {
     display: inline;
     margin-right: 10px;
+}
+
+#addNew, #addNewVideo {
+    margin-right: 25px;
 }
 
 #addNewVideo {
@@ -132,6 +146,7 @@ Announcement/video/attendance styling ONLY
     position:fixed;
     right:0;
 }
+
 #editBtn{
     width: 25px;
     height: 25px;

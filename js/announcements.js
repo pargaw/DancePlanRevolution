@@ -76,7 +76,7 @@ function sentAnnouncement() {
     x.style.visibility = "visible";
     setTimeout(function() {
         x.style.visibility = "hidden";
-    }, 800);
+    }, 900);
 }
 
 
@@ -106,13 +106,15 @@ function getAnnouncementTemplate(date, msg) {
 
 
     // for editing the announcements
-    var input = document.createElement('input');
+    var input = document.createElement('textarea');
     input.id = "inputTxt" + messageNum;
+    input.className = 'form-control';
     input.style.display = "none";
 
     var update = document.createElement("BUTTON");
     update.id = "updateButton" + messageNum;
-    update.innerHTML = "Update Announcement";
+    update.innerHTML = "Update";
+    update.className = 'btn';
     update.style.display = "none";
 
     announcementDiv.appendChild(input);
@@ -121,7 +123,7 @@ function getAnnouncementTemplate(date, msg) {
     var editButton = document.createElement("BUTTON");
     editButton.id = "editBtn";
     editButton.className = "editBtn" + messageNum;
-    editButton.innerHTML = '<img src="img/edit.png" id="imgBtn"/>';
+    editButton.innerHTML = '<img src="img/green_edit.png" id="imgBtn"/>';
 
     editButton.onclick = function() {
         if (!editing) {
@@ -133,6 +135,7 @@ function getAnnouncementTemplate(date, msg) {
 
             var oldVal = document.getElementById("message" + num).innerHTML;
             document.getElementById("inputTxt" + num).placeholder = oldVal;
+            document.getElementById("inputTxt" + num).innerHTML = oldVal;
 
             document.getElementById("message" + num).innerHTML = "";
 
