@@ -62,23 +62,25 @@
 
     <!-- Navbar -->
     <nav class="navbar-default">
-        <ul class="nav nav-pills nav-fill">
-            <li class="nav-item">
-                <a class="navbar-brand" href="#">dpr</a>
+        <ul class="nav nav-pills nav-fill nav-center">
+            <li class="nav-item"> 
+                <a href="#">
+                  <span class="glyphicon glyphicon-home"></span> dpr
+                </a>
             </li>
             <li class="nav-item">
                 <form class="form-search form-inline">
-                    <input id="searchText" type="text" class="form-control search-query" placeholder="Search..." />
+                    <input id="searchText" type="text" class="form-control search-query"/>
                 </form>
             </li>
             <li class="nav-item dance-group">
-                <a class="nav-link" href="#"></a>
+                <a href="#"></a>
             </li>
         </ul>
     </nav>
     <!-- Secondary navbar for task pages -->
     <nav class="navbar">
-        <ul class="taskbar nav nav-pills nav-fill">
+        <ul class="taskbar nav nav-pills nav-fill nav-center">
             <li class="nav-item">
                 <a class="nav-link" id="0" href="#">Attendance</a>
             </li>
@@ -94,6 +96,16 @@
     <container id="carousel">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <div id="myCarousel" class="carousel">
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
                 <!-- Page title -->
@@ -161,20 +173,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        </div>
-        </div>
-        <!-- Left and right controls -->
-        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-        </div>
+            </div> 
+        </div> 
     </container>
 </body>
 

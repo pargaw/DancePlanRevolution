@@ -20,14 +20,8 @@ Announcement/video/attendance styling ONLY
     font-weight: 500;    
 }
 
-.taskbar>li {
-    display: inline-block;
-    float: none;
-}
-
 .taskbar {
     border-bottom: 1px solid gray;
-    text-align: center;
 }
 
 .taskbar a {
