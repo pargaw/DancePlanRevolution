@@ -31,24 +31,6 @@ Announcement/video/attendance styling ONLY
 
 
 /* ADD AND FILTER BUTTONS */
-.topButtons {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.topButtons img {
-    width: 25%;
-}
-
-.topButtons img:hover {
-    cursor: pointer;
-}
-
-.topButtons p {
-    display: inline;
-    margin-right: 10px;
-}
-
 #addNew, #addNewVideo {
     margin-right: 25px;
 }
@@ -174,19 +156,4 @@ Announcement/video/attendance styling ONLY
     padding: 10px;
     z-index: 1;
     font-size: 15px;
-}
-
-
-
-/* FLOATING HOME BUTTON */
-#home {
-    position: fixed; 
-    bottom: 20px;
-    right: 20px;
-    border-radius: 50%;
-    border: 2px solid blue;
-}
-
-#home span {
-    font-size: 20px;
 }
