@@ -2,11 +2,7 @@
 Announcement/video/attendance styling ONLY
 */
 
-/* SECONDARY NAVBAR */
-.taskbar a {
-    color: black;
-} 
-
+/* SECONDARY NAVBAR */ 
 .nav-pills .nav-item.show .nav-link,
 .nav-pills .nav-link.active,
 .taskbar li>a:focus,
@@ -24,9 +20,20 @@ Announcement/video/attendance styling ONLY
     font-weight: 500;    
 }
 
+.taskbar>li {
+    display: inline-block;
+    float: none;
+}
+
 .taskbar {
     border-bottom: 1px solid gray;
+    text-align: center;
 }
+
+.taskbar a {
+    color: black;
+} 
+
 
 
 /* ADD AND FILTER BUTTONS */
