@@ -74,7 +74,7 @@ function showSentToast() {
     x.style.visibility = "visible";
     setTimeout(function() {
         x.style.visibility = "hidden";
-    }, 900);
+    }, 1000);
 }
 
 
