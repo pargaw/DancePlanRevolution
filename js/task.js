@@ -63,6 +63,21 @@ $(document).on('click', '#addNew', function(e) {
     addNewTaskItem();
 });
 
+$(document).ready(function() {
+    // choose new date for a task
+    $("#datepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        showOn: 'both',
+        buttonImage: 'img/calendar.png',
+        buttonImageOnly: true,  
+        onSelect: function(dateText, inst) { 
+            var newDate = dateText.replace(/\//g, '-');
+            return changeDate(newDate);
+        }
+    });
+});
+
 $(document).on('click', '#submitVideo', function(e) {
     var videoInputURL = $('#videoURL').val();
     var iframe = $('iframe').attr('src', videoInputURL);
@@ -84,6 +99,16 @@ function addNewTaskItem() {
         // ???
     } else if (currentTask == 2) {
         createNewAnnouncement();
+    }
+}
+
+function changeDate(date) { 
+    if (currentTask == 0) {
+        reloadAttendance(date);
+    } else if (currentTask == 1) {
+        
+    } else {
+
     }
 }
 
@@ -135,19 +160,30 @@ function updateTaskPgContent(indirect) {
 
 // UTILITIES
 // return date in mm/dd/yy hh:mm starting form
-function getDate(time_included) {
-    var n = new Date();
-    var y = n.getFullYear();
-    var m = n.getMonth() + 1;
-    var d = n.getDate();
-    var date = m + "/" + d + "/" + y;
+function getDate(time_included, delimiter) {
+    var n = new Date(); 
+    // 01, 02, 03, ... 29, 30, 31
+    var dd = (n.getDate() < 10 ? '0' : '') + n.getDate();
+    // 01, 02, 03, ... 10, 11, 12
+    var mm = ((n.getMonth() + 1) < 10 ? '0' : '') + (n.getMonth() + 1);
+    // 1970, 1971, ... 2015, 2016, ...
+    var yy = n.getFullYear();
+
+    // firebase doesn't like keys with slashes,
+    // so for attendance, we can save with hyphens instead
+    if (delimiter) {
+        var date = mm + delimiter + dd + delimiter + yy;
+    } else {
+        var date = mm + "/" + dd + "/" + yy;
+    }
+
 
     if (time_included) {
-        h = n.getHours();
+        hr = n.getHours();
         min = n.getMinutes();
-        if (h >= 13) {
+        if (hr >= 13) {
             ap = 'pm';
-            h -= 12;
+            hr -= 12;
         } else {
             ap = 'am';
         }
@@ -156,9 +192,18 @@ function getDate(time_included) {
             min = '0' + min;
         }
 
-        var time = " " + h + ":" + min + ap;
+        var time = " " + hr + ":" + min + ap;
         return date + time;
     };
 
     return date;
+}
+
+// get list of all members across all dance groups
+function getMembers(){
+    var membersRef = danceDatabase.ref('groups/' + currentDanceGroup + '/members/');
+    membersRef.on("value", function(snapshot) {
+        var members = snapshot.val();
+        return members;
+    });
 }

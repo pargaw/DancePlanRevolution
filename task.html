@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/task.css">
 
@@ -22,13 +23,13 @@
 
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <!-- local scripts -->
-    <script src="js/attendance.js"></script>
     <script src="js/announcements.js"></script>
     <script src="js/videos.js"></script>
     <script src="js/task.js"></script>
+    <script src="js/attendance.js"></script>
 </head>
 
 <body>
@@ -119,7 +120,8 @@
                                 <!-- Trigger the modal with a button -->
                                 <img id="addNewVideo" src="img/green_plus.png" data-toggle="modal" data-target="#myModal"> 
 
-                                <img id="dateButton" src="img/calendar.png"> 
+                                <!-- <img id="datepicker" src="img/calendar.png">  -->
+                                <input type="hidden" id="datepicker">
                             </div>
                         </div>
                     </div>

@@ -1,105 +1,142 @@
-//put member dictionary into local storage
-if (localStorage.getItem('memberDict') == null) {
-    localStorage.setItem("memberDict", JSON.stringify({
-        'Beth': 0,
-        'Rob': 0,
-        'Stefanie': 0,
-        'David': 0
-    }));
+// GLOBALS
+var hyphen_delimited_date = getDate(false, '-'); // '05-01-2017'
+
+//get relative server paths
+var full_path = location.pathname;
+var path = full_path.substr(0, full_path.lastIndexOf("/") + 1);
+
+
+// on date change, update attendance display
+function reloadAttendance(newDate) {
+    hyphen_delimited_date = newDate;
+    $(".task-name").text(TASKS[currentTask] + " for " + hyphen_delimited_date);
+    setupMembers();
 }
 
-var memberDict1 = JSON.parse(window.localStorage.getItem("memberDict"));
-var members = Object.keys(memberDict1);
+function setupMembers() { 
+    $('#myTable').empty();
+    var t = document.getElementById('myTable'); 
 
-function setupMembers() {
-    var t = document.getElementById('myTable');
+    return danceDatabase.ref('attendance/' + currentDanceGroup + '/' + hyphen_delimited_date).once('value').then(function(snapshot) {
+        var attendance = snapshot.val(); 
+        var membersRef = danceDatabase.ref('groups/' + currentDanceGroup + '/members/');
+        // console.log(attendance);
 
-    var members = ['Beth', 'Rob', 'Stefanie', 'David']
+        membersRef.on("value", function(snapshot) {
+            var members = snapshot.val();
+            var numMembers = Object.keys(members).length;
+            // console.log(members, Object.keys(members), numMembers); 
 
-    var numrows = Math.ceil(members.length / 3.0);
-    var counter = 0;
+            var numRows = Math.ceil(numMembers / 3.0);
+            var counter = 0;
 
-    //get relative server paths
-    var full_path = location.pathname;
-    var path = full_path.substr(0, full_path.lastIndexOf("/") + 1);
+            for (var memberKey in members) {
+                if (members.hasOwnProperty(memberKey)) {
+                    // console.log(memberKey + " -> " + members[memberKey]);
+                    var memberRef = danceDatabase.ref('members/' + memberKey);
 
-    for (var i = 0; i < numrows; i++) {
-        var tr = t.insertRow();
-        for (var j = 0; j < 3; j++) {
-            if (counter < members.length) {
-                //add member image to table
-                var tdMem = tr.insertCell();
-                var figMem = document.createElement("FIGURE");
-                figMem.setAttribute("id", "fig" + counter); 
+                    // retrieve and set up data for each group ember
+                    memberRef.on("value", function(snapshot) {
+                        var memberData = snapshot.val();
+                        var kerberos = memberData.kerberos;
+                        var name = memberData.name;
+                        var imgURL = memberData.photo;
 
-                var member = document.createElement("IMG");
-                member.setAttribute("src", path + "img/" + members[counter] + ".jpg");
-                member.setAttribute("id", "member" + counter);
-                member.width = "80";
-                member.height = "80";
-                member.style.borderRadius = "50%";
-                member.style.position = "relative";
+                        // make new row for every 3 people
+                        if (counter % 3 == 0) {
+                            tr = t.insertRow();
+                        } 
 
-                var check = document.createElement("IMG");
-                check.src = path + "img/green_checkmark.png";
-                check.setAttribute("class", "checkmark");
-                check.style.width = member.width + 'px';
-                check.style.height = member.height + 'px';
-                check.style.opacity = 0;
+                        // make td with figure of img, caption, checkmark per member
+                        var tdMem = document.createElement("TD");
+                        var figMem = document.createElement("FIGURE");
+                        var member = document.createElement("IMG");
 
-                check.setAttribute("id", "check" + counter);
-                check.onclick = function() {
-                    changeOpacity(this.id);
-                };
+                        figMem.setAttribute("id", "fig_" + kerberos); 
 
-                figMem.appendChild(member);
-                figMem.appendChild(check);
-                tdMem.appendChild(figMem);
+                        imgPath = imgURL ? imgURL : path + "img/no-user-img.jpg";
+                        member.setAttribute("src", imgPath);
+                        member.setAttribute("id", 'img_' + kerberos);
+                        member.setAttribute("class", "member");
+                        member.width = "80";
+                        member.height = "80";
+                        member.style.borderRadius = "50%";
+                        member.style.position = "relative";
 
-                //update counter to new member
-                counter += 1;
 
+                        // set up checkmark that indicates absence/presence
+                        var check = document.createElement("IMG");
+                        check.src = path + "img/green_checkmark.png";
+                        check.setAttribute("class", "checkmark");
+                        check.style.width = member.width + 'px';
+                        check.style.height = member.height + 'px';
+                        check.style.opacity = 0;
+
+                        // how we indicate someone as present 
+                        if (attendance && attendance[kerberos]) {
+                            check.style.opacity = 0.5; 
+                        }
+
+                        // update attendance view
+                        check.setAttribute("id", "check_" + kerberos);
+                        check.onclick = function() {
+                            changeOpacity(this.id);
+                        };
+
+                        var caption = document.createElement("FIGCAPTION");
+                        var txt = document.createTextNode(name);
+                        caption.appendChild(txt);
+
+                        // create hierarchy of elements
+                        figMem.appendChild(member);
+                        figMem.appendChild(check);
+                        figMem.appendChild(caption);
+        
+                        tdMem.appendChild(figMem);
+                        tr.appendChild(tdMem);
+
+                        // update counter for table layout
+                        counter += 1; 
+                    });
+                }
             }
-        }
-    }
-    var div = document.getElementById("attend");
-    div.appendChild(t);
 
-    //add name to member pictures
-    for (var c = 0; c < members.length; c++) {
-        var caption = document.createElement("FIGCAPTION");
-        var txt = document.createTextNode(members[c]);
-        caption.appendChild(txt);
-        document.getElementById("fig" + c).appendChild(caption);
-    }
-
+            var div = document.getElementById("attend");
+            div.appendChild(t);
+        });
+    });
 }
 
-//hide and view check mark on member images
-function changeOpacity(id) {
-    var index = id.match(/([A-Za-z]+)([0-9]+)/)[2];
-    if (document.getElementById(id).style.opacity != "0") {
-        document.getElementById(id).style.opacity = "0";
+// hide or view checkmark on member images
+function changeOpacity(id) { 
+    var eltStyle = document.getElementById(id).style;
+
+    if (eltStyle.opacity != "0") {
+        eltStyle.opacity = "0";
     } else {
-        document.getElementById(id).style.opacity = "0.5";
+        eltStyle.opacity = "0.5";
     }
 }
 
 function saveAttendance() {
-    for (var c = 0; c < members.length; c++) {
-        var id = "check" + c;
-        if (document.getElementById(id).style.opacity == 0) {
-            memberDict1[members[c]] = 0;
-            localStorage.setItem("memberDict", JSON.stringify(memberDict1));
-        } else {
-            memberDict1[members[c]] = 1;
-            localStorage.setItem("memberDict", JSON.stringify(memberDict1));
-        }
-        //add saved toast 
-        var x = document.getElementById("savedToast");
-        x.style.visibility = "visible";
-        setTimeout(function() {
-            x.style.visibility = "hidden";
-        }, 800);
-    }
+    var newAttendance = {};
+
+    // use opacities of all checkmarks to determine who's present/absent
+    $("[id^=check]").each(function() {
+        var opacity = $(this).css('opacity'); 
+        var member = $(this).attr('id').substring('check_'.length);
+        newAttendance[member] = opacity != '0'; 
+    }); 
+
+    // save new attendance to db
+    var ref = danceDatabase.ref('attendance/' + currentDanceGroup + '/' + hyphen_delimited_date);
+    ref.set(newAttendance); 
+
+    // notify user of saved changes with toast 
+    var x = document.getElementById("savedToast");
+    x.style.visibility = "visible";
+    setTimeout(function() {
+        x.style.visibility = "hidden";
+    }, 800); 
 }
+

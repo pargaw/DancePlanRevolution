@@ -70,6 +70,7 @@ Announcement/video/attendance styling ONLY
 /* ATTENDANCE */
 #myTable td {
     padding: 3px 3px 20px 3px;
+    word-wrap: break-word;
 }
 
 #myTable img:hover {
@@ -80,6 +81,12 @@ Announcement/video/attendance styling ONLY
     text-align: center;
     position: relative;
 }
+
+/* NOTE: any bigger and the checkmark doesn't overlay properly anymore :( */
+#myTable figcaption {
+    font-size: 11px;
+}
+
 .checkmark {
     display: block;
     position: absolute; 
