@@ -67,6 +67,8 @@ $(document).on('keydown', 'input', function(e) {
     }
 });
 
+var currentDanceGroup;
+
 
 $(document).on('click', '.group-name h4', function(e) {
     console.log($(this));
@@ -75,9 +77,9 @@ $(document).on('click', '.group-name h4', function(e) {
     // update currentDanceGroup and localStorage accordingly
     // localStorage.clear();
     currentDanceGroup = $(this).attr('id');
-    if (currentDanceGroup) {
-        localStorage.setItem("currentDanceGroup", currentDanceGroup);
-    }
+    // if (currentDanceGroup) {
+    //     localStorage.setItem("currentDanceGroup", currentDanceGroup);
+    // }
     console.log(currentDanceGroup);
     window.location.href = 'task.html';
 });
