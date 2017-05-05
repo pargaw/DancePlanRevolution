@@ -75,11 +75,11 @@ $(document).on('click', '.group-name h4', function(e) {
 
     // TODO every time new dance group is chosen on main page,
     // update currentDanceGroup and localStorage accordingly
-    // localStorage.clear();
+    localStorage.clear();
     currentDanceGroup = $(this).attr('id');
-    // if (currentDanceGroup) {
-    //     localStorage.setItem("currentDanceGroup", currentDanceGroup);
-    // }
+    if (currentDanceGroup) {
+        localStorage.setItem("currentDanceGroup", currentDanceGroup);
+    }
     console.log(currentDanceGroup);
     window.location.href = 'task.html';
 });
