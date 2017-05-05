@@ -14,8 +14,8 @@ function reloadAttendance(newDate) {
 }
 
 function setupMembers() { 
-    $('#myTable').empty();
-    var t = document.getElementById('myTable'); 
+    $('#attendanceTable').empty();
+    var t = document.getElementById('attendanceTable'); 
 
     return danceDatabase.ref('attendance/' + currentDanceGroup + '/' + hyphen_delimited_date).once('value').then(function(snapshot) {
         var attendance = snapshot.val(); 
