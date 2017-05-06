@@ -39,20 +39,25 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Input Video URL</h4>
+                    <h4 class="modal-title">Upload your video</h4>
                 </div>
                 <div class="modal-body">
                     <form id="videoForm" data-toggle="validator" role="form">
                         <div class="form-group">
                             <div id="date"></div>
-                            <!--TODO: check for others with same id -->
-                            <input type="text" name="src" id="videoURL" required><br>
+                            <div style="margin-bottom: 20px">  
+                                <input type="text" name="src" id="videoURL" placeholder="Paste a video link here"><br> 
+                            </div>
+                            <div> Or upload from your computer 
+                                <button id="localUpload" class="btn btn-primary">Upload File</button> 
+                            </div>
+
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" onclick="uploadedVideo()" data-dismiss="modal" type="submit" id="submitVideo" disabled="disabled">Upload</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
@@ -137,10 +142,12 @@
                 <!-- Videos -->
                 <div class="item">
                     <div class="videos">
-                        <table id="myTable" align="center">
-                            <!-- List of announcements are loaded dynamically -->
-                            <div id="videoDisplay">
-                                <iframe src="" width="100%" frameborder="0" allowfullscreen id="iframeVideo"></iframe>
+                        <table id="videosTable" align="center">
+                            <!-- List of videos are loaded dynamically -->
+                            <div>
+                                <div class="panel-default" id="videoDisplay">
+                                    
+                                </div>
                             </div>
                         </table>
                     </div>

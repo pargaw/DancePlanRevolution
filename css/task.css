@@ -164,3 +164,21 @@ Announcement/video/attendance styling ONLY
     z-index: 1;
     font-size: 15px;
 }
+
+#videoDisplay{
+    width: 80%;
+    height: 80%;
+    margin: auto;
+}
+
+.modal-content{
+    padding: 15px;
+    background-color: #eee;
+    border: 5px dotted #ddd;
+    margin-bottom: 20px;
+
+}
+
+.videosDate{
+    
+}

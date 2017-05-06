@@ -46,14 +46,14 @@ function displayAllAnnouncements() {
 
     ref.on("value", function(snapshot) {
         var announcements = snapshot.val();
-        console.log(announcements);
+        // console.log(announcements);
         var announcement_list = Object.keys(announcements);
 
         // TODO note the backward iteration
         // must be consistent with display order of other tasks
         for (i = announcement_list.length; i--;) {
             var announcement = announcements[announcement_list[i]];
-            console.log(announcement);
+            // console.log(announcement);
 
             if (announcement) {
                 var date = announcement["date"];

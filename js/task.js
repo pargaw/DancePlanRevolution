@@ -78,10 +78,6 @@ $(document).ready(function() {
     });
 });
 
-$(document).on('click', '#submitVideo', function(e) {
-    var videoInputURL = $('#videoURL').val();
-    var iframe = $('iframe').attr('src', videoInputURL);
-})
 
 // use new index of carousel to update page content
 $(document).on('slide.bs.carousel', '.carousel', function(e) {
