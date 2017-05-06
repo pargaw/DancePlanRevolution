@@ -39,7 +39,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Upload your video</h4>
+                    <h4 class="modal-title">Upload video</h4>
                 </div>
                 <div class="modal-body">
                     <form id="videoForm" data-toggle="validator" role="form">
@@ -48,7 +48,7 @@
                             <div style="margin-bottom: 20px">  
                                 <input type="text" name="src" id="videoURL" placeholder="Paste a video link here"><br> 
                             </div>
-                            <div> Or upload from your computer 
+                            <div> Upload from your computer 
                                 <button id="localUpload" class="btn btn-primary">Upload File</button> 
                             </div>
 
@@ -135,7 +135,7 @@
                 <div class="item active">
                     <div id="savedToast" style="float:right">Saved!</div>
                     <div class="Attendance" id="attend">
-                        <table id="myTable" align="center"></table>
+                        <table id="attendanceTable" align="center"></table>
                     </div>
                     <button id="saveButton" style="float:right" class="btn btn-primary" onclick="saveAttendance()">Save</button>
                 </div>
@@ -145,8 +145,7 @@
                         <table id="videosTable" align="center">
                             <!-- List of videos are loaded dynamically -->
                             <div>
-                                <div class="panel-default" id="videoDisplay">
-                                    
+                                <div class="panel-default" id="videoDisplay">                          
                                 </div>
                             </div>
                         </table>
