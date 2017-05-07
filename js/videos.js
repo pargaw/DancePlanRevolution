@@ -1,4 +1,5 @@
 var VIDEOS = [];
+var FOLDERS = [];
 var idCount = 0;
 var folderID =0;
 
@@ -9,22 +10,36 @@ function checkURLValidity(input){
     else{return false;}
 }
 
+function displayAllVideos(){
+
+}
 //not detecting autocomplete at the moment 
 //from here: https://stackoverflow.com/questions/14631592/detecting-autofill-on-chrome
-$(document).ready(function(e){
-    setTimeout(function (evt) {
-    if ($('#videoURL:-webkit-autofill').val()) {
-        $('#videoURL').val() = $('#videoURL:-webkit-autofill').val();
-    }
-}, 1)
-});
-
 function pushVideoToStorage(src, date){
     VIDEOS.push({"src":src, "date": date, "folder": idCount})
 }
 
+
+$(document).on('click', '#addNewVideo', function(e) {
+    $('#newVideo').show();
+    $('#videoTextInput').show();
+    $('#videoButtons').show();
+    $('#videoURL').focus();
+});
+
 //after input, check and if correct input => remove the disabled look and let button be clicked
 $(document).ready(function(evt){
+    $('#videoTextInput').hide();
+    $('#videoButtons').hide();
+    displayAllVideos();
+    addFolderHTML("ed_sheeran_shape_of_you", "dance1_version1");
+    // as of right now it doesnt yet recognize the autofill properly
+    setTimeout(function (evt) {
+    if ($('#videoURL:-webkit-autofill').val()) {
+        $('#videoURL').val() = $('#videoURL:-webkit-autofill').val();
+        }  }, 1);
+
+
     $('#videoURL').on('keyup', function(){
         var input = $('#videoURL').val();
         if (checkURLValidity(input)) {
@@ -35,6 +50,9 @@ $(document).ready(function(evt){
                 addIframeVideo(src, date);
                 pushVideoToStorage(src, date);
                 $('#videoURL').val("");
+                $('#newVideo').hide();
+                $('#videoTextInput').hide();
+                $('#videoButtons').hide();
             });
         } else {
             $("#submitVideo").prop('disabled', true);
@@ -82,7 +100,8 @@ function createDateForVideo() {
 
 function addIframeVideo (src,date) {
     console.log("adding video", src);
-    $('<div class="panel panel-default"><div class="videoDates" style="position: relative">'+ date+'</div><div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe id="iframe'+ idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
+    $('<div class="panel panel-default"><div class="videoDates" style="position: relative">'+ date
+        +'</div><div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
         src+'"></iframe></div></div>').prependTo('#videoDisplay');
     idCount +=1;
 }
@@ -92,12 +111,13 @@ function makeVideoTemplate(){
 
 function pauseTheVideos(){
     for (i=0; i <= idCount-1; i++){
-        console.log(i, $('#iframe'+i).attr('src', $('#iframe'+i).attr('src')));
         $('#iframe'+i).attr('src', $('#iframe'+i).attr('src'));
     }
 }
 
-function addFolderHTML(folderID){
-    var rowhtml = '<div class="row"><div class="col-md-4" id="'+ folderID +'"></div></div>';
+// folder stuff
+function addFolderHTML(name, folderId){
+    $('<div class="panel panel-default folder-name"><div class="row"><h4 class="panel-body" id="' + folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px"></span>'+ name 
+        + '</h4></div> <button class="btn btn-primary"></button> </div>').prependTo('#videoFolders');
 }
-
+//<button class="editFolderButton" style="width:30px; height:30px"></button> 

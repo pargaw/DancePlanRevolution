@@ -2,14 +2,12 @@
 Control page for determining which content is displayed for given task
 */
 // GLOBALS
-var TASKS = ["Attendance", "Videos", "Announcements"]
+var TASKS = ["Attendance", "Video", "Announcements"]
 var currentTask = 0; // should be 0, 1, or 2, specifying one of the above tasks
 var currentDanceGroup = localStorage.getItem("currentDanceGroup");
 
 // SETUP
 function initializePage() {
-    console.log(currentDanceGroup);
-
     // stop automatic carousel movement 
     $("#myCarousel").carousel({
         pause: true,
@@ -19,7 +17,11 @@ function initializePage() {
     // set page title
     if (currentTask == 0) {
         $(".task-name").text(TASKS[currentTask] + " for " + getDate());
-    } else {
+    } else if(currentTask == 1){
+        console.log(TASKS[currentTask] + "folders ");
+        $(".task-name").text(TASKS[currentTask] + "folders ");
+    }
+    else {
         $(".task-name").text(TASKS[currentTask]);
     }
 
@@ -62,6 +64,7 @@ $(document).on('click', '.taskbar a', function(e) {
 $(document).on('click', '#addNew', function(e) {
     addNewTaskItem();
 });
+
 
 $(document).ready(function() {
     // choose new date for a task

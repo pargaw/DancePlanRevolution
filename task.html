@@ -33,36 +33,6 @@
 </head>
 
 <body>
-    <!-- Modal for video upload -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Upload video</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="videoForm" data-toggle="validator" role="form">
-                        <div class="form-group">
-                            <div id="date"></div>
-                            <div style="margin-bottom: 20px">  
-                                <input type="text" name="src" id="videoURL" placeholder="Paste a video link here"><br> 
-                            </div>
-                            <div> Upload from your computer 
-                                <button id="localUpload" class="btn btn-primary">Upload File</button> 
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" onclick="uploadedVideo()" data-dismiss="modal" type="submit" id="submitVideo" disabled="disabled">Upload</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Navbar -->
     <nav class="navbar-default">
         <ul class="nav nav-pills nav-fill nav-center">
@@ -123,7 +93,7 @@
                                 <img id="addNew" src="img/green_plus.png"> 
 
                                 <!-- Trigger the modal with a button -->
-                                <img id="addNewVideo" src="img/green_plus.png" data-toggle="modal" data-target="#myModal"> 
+                                <img id="addNewVideo" src="img/green_plus.png"> 
 
                                 <!-- <img id="datepicker" src="img/calendar.png">  -->
                                 <input type="hidden" id="datepicker">
@@ -131,26 +101,48 @@
                         </div>
                     </div>
                 </div>
+
+
                 <!-- Attendance -->
                 <div class="item active">
                     <div id="savedToast" style="float:right">Saved!</div>
-                    <div class="Attendance" id="attend">
-                        <table id="attendanceTable" align="center"></table>
-                    </div>
+                        <div class="Attendance" id="attend">
+                            <table id="attendanceTable" align="center"></table>
+                        </div>
                     <button id="saveButton" style="float:right" class="btn btn-primary" onclick="saveAttendance()">Save</button>
                 </div>
+
                 <!-- Videos -->
                 <div class="item">
-                    <div class="videos">
-                        <table id="videosTable" align="center">
-                            <!-- List of videos are loaded dynamically -->
-                            <div>
-                                <div class="panel-default" id="videoDisplay">                          
+                    <div id="videoFolders">
+
+                    </div>
+                <form id="newVideo" data-toggle="validator" role="form">
+                    <div class="form-group">
+                        <div id="dateVideo"></div>
+                        <div class="form-group">
+                            <div id="videoTextInput">
+                                <div class="input-group" style="margin-bottom: 20px">  
+                                    <input type="text" name="src" id="videoURL" placeholder="Paste a video link here"><br> 
                                 </div>
                             </div>
-                        </table>
+                        </div>
+                        <div class="form-group" id="videoButtons">
+                            <div class="text-right">
+                                <button type="button" class="btn btn-danger">Cancel</button>
+                                <button type="button" class="btn btn-primary" onclick="uploadedVideo()" type="submit" id="submitVideo" disabled="disabled">Post</button>
+                                <div id="doneUpload" style="float:center">Done!</div>
+                            </div>
+
+                        </div>
+                    <div> Upload from folder 
+                        <button id="localUpload" class="btn btn-primary">Upload File</button> 
                     </div>
-                    <div id="doneUpload" style="float:center">Done!</div>
+
+                    </div>
+
+                </form>
+                <div id="videoDisplay"></div>
                 </div>
                 <!-- Announcements -->
                 <div class="item">
