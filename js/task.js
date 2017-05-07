@@ -89,7 +89,7 @@ $(document).on('slide.bs.carousel', '.carousel', function(e) {
     var slideTo = $(e.relatedTarget).index();
     // console.log(slideFrom+' => '+slideTo);
     currentTask = slideTo - 2;
-    updateTaskPgContent();
+    // updateTaskPgContent();
 });
 
 
@@ -146,6 +146,8 @@ function updateTaskPgContent(indirect) {
 
         newVideoButton.show();
         newTaskButton.hide();
+
+        loadFolderNames();
         // dateButton.find('p').text('Filter by date');
     } else if (currentTask == 2) {
         searchText.placeholder = "Search announcements...";
@@ -174,7 +176,7 @@ function getDate(time_included, delimiter) {
     if (delimiter) {
         var date = mm + delimiter + dd + delimiter + yy;
     } else {
-        var date = mm + "/" + dd + "/" + yy;
+        var date = mm + "-" + dd + "-" + yy;
     }
 
 

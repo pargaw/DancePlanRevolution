@@ -142,6 +142,31 @@
                                 <iframe src="" width="100%" frameborder="0" allowfullscreen id="iframeVideo"></iframe>
                             </div>
                         </table>
+
+                        <div class="container" id="uploadForm">
+                            <form>
+                                <label class="btn btn-default customFileUpload">
+                                    <!-- insert multiple keyword if you want to allow multiple vids to be uploaded -->
+                                    <input type="file" id="uploadFile" onchange="chooseVideo()" accept="video/*"">Choose video from device
+                                </label>
+
+                                <label id='videoNameLabel'></label>   
+
+                                <!-- TODO http://stackoverflow.com/questions/36883037/generate-a-thumbnail-snapshot-of-a-video-file-selected-by-a-file-input-at-a-spec -->
+                                <!-- <canvas id="thumbnailCanvas"></canvas> -->
+
+                                <div class="form-group">
+                                    <label for="folders">Choose folder for video</label>
+                                    <select class="form-control" id="folders"></select> 
+                                    <input type="text" id="newFolder" placeholder="Type new folder name here..."> 
+                                </div>
+
+                                <div>
+                                    <button type="button" class="btn btn-primary" onclick="uploadVideoFromFile()" type="submit">Post</button>
+                                    <button type="button" class="btn btn-primary">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <div id="doneUpload" style="float:center">Done!</div>
                 </div>
