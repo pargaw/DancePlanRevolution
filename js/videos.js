@@ -1,44 +1,34 @@
-var SAMPLEVIDEOS = [{
-    "date": "02/03/2017",
-    "url": "https://www.youtube.com/watch?v=jkGAvU7LJSM"
-}];
+var VIDEOS = [];
+var FOLDERS = [];
+var idCount = 0;
+var folderID =0;
 
 var VALID_FILE_EXTS = ['avi', 'mov', 'mp4']
-var selectedFolder = ''; // 
+var selectedFolder = ''; 
 var file;
 
-//after input, check and if correct input => remove the disabled look and let button be clicked
-$(document).on('click', '.modal-content', function(e) {
-    var input = $('#videoURL').val();
+function checkURLValidity(input){
     var re = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
-    var link = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\/)/;
-    if (re.test(input)) {
-        $("#submitVideo").removeAttr('disabled')
-    } else {
-        $("#submitVideo").attr('disabled', 'disabled');
-    }
-})
+    var reEmbed = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/embed\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
+    if(re.test(input) || reEmbed.test(input)){return true;}
+    else{return false;}
+}
 
-$(document).on('click', '#submitVideo', function(e) {
-    var inputURL = $('#videoURL').val();
-    var re = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
-    var link = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\/)/;
-    if (!re.test(inputURL)) {
-        $("#submitVideo").attr('disabled', 'disabled');
-        $("#videoForm").effect("shake");
-        $('.modal-content').effect('shake');
-        inputCheckFalse();
-    } else {
-        var newinput = inputURL.replace(link, 'https://www.youtube.com/embed/');
-        $('#iframeVideo').attr('src', newinput);
-        var date = getDate();
-        uploadedVideo();
-        //{'date': date, 'url' : inputURL}
-        // localStorage.setItem('videos', Json.stringify(SAMPLEVIDEOS));
-        // var template = getVideoTemplate(date, inputURL);
-        // document.getElementById('display').prepend(template);
-    }
-    // var createdNewIframe = document.createElement('iframe'); //need to add new form
+function displayAllVideos(){
+}
+
+//not detecting autocomplete at the moment 
+//from here: https://stackoverflow.com/questions/14631592/detecting-autofill-on-chrome
+function pushVideoToStorage(src, date){
+    VIDEOS.push({"src":src, "date": date, "folder": idCount})
+}
+
+
+$(document).on('click', '#addNewVideo', function(e) {
+    $('#newVideo').show();
+    $('#videoTextInput').show();
+    $('#videoButtons').show();
+    $('#videoURL').focus();
 });
 
 $(document).on('change', 'select', function(e) {
@@ -193,8 +183,70 @@ function uploadVideoFromFile() {
     } 
 }
 
+//after input, check and if correct input => remove the disabled look and let button be clicked
+$(document).ready(function(evt){
+    $('#videoTextInput').hide();
+    $('#videoButtons').hide();
+    // displayAllVideos();
+    // addFolderHTML("ed_sheeran_shape_of_you", "dance1_version1");
+    // $("#dance1_version1").on('click', function(evt){
+        //dissapear the folder?
+    // });
 
-// do not work properly as 4/30/17
+
+    // as of right now it doesnt yet recognize the autofill properly
+    setTimeout(function (evt) {
+    if ($('#videoURL:-webkit-autofill').val()) {
+        $('#videoURL').val() = $('#videoURL:-webkit-autofill').val();
+    }  }, 1);
+
+
+    $('#videoURL').on('keyup', function(){
+        var input = $('#videoURL').val();
+        if (checkURLValidity(input)) {
+            var src = input.replace("https://www.youtube.com/watch?v=", "");
+            $("#submitVideo").prop('disabled', false);
+            $("#submitVideo").unbind('click').on('click', function(evt){
+                var date =  getDate(true);
+                addIframeVideo(src, date);
+                pushVideoToStorage(src, date);
+                $('#videoURL').val("");
+                $('#newVideo').hide();
+                $('#videoTextInput').hide();
+                $('#videoButtons').hide();
+            });
+        } else {
+            $("#submitVideo").prop('disabled', true);
+        }
+    });
+
+    $('#videoURL').on('keydown', function(evt){
+        if(evt.keyCode == 13){
+            console.log("am i pressing enter?>");
+            var input = $('#videoURL').val();
+            if (checkURLValidity(input)) {
+                var src = input.replace("https://www.youtube.com/watch?v=", "");
+                $("#submitVideo").prop('disabled', false);
+                $("#submitVideo").unbind('click').on('click', function(evt){
+                    var date = getDate(true);
+                    addIframeVideo(src, date);
+                    $('#videoURL').val("");
+                });
+            } else {
+                $("#submitVideo").prop('disabled', true);
+            }
+        }
+    })
+
+    $('.left.carousel-control').on('click', function(evt){
+        pauseTheVideos();
+    });
+
+    $('.right.carousel-control').on('click', function(evt){
+        pauseTheVideos();
+    });
+})
+
 function uploadedVideo() {
     var x = document.getElementById("doneUpload");
     x.style.visibility = "visible";
@@ -203,6 +255,30 @@ function uploadedVideo() {
     }, 1200);
 };
 
-function createNewVideo() {
+function createDateForVideo() {
     document.getElementById("date").innerHTML = "<h4>" + getDate() + "</h4>";
 }
+
+function addIframeVideo (src,date) {
+    console.log("adding video", src);
+    $('<div class="panel panel-default"><div class="videoDates" style="position: relative">'+ date
+        +'</div><div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
+        src+'"></iframe></div></div>').prependTo('#videoDisplay');
+    idCount +=1;
+}
+
+
+function pauseTheVideos(){
+    for (i=0; i <= idCount-1; i++){
+        $('#iframe'+i).attr('src', $('#iframe'+i).attr('src'));
+    }
+}
+
+// folder stuff
+function addFolderHTML(name, folderId){
+    $('<div class="panel panel-default folder-name"><div class="row"><h4 class="panel-body" id="' + folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name 
+        + '</h4></div></div>').prependTo('#videoFolders');
+}
+//<button class="editFolderButton" style="width:30px; height:30px"></button> 
+// <button class="btn btn-primary"></button> 
+
