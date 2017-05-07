@@ -33,6 +33,12 @@ $(document).ready(function(evt){
     $('#videoButtons').hide();
     displayAllVideos();
     addFolderHTML("ed_sheeran_shape_of_you", "dance1_version1");
+    $("#dance1_version1").on('click', function(evt){
+        //dissapear the folder?
+        
+    })
+
+
     // as of right now it doesnt yet recognize the autofill properly
     setTimeout(function (evt) {
     if ($('#videoURL:-webkit-autofill').val()) {
@@ -106,8 +112,6 @@ function addIframeVideo (src,date) {
     idCount +=1;
 }
 
-function makeVideoTemplate(){
-}
 
 function pauseTheVideos(){
     for (i=0; i <= idCount-1; i++){
@@ -117,7 +121,9 @@ function pauseTheVideos(){
 
 // folder stuff
 function addFolderHTML(name, folderId){
-    $('<div class="panel panel-default folder-name"><div class="row"><h4 class="panel-body" id="' + folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px"></span>'+ name 
-        + '</h4></div> <button class="btn btn-primary"></button> </div>').prependTo('#videoFolders');
+    $('<div class="panel panel-default folder-name"><div class="row"><h4 class="panel-body" id="' + folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name 
+        + '</h4></div></div>').prependTo('#videoFolders');
 }
 //<button class="editFolderButton" style="width:30px; height:30px"></button> 
+// <button class="btn btn-primary"></button> 
+
