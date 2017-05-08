@@ -119,14 +119,6 @@ Announcement/video/attendance styling ONLY
     border: 0;
 }
 
-#newAnnouncement {
-    padding: 15px;
-    display: none;
-    background-color: #eee;
-    border: 5px dotted #ddd;
-    margin-bottom: 20px;
-}
-
 #announcementInp {
     margin-bottom: 10px;
 }
@@ -151,6 +143,7 @@ Announcement/video/attendance styling ONLY
     font-size: 100%;
 }
 
+
 /* VIDEOS */
 input[type="file"] {
     display: none;
@@ -162,8 +155,6 @@ input[type="file"] {
     padding: 5px;
     /*display: none;*/
 }
-
-
 
 #newFolder, #fileUpload, #folderSelection {
     display: none;
@@ -196,34 +187,22 @@ input[type="file"] {
     margin: auto;
 }
 
-.modal-content{
-    padding: 15px;
-    background-color: #eee;
-    border: 5px dotted #ddd;
-    margin-bottom: 20px;
-
-}
-
-#newVideo {
-    padding: 15px;
-    display: none;
-    background-color: #eee;
-    border: 5px dotted #ddd;
-    margin-bottom: 20px;
-    display: none;
-}
-
 .panel.panel-default.folder-name{
     background-color: #eee;
     width: 500px;
     margin:auto;
 }
 
-#uploadOptions {
-    background-color: #eee;
-    border: 5px dotted #ddd;
+#uploadOptions { 
     padding: 20px 0;
-    font-size: 20px;
+    font-size: 20px; 
+}
+
+.formBackground {
+    background-color: #eee;
+    border: 5px dotted #ddd;   
+    padding: 15px;
+    margin-bottom: 20px;
     display: none; 
 }
 
