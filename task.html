@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/task.css">
 
@@ -22,10 +23,9 @@
 
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <!-- local scripts -->
-    <script src="js/attendance.js"></script>
     <script src="js/announcements.js"></script>
     <script src="js/videos.js"></script>
     <script src="js/task.js"></script>
@@ -58,7 +58,10 @@
             </div>
         </div>
     </div>
+    <script src="js/attendance.js"></script>
+</head>
 
+<body>
     <!-- Navbar -->
     <nav class="navbar-default">
         <ul class="nav nav-pills nav-fill nav-center">
@@ -122,16 +125,17 @@
                 </div>
 
                 <!-- Add New and Filter By-->
-                <div class="container topButtons">
-                    <div class="row justify-content-md-center">
-                        <div class="col-12 col-md-auto">
+                <div class="topButtons">
+                    <div class="row">
+                        <div class="col-xs-12">
                             <div class="btn-group" role="group">
                                 <img id="addNew" src="img/green_plus.png"> 
 
                                 <!-- Trigger the modal with a button -->
-                                <img id="addNewVideo" src="img/green_plus.png" data-toggle="modal" data-target="#myModal"> 
+                                <img id="addNewVideo" src="img/green_plus.png"> 
 
-                                <img id="dateButton" src="img/calendar.png"> 
+                                <!-- <img id="datepicker" src="img/calendar.png">  -->
+                                <input type="hidden" id="datepicker">
                             </div>
                         </div>
                     </div>
@@ -141,32 +145,104 @@
                 <!-- Attendance -->
                 <div class="item active">
                     <div id="savedToast" style="float:right">Saved!</div>
+
                     <div class="Attendance" id="attend">
-                        <table id="myTable" align="center"></table>
+                        <form class="formBackground" id="newMember" data-toggle="validator" role="form">
+                            <h4>Add a New Member</h4>
+                            
+                            <div class="form-group">
+                                <input type="text" class="formInput" id="addMemberKerberos" placeholder="Kerberos, e.g. davidbau" required>
+                                <!-- <div class="help-block with-errors">This field is required</div> -->
+                                <input type="text" class="formInput" id="addMemberName" placeholder="Full name, e.g. David Bau" required>
+                                <!-- <div class="help-block with-errors">This field is required</div> -->
+
+                                <label class="btn btn-default customFileUpload">
+                                    <!-- TODO issue: uploadFile is a special id needed by HTML file upload, but I already have another upload
+                                    button of the same id below... -->
+                                    <input type="file" id="uploadFile" onchange="choosePhoto()" accept="image/*"">Upload photo
+                                </label>
+
+                                <label id='memberImgLabel'></label>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="text-right">
+                                    <button id="cancelMemberButton" type="cancel" class="btn btn-danger">Cancel</button>
+                                    <button id="addMemberButton" type="submit" class="btn btn-primary">Add</button>
+                                </div>
+                            </div>
+                        </form> 
+
+                        <table id="attendanceTable" align="center"></table>
                     </div>
+                    
                     <button id="saveButton" style="float:right" class="btn btn-primary" onclick="saveAttendance()">Save</button>
                 </div>
 
-
                 <!-- Videos -->
                 <div class="item">
-                    <div class="videos">
-                        <table id="myTable" align="center">
-                            <!-- List of announcements are loaded dynamically -->
-                            <div id="videoDisplay">
-                                <iframe src="" width="100%" frameborder="0" allowfullscreen id="iframeVideo"></iframe>
-                            </div>
-                        </table>
-                    </div>
-                    <div id="doneUpload" style="float:center">Done!</div>
-                </div>
+                    <div id="videoFolders"></div> 
 
+                    <div class="container formBackground" id="uploadOptions">
+                        <div class="row">
+                            <div class="col-xs-6" id="localUpload">
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-upload"></span> Upload from device
+                                </a>
+                            </div> 
+
+                            <div class="col-xs-6" id="urlUpload">
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-link"></span> Upload from link
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+ 
+                    <form class="formBackground" id="newVideo" data-toggle="validator" role="form">
+                        <div class="container" id="videoUploadForm">
+                            <div id="videoTextInput">   
+                                <input type="text" class="formInput" name="src" id="videoURL" placeholder="Paste a video URL here..."><br> 
+                                <input type="text" class="formInput" id="videoNameInput" placeholder="Type video name here...">
+                            </div>
+
+                            <div id="fileUpload">
+                                <label class="btn btn-default customFileUpload">
+                                    <!-- insert multiple keyword if you want to allow multiple vids to be uploaded -->
+                                    <input type="file" id="uploadFile" onchange="chooseVideo()" accept="video/*"">Choose video from device
+                                </label>
+
+                                <label id='videoNameLabel'></label>
+
+                                <!-- TODO http://stackoverflow.com/questions/36883037/generate-a-thumbnail-snapshot-of-a-video-file-selected-by-a-file-input-at-a-spec -->
+                                <!-- <canvas id="thumbnailCanvas"></canvas> -->
+                            </div>
+
+                            <div class="form-group" id="folderSelection">
+                                <label for="folders">Choose folder for video</label>
+                                <select class="form-control" id="folders"></select> 
+                                <input type="text" class="formInput" id="newFolder" placeholder="Type new folder name here..."> 
+                            </div>
+
+                            <div class="form-group" id="videoButtons">
+                                <div class="text-right">
+                                    <button type="button" class="btn btn-danger" id="cancelVideoPost">Cancel</button>
+                                    <button type="button" class="btn btn-primary" onclick="postVideo()" type="submit" id="submitVideo" disabled="disabled">Post</button>
+                                    <div id="doneUpload" style="float:center">Done!</div>
+                                </div>
+                            </div> 
+                        </div>
+                    </form>
+
+                    <div id="videoDisplay"></div>
+                </div>
 
                 <!-- Announcements -->
                 <div class="item">
                     <div id="sentToast" style="float:right">Sent announcement to dance team!</div>
+                    
                     <div class="announcements">
-                        <form id="newAnnouncement" data-toggle="validator" role="form">
+                        <form class="formBackground" id="newAnnouncement" data-toggle="validator" role="form">
                             <div class="form-group">
                                 <div id="dateHeader"></div>
                                 <div class="form-group">

@@ -67,13 +67,15 @@ $(document).on('keydown', 'input', function(e) {
     }
 });
 
+var currentDanceGroup;
+
 
 $(document).on('click', '.group-name h4', function(e) {
     console.log($(this));
 
     // TODO every time new dance group is chosen on main page,
     // update currentDanceGroup and localStorage accordingly
-    // localStorage.clear();
+    localStorage.clear();
     currentDanceGroup = $(this).attr('id');
     if (currentDanceGroup) {
         localStorage.setItem("currentDanceGroup", currentDanceGroup);

@@ -82,18 +82,26 @@ Announcement/Video/Attendance styling ONLY
 }
 
 /* ATTENDANCE */
-#myTable td {
+#attendanceTable td {
     padding: 3px 3px 20px 3px;
+    word-wrap: break-word;
 }
 
-#myTable img:hover {
+#attendanceTable img:hover {
     cursor: pointer;
 }
 
-#myTable figure {
+#attendanceTable figure {
     text-align: center;
     position: relative;
 }
+
+/* NOTE: any bigger and the checkmark doesn't overlay properly anymore :( */
+#attendanceTable figcaption {
+    font-size: 11px;
+    text-align: center;
+}
+
 .checkmark {
     display: block;
     position: absolute; 
@@ -140,14 +148,6 @@ Announcement/Video/Attendance styling ONLY
     border: 0;
 }
 
-#newAnnouncement {
-    padding: 15px;
-    display: none;
-    background-color: #eee;
-    border: 5px dotted #ddd;
-    margin-bottom: 20px;
-}
-
 #announcementInp {
     margin-bottom: 10px;
 }
@@ -173,8 +173,31 @@ Announcement/Video/Attendance styling ONLY
 }
 
 
-
 /* VIDEOS */
+input[type="file"] {
+    display: none;
+}
+
+.formInput {
+    width: 100%;
+    margin: 10px 0;
+    padding: 5px;
+    /*display: none;*/
+}
+
+#newFolder, #fileUpload, #folderSelection {
+    display: none;
+}
+
+.customFileUpload {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 20px 10px 20px 0;
+    cursor: pointer;
+}
+
 #doneUpload {
     visibility: hidden;
     width: 50%;
@@ -189,4 +212,62 @@ Announcement/Video/Attendance styling ONLY
     left: 50%;
     transform: translate(-50%, -50%);
     position: fixed;
+    display: none;
+}
+
+#videoDisplay{
+    width: 80%;
+    height: 80%;
+    margin: auto;
+}
+
+.panel.panel-default.folder-name{
+    background-color: #eee;
+    width: 500px;
+    margin:auto;
+}
+
+#uploadOptions { 
+    padding: 20px 0;
+    font-size: 20px; 
+}
+
+.formBackground {
+    background-color: #eee;
+    border: 5px dotted #ddd;   
+    padding: 15px;
+    margin-bottom: 20px;
+    display: none; 
+}
+
+#localUpload {
+    /*float: left;*/
+    text-align: center;
+    vertical-align: middle;
+}
+
+#urlUpload {
+    /*float: right;*/
+    text-align: center;
+    vertical-align: middle;
+}
+
+.clearfix {
+    clear: both;
+}
+
+/*#editFolderButton{
+    width: 25px;
+    height: 25px;
+    position:absolute;
+    float: right;
+}
+*/
+#editFolderButton{
+    padding: 10px 10px 10px 36px;
+    font-family: "Trebuchet MS", Arial, Verdana;   
+    background: #e9e9e9 url('img/green_edit.png') 10px 10px no-repeat;
+    border-radius: 16px;
+    border: 1px solid #d9d9d9;
+    text-shadow: 1px 1px #fff;       
 }
