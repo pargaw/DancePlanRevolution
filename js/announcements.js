@@ -22,10 +22,12 @@ function addNewAnnouncement() {
             msg: msg
         });
 
+        var id = userRef.key;
+
         $('#announcementInp').val(null);
         $('#newAnnouncement').hide();
 
-        var template = getAnnouncementTemplate(date, msg);
+        var template = getAnnouncementTemplate(date, msg, id);
         document.getElementById('announcementsDisplay').prepend(template);
 
         //show toast of sent announcement
@@ -52,14 +54,15 @@ function displayAllAnnouncements() {
         // TODO note the backward iteration
         // must be consistent with display order of other tasks
         for (i = announcement_list.length; i--;) {
-            var announcement = announcements[announcement_list[i]];
+            var key = announcement_list[i];
+            var announcement = announcements[key];
             // console.log(announcement);
 
             if (announcement) {
                 var date = announcement["date"];
                 var msg = announcement["msg"];
 
-                var template = getAnnouncementTemplate(date, msg);
+                var template = getAnnouncementTemplate(date, msg, key);
                 announcementContainer.appendChild(template);
             }
         }
@@ -71,18 +74,13 @@ function displayAllAnnouncements() {
 function showSentToast() {
     // show toast of announcement has been sent 
     var x = document.getElementById("sentToast");
-    x.style.visibility = "visible";
+    x.style.display = "block";
     setTimeout(function() {
-        x.style.visibility = "hidden";
-    }, 1000);
+        x.style.display = "none";
+    }, 2000);
 }
 
-
-var editing = false;
-var messageNum = 0;
-
-function getAnnouncementTemplate(date, msg) {
-    messageNum += 1;
+function getAnnouncementTemplate(date, msg, messageId) {
     var dateDiv = document.createElement("div");
     var dateText = document.createElement("h5");
     dateText.innerHTML = date;
@@ -93,25 +91,26 @@ function getAnnouncementTemplate(date, msg) {
     msgDiv.appendChild(msgText);
 
     var announcementDiv = document.createElement("div");
-    dateDiv.id = "date";
+    dateDiv.id = "date" + messageId;
     announcementDiv.appendChild(dateDiv);
 
-    msgDiv.id = "message" + messageNum;
+    msgDiv.id = "message" + messageId;
     announcementDiv.appendChild(msgDiv);
 
     announcementDiv.className = "panel-body";
-    announcementDiv.id = "announDiv";
+    announcementDiv.id = "announDiv" + messageId;
 
 
     // for editing the announcements
     var input = document.createElement('textarea');
-    input.id = "inputTxt" + messageNum;
+    input.id = "inputTxt" + messageId;
+    console.log('input', input);
     input.className = 'form-control';
     input.style.display = "none";
 
     var update = document.createElement("BUTTON");
-    update.id = "updateButton" + messageNum;
-    update.innerHTML = "Update";
+    update.id = "updateButton" + messageId;
+    update.innerHTML = "Update post";
     update.className = 'btn';
     update.style.display = "none";
 
@@ -119,41 +118,17 @@ function getAnnouncementTemplate(date, msg) {
     announcementDiv.appendChild(update);
 
     var editButton = document.createElement("BUTTON");
-    editButton.id = "editBtn";
-    editButton.className = "editBtn" + messageNum;
-    editButton.innerHTML = '<img src="img/green_edit.png" id="imgBtn"/>';
+    editButton.id = "editBtn" + messageId;
+    editButton.className = "editBtn";
+    editButton.innerHTML = '<img src="img/green_edit.png" id="imgBtn' + messageId + '"/>';
 
-    editButton.onclick = function() {
-        if (!editing) {
-            editing = true;
-            var num = this.className.match(/\d+/g);
-
-            document.getElementById("inputTxt" + num).style.display = "block";
-            document.getElementById("updateButton" + num).style.display = "block";
-
-            var oldVal = document.getElementById("message" + num).innerHTML;
-            document.getElementById("inputTxt" + num).placeholder = oldVal;
-            document.getElementById("inputTxt" + num).innerHTML = oldVal;
-
-            document.getElementById("message" + num).innerHTML = "";
-
-            update.onclick = function() {
-                var inp = document.getElementById("inputTxt" + num).value;
-
-                document.getElementById("inputTxt" + num).style.display = "none";
-                document.getElementById("updateButton" + num).style.display = "none";
-
-                if (inp == "") {
-                    document.getElementById("message" + num).innerHTML = oldVal;
-                } else {
-                    document.getElementById("message" + num).innerHTML = inp;
-                }
-                editing = false;
-            }
-        }
-    }
+    var deleteButton = document.createElement("BUTTON");
+    deleteButton.id = "deleteBtn" + messageId;
+    deleteButton.className = "deleteBtn";
+    deleteButton.innerHTML = '<img src="img/red_trash.png" id="imgBtn' + messageId + '"/>';    
 
     announcementDiv.appendChild(editButton);
+    announcementDiv.appendChild(deleteButton);
 
     var panelDiv = document.createElement("div");
     panelDiv.className = "panel panel-default";
@@ -161,3 +136,52 @@ function getAnnouncementTemplate(date, msg) {
 
     return panelDiv;
 }
+
+
+function getMessageID(element, prefixLength) {
+    var msgId = element.attr('id'); 
+    var key = msgId.substring(prefixLength, msgId.length);
+    return key;    
+}
+
+$(document).on('click', '[id^=editBtn]', function(){
+    var key = getMessageID($(this), 'editBtn'.length);
+
+    $("#inputTxt" + key).css("display", "block");
+    $("#updateButton" + key).css("display", "block");
+
+    var oldVal = $("#message" + key).html();
+    $("#inputTxt" + key).attr('placeholder', oldVal);
+    $("#inputTxt" + key).html(oldVal);
+    $("#message" + key).html('');
+
+    $(document).on('click', "#updateButton" + key, function() {
+        var inp = $("#inputTxt" + key).val();
+
+        $("#inputTxt" + key).css('display', "none");
+        $("#updateButton" + key).css('display', "none");
+
+        if (inp == "") {
+            inp = oldVal;
+        }
+
+        $("#message" + key).html(inp);
+
+        var ref = danceDatabase.ref('announcements/' + currentDanceGroup);
+
+        var announcementRef = ref.child(key);
+        announcementRef.update({
+          "msg": inp
+        });
+    });
+});
+
+$(document).on('click', '[id^=deleteBtn]', function(){
+    var key = getMessageID($(this), 'deleteBtn'.length); 
+
+    $("#announDiv" + key).fadeOut('slow', function() {
+        var ref = danceDatabase.ref('announcements/' + currentDanceGroup).child(key);
+        ref.remove();
+        $(this).parent().remove();
+    });
+});
