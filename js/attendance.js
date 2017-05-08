@@ -6,6 +6,15 @@ var full_path = location.pathname;
 var path = full_path.substr(0, full_path.lastIndexOf("/") + 1);
 
 
+$(document).on('click', '#cancelMemberButton', function(e) {
+    $('#newMember').hide();
+});
+
+$(document).on('click', '#addNew', function(e) {
+    $('#newMember').toggle();
+});
+
+
 // on date change, update attendance display
 function reloadAttendance(newDate) {
     hyphen_delimited_date = newDate;
