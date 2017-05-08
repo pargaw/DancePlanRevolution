@@ -25,10 +25,7 @@ function addNewAnnouncement() {
         var id = userRef.key;
 
         $('#announcementInp').val(null);
-        $('#newAnnouncement').hide();
-
-        var template = getAnnouncementTemplate(date, msg, id);
-        document.getElementById('announcementsDisplay').prepend(template);
+        $('#newAnnouncement').hide(); 
 
         //show toast of sent announcement
         showSentToast();
@@ -43,12 +40,13 @@ function createNewAnnouncement() {
 }
 
 function displayAllAnnouncements() {
-    var announcementContainer = document.getElementById("announcementsDisplay");
     var ref = danceDatabase.ref('announcements/' + currentDanceGroup + '/');
 
     ref.on("value", function(snapshot) {
+        var announcementContainer = document.getElementById("announcementsDisplay");
+        announcementsDisplay.innerHTML = '';
+
         var announcements = snapshot.val();
-        // console.log(announcements);
         var announcement_list = Object.keys(announcements);
 
         // TODO note the backward iteration
@@ -56,7 +54,6 @@ function displayAllAnnouncements() {
         for (i = announcement_list.length; i--;) {
             var key = announcement_list[i];
             var announcement = announcements[key];
-            // console.log(announcement);
 
             if (announcement) {
                 var date = announcement["date"];
