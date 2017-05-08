@@ -114,45 +114,53 @@
 
                 <!-- Videos -->
                 <div class="item">
-                    <div id="videoFolders">
+                    <div id="videoFolders"></div> 
 
+                    <div class="container" id="uploadOptions">
+                        <div class="row">
+                            <div class="col-xs-6" id="localUpload">
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-upload"></span> Upload from device
+                                </a>
+                            </div> 
+
+                            <div class="col-xs-6" id="urlUpload">
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-link"></span> Upload from link
+                                </a>
+                            </div>
+                        </div>
                     </div>
+ 
                     <form id="newVideo" data-toggle="validator" role="form">
-                        <div class="form-group">
-                            <div id="dateVideo"></div>
-                            <div class="form-group">
-                                <div id="videoTextInput">
-                                    <div class="input-group" style="margin-bottom: 20px">  
-                                        <input type="text" name="src" id="videoURL" placeholder="Paste a video link here"><br> 
-                                    </div>
-                                </div> 
+                        <div class="container" id="videoUploadForm">
+                            <div id="videoTextInput">   
+                                <input type="text" class="formInput" name="src" id="videoURL" placeholder="Paste a video URL here..."><br> 
+                                <input type="text" class="formInput" id="videoNameInput" placeholder="Type video name here...">
+                            </div>
 
-                                <div class="container" id="uploadForm">
-                                    <form>
-                                        <label class="btn btn-default customFileUpload">
-                                            <!-- insert multiple keyword if you want to allow multiple vids to be uploaded -->
-                                            <input type="file" id="uploadFile" onchange="chooseVideo()" accept="video/*"">Choose video from device
-                                        </label>
+                            <div id="fileUpload">
+                                <label class="btn btn-default customFileUpload">
+                                    <!-- insert multiple keyword if you want to allow multiple vids to be uploaded -->
+                                    <input type="file" id="uploadFile" onchange="chooseVideo()" accept="video/*"">Choose video from device
+                                </label>
 
-                                        <label id='videoNameLabel'></label>   
+                                <label id='videoNameLabel'></label>
 
-                                        <!-- TODO http://stackoverflow.com/questions/36883037/generate-a-thumbnail-snapshot-of-a-video-file-selected-by-a-file-input-at-a-spec -->
-                                        <!-- <canvas id="thumbnailCanvas"></canvas> -->
+                                <!-- TODO http://stackoverflow.com/questions/36883037/generate-a-thumbnail-snapshot-of-a-video-file-selected-by-a-file-input-at-a-spec -->
+                                <!-- <canvas id="thumbnailCanvas"></canvas> -->
+                            </div>
 
-                                        <div class="form-group">
-                                            <label for="folders">Choose folder for video</label>
-                                            <select class="form-control" id="folders"></select> 
-                                            <input type="text" id="newFolder" placeholder="Type new folder name here..."> 
-                                        </div>
-                                    </form>
-                                </div>
+                            <div class="form-group" id="folderSelection">
+                                <label for="folders">Choose folder for video</label>
+                                <select class="form-control" id="folders"></select> 
+                                <input type="text" class="formInput" id="newFolder" placeholder="Type new folder name here..."> 
                             </div>
 
                             <div class="form-group" id="videoButtons">
                                 <div class="text-right">
-                                    <button type="button" class="btn btn-danger">Cancel</button>
-                                    <button type="button" class="btn btn-primary" onclick="uploadVideoFromFile()" type="submit">Post from File</button>
-                                    <button type="button" class="btn btn-primary" onclick="uploadedVideo()" type="submit" id="submitVideo" disabled="disabled">Post</button>
+                                    <button type="button" class="btn btn-danger" id="cancelVideoPost">Cancel</button>
+                                    <button type="button" class="btn btn-primary" onclick="postVideo()" type="submit" id="submitVideo" disabled="disabled">Post</button>
                                     <div id="doneUpload" style="float:center">Done!</div>
                                 </div>
                             </div> 

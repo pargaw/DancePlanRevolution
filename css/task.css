@@ -155,7 +155,16 @@ input[type="file"] {
     display: none;
 }
 
-#newFolder {
+.formInput {
+    width: 100%;
+    margin: 10px 0;
+    padding: 5px;
+    /*display: none;*/
+}
+
+
+
+#newFolder, #fileUpload, #folderSelection {
     display: none;
 }
 
@@ -169,7 +178,6 @@ input[type="file"] {
 }
 
 #doneUpload {
-    visibility: hidden;
     min-width: 100%;
     background-color: #009900;
     color: #fff;
@@ -178,6 +186,7 @@ input[type="file"] {
     padding: 10px;
     z-index: 1;
     font-size: 15px;
+    display: none;
 }
 
 #videoDisplay{
@@ -200,17 +209,37 @@ input[type="file"] {
     background-color: #eee;
     border: 5px dotted #ddd;
     margin-bottom: 20px;
-}
-
-#videoURL{
-    margin-bottom: 10px;
-    margin: auto;
+    display: none;
 }
 
 .panel.panel-default.folder-name{
     background-color: #eee;
     width: 500px;
     margin:auto;
+}
+
+#uploadOptions {
+    background-color: #eee;
+    border: 5px dotted #ddd;
+    padding: 20px 0;
+    font-size: 20px;
+    display: none; 
+}
+
+#localUpload {
+    /*float: left;*/
+    text-align: center;
+    vertical-align: middle;
+}
+
+#urlUpload {
+    /*float: right;*/
+    text-align: center;
+    vertical-align: middle;
+}
+
+.clearfix {
+    clear: both;
 }
 
 /*#editFolderButton{
