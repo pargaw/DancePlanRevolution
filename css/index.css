@@ -49,3 +49,9 @@ Homepage styling ONLY
 .navbar-default {
     padding-top: 20px;
 }
+
+.panel.panel-default.group-name{
+    cursor: pointer; 
+    cursor: hand; 
+}
+
