@@ -52,6 +52,15 @@ function setupMembers() {
                     changeOpacity(this.id);
                 };
 
+                var deleteButton = document.createElement("IMG");
+			    deleteButton.id = "deleteBtnAttend";
+			    // deleteButton.className = "deleteBtnAttend" + messageNum;
+			    deleteButton.src = "img/red_trash.png";
+			    deleteButton.onclick = function() {
+			    	tdMem.parentElement.removeChild(tdMem);
+			    }
+
+			    figMem.appendChild(deleteButton);
                 figMem.appendChild(member);
                 figMem.appendChild(check);
                 tdMem.appendChild(figMem);

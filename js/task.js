@@ -48,7 +48,7 @@ window.onload = initializePage;
 
 
 
-// CLICK HANDLERS
+// CLICK HANDLERS -->TODO what is this for????
 $(document).on('click', '.navbar-brand', function(e) {
     window.location.href = 'index.html';
 });

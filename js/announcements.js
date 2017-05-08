@@ -22,11 +22,10 @@ function addNewAnnouncement() {
             msg: msg
         });
 
-        $('#announcementInp').val(null);
-        $('#newAnnouncement').hide();
+        var id = userRef.key;
 
-        var template = getAnnouncementTemplate(date, msg);
-        document.getElementById('announcementsDisplay').prepend(template);
+        $('#announcementInp').val(null);
+        $('#newAnnouncement').hide(); 
 
         //show toast of sent announcement
         showSentToast();
@@ -41,25 +40,26 @@ function createNewAnnouncement() {
 }
 
 function displayAllAnnouncements() {
-    var announcementContainer = document.getElementById("announcementsDisplay");
     var ref = danceDatabase.ref('announcements/' + currentDanceGroup + '/');
 
     ref.on("value", function(snapshot) {
+        var announcementContainer = document.getElementById("announcementsDisplay");
+        announcementsDisplay.innerHTML = '';
+
         var announcements = snapshot.val();
-        console.log(announcements);
         var announcement_list = Object.keys(announcements);
 
         // TODO note the backward iteration
         // must be consistent with display order of other tasks
         for (i = announcement_list.length; i--;) {
-            var announcement = announcements[announcement_list[i]];
-            console.log(announcement);
+            var key = announcement_list[i];
+            var announcement = announcements[key];
 
             if (announcement) {
                 var date = announcement["date"];
                 var msg = announcement["msg"];
 
-                var template = getAnnouncementTemplate(date, msg);
+                var template = getAnnouncementTemplate(date, msg, key);
                 announcementContainer.appendChild(template);
             }
         }
@@ -71,18 +71,14 @@ function displayAllAnnouncements() {
 function showSentToast() {
     // show toast of announcement has been sent 
     var x = document.getElementById("sentToast");
-    x.style.visibility = "visible";
+    x.style.display = "block";
     setTimeout(function() {
-        x.style.visibility = "hidden";
-    }, 900);
+        x.style.display = "none";
+    }, 2000);
 }
 
-
 var editing = false;
-var messageNum = 0;
-
-function getAnnouncementTemplate(date, msg) {
-    messageNum += 1;
+function getAnnouncementTemplate(date, msg, messageId) {
     var dateDiv = document.createElement("div");
     var dateText = document.createElement("h5");
     dateText.innerHTML = date;
@@ -93,71 +89,132 @@ function getAnnouncementTemplate(date, msg) {
     msgDiv.appendChild(msgText);
 
     var announcementDiv = document.createElement("div");
-    dateDiv.id = "date";
-    announcementDiv.appendChild(dateDiv);
 
-    msgDiv.id = "message" + messageNum;
+	msgDiv.id = "message" + messageId;
+    msgDiv.className = "messages";
     announcementDiv.appendChild(msgDiv);
-
-    announcementDiv.className = "panel-body";
-    announcementDiv.id = "announDiv";
-
 
     // for editing the announcements
     var input = document.createElement('textarea');
-    input.id = "inputTxt" + messageNum;
+    input.id = "inputTxt" + messageId;
     input.className = 'form-control';
     input.style.display = "none";
+    input.className = "inputs";
+
+    var cancel = document.createElement("BUTTON");
+    cancel.id = "cancelEditButton" + messageId;
+    cancel.innerHTML = "Cancel";
+    cancel.className = 'btn btn-danger';
+    cancel.style.display = "none";
 
     var update = document.createElement("BUTTON");
-    update.id = "updateButton" + messageNum;
+    update.id = "updateButton" + messageId;
     update.innerHTML = "Update";
-    update.className = 'btn';
+    update.className = 'btn btn-primary';
     update.style.display = "none";
 
     announcementDiv.appendChild(input);
+    announcementDiv.appendChild(cancel);
     announcementDiv.appendChild(update);
 
-    var editButton = document.createElement("BUTTON");
+    dateDiv.id = "date";
+    announcementDiv.appendChild(dateDiv);
+
+	var deleteButton = document.createElement("IMG");
+    deleteButton.id = "deleteBtn";
+    deleteButton.className = "deleteBtn" + messageId;
+    deleteButton.src = "img/red_trash.png";
+    deleteButton.onclick = function() {
+    	if(confirm("Are you sure you want to delete this announcement?")){
+    		var key = getMessageID(deleteButton, 'deleteBtn'.length); 
+
+    		var thisAnnounce = document.getElementById("announDiv"+key);
+		    $("#announDiv" + key).fadeOut('slow', function() {
+		        var ref = danceDatabase.ref('announcements/' + currentDanceGroup).child(key);
+		        ref.remove();
+		        announcementDiv.parentElement.remove();
+		    });	
+    	}
+    }
+    announcementDiv.appendChild(deleteButton);
+
+    var editButton = document.createElement("IMG");
     editButton.id = "editBtn";
-    editButton.className = "editBtn" + messageNum;
-    editButton.innerHTML = '<img src="img/green_edit.png" id="imgBtn"/>';
+    editButton.className = "editBtn" + messageId;
+    editButton.src = "img/green_edit.png";
 
     editButton.onclick = function() {
         if (!editing) {
             editing = true;
-            var num = this.className.match(/\d+/g);
 
-            document.getElementById("inputTxt" + num).style.display = "block";
-            document.getElementById("updateButton" + num).style.display = "block";
+            //get which message number
+            var key = getMessageID(editButton, 'editBtn'.length);
 
-            var oldVal = document.getElementById("message" + num).innerHTML;
-            document.getElementById("inputTxt" + num).placeholder = oldVal;
-            document.getElementById("inputTxt" + num).innerHTML = oldVal;
+            //hide edit button
+            editButton.style.display = "none";
+            deleteButton.style.display = "none";
 
-            document.getElementById("message" + num).innerHTML = "";
+            document.getElementById("inputTxt" + key).style.display = "block";
+            document.getElementById("updateButton" + key).style.display = "inline-block";
+            document.getElementById("cancelEditButton" + key).style.display = "inline-block";
+
+            var oldVal = document.getElementById("message" + key).innerHTML;
+            document.getElementById("inputTxt" + key).placeholder = oldVal;
+            document.getElementById("inputTxt" + key).innerHTML = oldVal;
+
+            document.getElementById("message" + key).innerHTML = "";
 
             update.onclick = function() {
-                var inp = document.getElementById("inputTxt" + num).value;
+                var inp = document.getElementById("inputTxt" + key).value;
 
-                document.getElementById("inputTxt" + num).style.display = "none";
-                document.getElementById("updateButton" + num).style.display = "none";
+                document.getElementById("inputTxt" + key).style.display = "none";
+                document.getElementById("updateButton" + key).style.display = "none";
+                document.getElementById("cancelEditButton" + key).style.display = "none";
 
                 if (inp == "") {
-                    document.getElementById("message" + num).innerHTML = oldVal;
+                    document.getElementById("message" + key).innerHTML = oldVal;
                 } else {
-                    document.getElementById("message" + num).innerHTML = inp;
+                    document.getElementById("message" + key).innerHTML = inp;
                 }
+                editButton.style.display = "inline-block";
+                deleteButton.style.display = "inline-block";
+                editing = false;
+
+                var ref = danceDatabase.ref('announcements/' + currentDanceGroup);
+
+		        var announcementRef = ref.child(key);
+		        announcementRef.update({
+		          "msg": inp
+		        });
+            }
+
+            cancel.onclick = function(){
+                document.getElementById("inputTxt" + key).style.display = "none";
+                document.getElementById("updateButton" + key).style.display = "none";
+                document.getElementById("cancelEditButton" + key).style.display = "none";
+
+                document.getElementById("message" + key).innerHTML = oldVal;
+               
+                editButton.style.display = "inline-block";
+                deleteButton.style.display = "inline-block";
                 editing = false;
             }
         }
     }
-
     announcementDiv.appendChild(editButton);
+
+    announcementDiv.className = "panel-body";
+    announcementDiv.id = "announDiv" + messageId;
 
     var panelDiv = document.createElement("div");
     panelDiv.className = "panel panel-default";
     panelDiv.appendChild(announcementDiv);
 
     return panelDiv;
+}
+
+function getMessageID(element, prefixLength) {
+    var msgId = element.className; 
+    var key = msgId.substring(prefixLength, msgId.length);
+    return key;    
 }
