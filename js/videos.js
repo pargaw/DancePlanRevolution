@@ -107,25 +107,28 @@ function include(arr, filename) {
 }
 
 function loadFolderNames() {
+
     var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroup);
     dbFoldersRef.on('value', function(snapshot) {
         var select = document.getElementById('folders');
         select.innerHTML = '';
-
         var data = snapshot.val();
         var keys = Object.keys(data); 
         console.log(keys);
+        //the default option should be the first to come up in the folder dropdown
+        var optionDefault = document.create('option');
+        optionDefault.id = 'defaultOption';
+        optionDefault.text = 'Choose a folder';
+        select.prependChild(optionDefault);
+        console.log(select, optionDefault);
 
         keys.forEach(function(key) {
-            // console.log(key);
             var option = document.createElement('option');
             option.id = key;
             option.text = key;
-
             // console.log(option);
             select.appendChild(option);
         })
-
         // let users create a new folder
         var option = document.createElement('option');
         option.id = 'newFolderOption';

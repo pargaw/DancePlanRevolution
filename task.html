@@ -120,8 +120,10 @@
                                 <label class="btn btn-default customFileUpload">
                                     <!-- TODO issue: uploadFile is a special id needed by HTML file upload, but I already have another upload
                                     button of the same id below... -->
-                                    <input type="file" id="uploadFile" onchange="choosePhoto()" accept="image/*"">Upload photo
-                                </label>
+
+
+<!--                                     <input type="file" id="uploadFile" onchange="choosePhoto()" accept="image/*"">Upload photo
+ -->                                </label>
 
                                 <label id='memberImgLabel'></label>
                             </div>
@@ -181,7 +183,8 @@
 
                             <div class="form-group" id="folderSelection">
                                 <label for="folders">Choose folder for video</label>
-                                <select class="form-control" id="folders"></select> 
+                                    <select class="form-control" id="folders">
+                                    </select> 
                                 <input type="text" class="formInput" id="newFolder" placeholder="Type new folder name here..."> 
                             </div>
 
