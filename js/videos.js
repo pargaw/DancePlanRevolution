@@ -15,11 +15,6 @@ function checkURLValidity(input){
     else{return false;}
 }
 
-function displayAllVideos(){
-}
-
-
-
 //not detecting autocomplete at the moment 
 //from here: https://stackoverflow.com/questions/14631592/detecting-autofill-on-chrome
 function pushVideoToStorage(src, date){

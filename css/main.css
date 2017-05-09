@@ -2,14 +2,6 @@
 Styling for ALL pages thus far, so it must be loaded first!
 */
 
-/* COLOR SCHEME */
-/* Aquamarine: #02C8A7
-    Golden: #F9BE02
-    Bright coral: #F53240
-    Sky: #7CDBD5
-*/
-
-
 /* FONT */
 body {
     font-family: 'Lato';
@@ -23,7 +15,6 @@ input.search-query {
 }
 
 form.form-search {
-    position: relative;
     margin: 0;
 }
 
@@ -44,7 +35,7 @@ form.form-search:before {
 
 /* TOP BAR */
 .navbar-default {
-    padding: 12px 0; 
+    padding: 2px 0; 
     background-color: #2DB18E; /* darker shades: #38AF94 , #40A990 */
 }
 
