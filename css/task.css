@@ -24,12 +24,28 @@ Announcement/Video/Attendance styling ONLY
     position: fixed;
     top: 0px;
     right: 0px;
+    display: inline-block;
+}
+
+#homeBtn{
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
 }
 
 .nav-item-settings{
     position: fixed;
     top: 0px;
     left: 0px;
+    display: inline-block;
+}
+
+#settingsBtn{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 20px;
 }
 
 .taskbar {
@@ -109,6 +125,11 @@ Announcement/Video/Attendance styling ONLY
     top: 0px; 
 }
 
+#saveButton {
+    width: 50%;
+    margin: 20px 25%
+}
+
 #sentToast, #savedToast {
     visibility: hidden;
     width: 50%;
@@ -173,14 +194,9 @@ Announcement/Video/Attendance styling ONLY
     right: 15px
 }
 
- [id^="cancelEditButton"]{
+[id^="cancelEditButton"]{
     position: fixed;
     right: 89px
-}
-
-#saveButton {
-    width: 60%;
-    margin: 30px 20%;
 }
 
 
