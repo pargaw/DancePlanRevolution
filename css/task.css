@@ -166,10 +166,19 @@ Announcement/Video/Attendance styling ONLY
     display: inline-block;
 }
 
-#inputTxt{
-    width: 50%;
+.inputs{
+    width: 100%;
     height: 50%;
-    font-size: 100%;
+}
+
+[id^="updateButton"] {
+    position: fixed;
+    right: 15px
+}
+
+ [id^="cancelEditButton"]{
+    position: fixed;
+    right: 89px
 }
 
 
