@@ -131,7 +131,7 @@ function getAnnouncementTemplate(date, msg, messageId) {
 		$('#yesBtn').on('click', function() {
 		  var thisAnnounce = document.getElementById("announDiv"+key);
 	      $("#announDiv" + key).fadeOut('slow', function() {
-	      	var ref = danceDatabase.ref('announcements/'+currentDanceGroup.toLowerCase().replace(/\s/g, '')).child(key);
+	      	var ref = danceDatabase.ref('announcements/'+currentDanceGroupID).child(key);
 	        ref.remove();
 	        announcementDiv.parentElement.remove();
 	      });	
