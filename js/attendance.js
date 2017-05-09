@@ -184,19 +184,10 @@ function setupMembers() {
                             var txt = document.createTextNode(name);
                             caption.appendChild(txt);
 
-                            var deleteButton = document.createElement("IMG");
-                            deleteButton.id = "deleteBtnAttend";
-                            // deleteButton.className = "deleteBtnAttend" + messageNum;
-                            deleteButton.src = "img/red_trash.png";
-                            deleteButton.onclick = function() {
-                                tdMem.parentElement.removeChild(tdMem);
-                            }
-
                             // create hierarchy of elements
                             figMem.appendChild(member);
                             figMem.appendChild(check);
                             figMem.appendChild(caption);
-                            figMem.appendChild(deleteButton);
             
                             tdMem.appendChild(figMem);
                             tr.appendChild(tdMem);
@@ -210,7 +201,7 @@ function setupMembers() {
             }
 
             var div = document.getElementById("attend");
-            div.appendChild(t);
+            div.appendChild(document.getElementById('attendanceTable'));
         });
     });
 }

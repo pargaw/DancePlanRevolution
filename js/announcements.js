@@ -122,19 +122,21 @@ function getAnnouncementTemplate(date, msg, messageId) {
 
 	var deleteButton = document.createElement("IMG");
     deleteButton.id = "deleteBtn";
+	deleteButton.src = 'img/red_trash.png';
     deleteButton.className = "deleteBtn" + messageId;
-    deleteButton.src = "img/red_trash.png";
     deleteButton.onclick = function() {
-    	if(confirm("Are you sure you want to delete this announcement?")){
-    		var key = getMessageID(deleteButton, 'deleteBtn'.length); 
+		var key = getMessageID(deleteButton, 'deleteBtn'.length); 
+		$('#myDeleteModal').modal('show');
 
-    		var thisAnnounce = document.getElementById("announDiv"+key);
-		    $("#announDiv" + key).fadeOut('slow', function() {
-		        var ref = danceDatabase.ref('announcements/' + currentDanceGroupID).child(key);
-		        ref.remove();
-		        announcementDiv.parentElement.remove();
-		    });	
-    	}
+		$('#yesBtn').on('click', function() {
+		  var thisAnnounce = document.getElementById("announDiv"+key);
+	      $("#announDiv" + key).fadeOut('slow', function() {
+	      	var ref = danceDatabase.ref('announcements/'+currentDanceGroupID).child(key);
+	        ref.remove();
+	        announcementDiv.parentElement.remove();
+	      });	
+		  $('#myModal').modal('hide');
+		});
     }
     announcementDiv.appendChild(deleteButton);
 
@@ -159,7 +161,8 @@ function getAnnouncementTemplate(date, msg, messageId) {
             document.getElementById("cancelEditButton" + key).style.display = "inline-block";
 
             var oldVal = document.getElementById("message" + key).innerHTML;
-            document.getElementById("inputTxt" + key).placeholder = oldVal;
+
+            // document.getElementById("inputTxt" + key).placeholder = oldVal;
             document.getElementById("inputTxt" + key).innerHTML = oldVal;
 
             document.getElementById("message" + key).innerHTML = "";
@@ -194,7 +197,7 @@ function getAnnouncementTemplate(date, msg, messageId) {
                 document.getElementById("cancelEditButton" + key).style.display = "none";
 
                 document.getElementById("message" + key).innerHTML = oldVal;
-               
+
                 editButton.style.display = "inline-block";
                 deleteButton.style.display = "inline-block";
                 editing = false;
@@ -211,6 +214,10 @@ function getAnnouncementTemplate(date, msg, messageId) {
     panelDiv.appendChild(announcementDiv);
 
     return panelDiv;
+}
+
+function deleteConfirmed(){
+	return true;
 }
 
 function getMessageID(element, prefixLength) {
