@@ -102,7 +102,6 @@ function include(arr, filename) {
 }
 
 function loadFolderNames() {
-
     var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroup);
     dbFoldersRef.on('value', function(snapshot) {
         var select = document.getElementById('folders');
