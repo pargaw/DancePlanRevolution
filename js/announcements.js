@@ -122,19 +122,21 @@ function getAnnouncementTemplate(date, msg, messageId) {
 
 	var deleteButton = document.createElement("IMG");
     deleteButton.id = "deleteBtn";
+	deleteButton.src = 'img/red_trash.png';
     deleteButton.className = "deleteBtn" + messageId;
-    deleteButton.src = "img/red_trash.png";
-    deleteButton.dataToggle = 'modal';
-    deleteButton.dataTarget = '#myDeleteModal';
     deleteButton.onclick = function() {
 		var key = getMessageID(deleteButton, 'deleteBtn'.length); 
+		$('#myDeleteModal').modal('show');
 
-		// var thisAnnounce = document.getElementById("announDiv"+key);
-	 //    $("#announDiv" + key).fadeOut('slow', function() {
-	 //        var ref = danceDatabase.ref('announcements/' + currentDanceGroup).child(key);
-	 //        ref.remove();
-	 //        announcementDiv.parentElement.remove();
-	 //    });	
+		$('#yesBtn').on('click', function() {
+		  var thisAnnounce = document.getElementById("announDiv"+key);
+	      $("#announDiv" + key).fadeOut('slow', function() {
+	      	var ref = danceDatabase.ref('announcements/' + currentDanceGroup).child(key);
+	        ref.remove();
+	        announcementDiv.parentElement.remove();
+	      });	
+		  $('#myModal').modal('hide');
+		});
     }
     announcementDiv.appendChild(deleteButton);
 
@@ -195,7 +197,7 @@ function getAnnouncementTemplate(date, msg, messageId) {
                 document.getElementById("cancelEditButton" + key).style.display = "none";
 
                 document.getElementById("message" + key).innerHTML = oldVal;
-                console.log("old val after cancel  "+oldVal); 
+
                 editButton.style.display = "inline-block";
                 deleteButton.style.display = "inline-block";
                 editing = false;
