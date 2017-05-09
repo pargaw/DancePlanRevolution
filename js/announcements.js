@@ -39,28 +39,42 @@ function createNewAnnouncement() {
     $('#newAnnouncement').toggle();
 }
 
-function displayAllAnnouncements() {
+$(document).on('click', '#resetButton', function() {
+    displayAllAnnouncements();
+});
+
+function displayAllAnnouncements(filterDate) {
     var ref = danceDatabase.ref('announcements/' + currentDanceGroupID + '/');
+
+    if (filterDate) {
+        $('.resetRow').show();
+    } else {
+        $('.resetRow').hide();
+    }
 
     ref.on("value", function(snapshot) {
         var announcementContainer = document.getElementById("announcementsDisplay");
         announcementsDisplay.innerHTML = '';
-
         var announcements = snapshot.val();
-        var announcement_list = Object.keys(announcements);
 
-        // TODO note the backward iteration
-        // must be consistent with display order of other tasks
-        for (i = announcement_list.length; i--;) {
-            var key = announcement_list[i];
-            var announcement = announcements[key];
+        if (announcements) {
+            var announcement_list = Object.keys(announcements);
 
-            if (announcement) {
-                var date = announcement["date"];
-                var msg = announcement["msg"];
+            // TODO note the backward iteration
+            // must be consistent with display order of other tasks
+            for (i = announcement_list.length; i--;) {
+                var key = announcement_list[i];
+                var announcement = announcements[key];
 
-                var template = getAnnouncementTemplate(date, msg, key);
-                announcementContainer.appendChild(template);
+                if (announcement) {
+                    var date = announcement["date"];
+                    var msg = announcement["msg"]; 
+
+                    if (!filterDate || (filterDate && filterDate === date.substring(0, filterDate.length))) {  
+                        var template = getAnnouncementTemplate(date, msg, key);
+                        announcementContainer.appendChild(template);  
+                    }
+                }
             }
         }
     }, function(error) {
@@ -190,7 +204,7 @@ function getAnnouncementTemplate(date, msg, messageId) {
 
                 var ref = danceDatabase.ref('announcements/' + currentDanceGroupID);
 
-		        // var announcementRef = ref.child(key);
+		        var announcementRef = ref.child(key);
 		        announcementRef.update({
 		          "msg": inp
 		        });

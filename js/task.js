@@ -33,7 +33,6 @@ function initializePage() {
     }
 
     updateTaskPgContent();
-    displayAllAnnouncements();
     setupMembers();
 }
 
@@ -84,12 +83,13 @@ $(document).ready(function() {
 
 });
 
+$()
+
 
 // use new index of carousel to update page content
 $(document).on('slide.bs.carousel', '.carousel', function(e) {
     var slideFrom = $(this).find('.active').index();
     var slideTo = $(e.relatedTarget).index();
-    // console.log(slideFrom+' => '+slideTo);
     currentTask = slideTo - 2;
     // updateTaskPgContent();
 });
@@ -110,7 +110,7 @@ function changeDate(date) {
     } else if (currentTask == 1) {
         
     } else {
-
+        displayAllAnnouncements(date);
     }
 }
 
@@ -135,7 +135,8 @@ function updateTaskPgContent(indirect) {
     var newVideoButton = $('#addNewVideo');
     var searchText = $('#searchText')[0];
     var filterByFolder = $('#filterByFolder');
-    datePicker = $('.ui-datepicker-trigger');
+    var resetDateFilter = $('.resetRow');
+    var datePicker = $('.ui-datepicker-trigger');
 
     if (currentTask == 0) {
         $('#addNew').attr('data-original-title', 'Add new member');
@@ -144,14 +145,17 @@ function updateTaskPgContent(indirect) {
         newTaskButton.show();
         filterByFolder.hide();
         datePicker.show();
+        resetDateFilter.hide();
     } else if (currentTask == 1) {
         searchText.placeholder = "Search videos...";
         newVideoButton.show();
         newTaskButton.hide();
         datePicker.hide();
         filterByFolder.show();
+        resetDateFilter.hide();
         loadFolderNames();
     } else if (currentTask == 2) {
+        displayAllAnnouncements();
         $('#addNew').attr('data-original-title', 'Add new announcement');
         searchText.placeholder = "Search announcements...";
         newVideoButton.hide();

@@ -205,7 +205,6 @@ function resetVideoParams() {
     folderName = '';
 
     $('#videoNameInput').val('');
-    console.log($('#videoNameInput').val(), $('#videoNameInput').text, $('#videoNameInput').innerHTML);
 }
 
 function postVideo() {

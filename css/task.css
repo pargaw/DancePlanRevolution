@@ -63,12 +63,6 @@ Announcement/Video/Attendance styling ONLY
     margin-right: 25px;
 }
 
-#addNewVideo {
-    display: none;
-}
-
-
-
 
 /* CAROUSEL CUSTOMIZATION */
 .carousel-control {
@@ -125,7 +119,7 @@ Announcement/Video/Attendance styling ONLY
     top: 0px; 
 }
 
-#saveButton {
+#saveButton, #resetButton {
     width: 50%;
     margin: 20px 25%
 }
@@ -192,15 +186,10 @@ Announcement/Video/Attendance styling ONLY
 
 
 /* VIDEOS */
-input[type="file"] {
-    display: none;
-}
-
 .formInput {
     width: 100%;
     margin: 10px 0;
     padding: 5px;
-    /*display: none;*/
 }
 
 .uploadFrom {
@@ -208,7 +197,13 @@ input[type="file"] {
     padding-bottom: 24px;
 }
 
-#newFolder, #fileUpload, #folderSelection, #filterByFolder {
+#addNewVideo,
+input[type="file"],
+#fileUpload, 
+#folderSelection, 
+#filterByFolder, 
+#newFolder, 
+.resetRow {
     display: none;
 }
 
