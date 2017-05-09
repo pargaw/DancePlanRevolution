@@ -130,14 +130,19 @@ function updateTaskPgContent(indirect) {
 
     var newTaskButton = $('#addNew');
     var newVideoButton = $('#addNewVideo');
+    var datePicker = $('.ui-datepicker-trigger');
     var dateButton = $('#dateButton');
     var searchText = $('#searchText')[0];
+    var filterByFolder = $('#filterByFolder');
 
     if (currentTask == 0) {
         searchText.placeholder = "Search dancers...";
 
         newVideoButton.hide();
         newTaskButton.show();
+        filterByFolder.hide();
+        datePicker.show();
+
         // newTaskButton.find('p').text('Add member');
         // dateButton.find('p').text('Choose date');
     } else if (currentTask == 1) {
@@ -145,7 +150,8 @@ function updateTaskPgContent(indirect) {
 
         newVideoButton.show();
         newTaskButton.hide();
-
+        datePicker.hide();
+        filterByFolder.show();
         loadFolderNames();
         // dateButton.find('p').text('Filter by date');
     } else if (currentTask == 2) {
@@ -153,6 +159,8 @@ function updateTaskPgContent(indirect) {
 
         newVideoButton.hide();
         newTaskButton.show();
+        filterByFolder.hide();
+        datePicker.show();
         // newTaskButton.find('p').text('Add announcement');
         // dateButton.find('p').text('Filter by date');
     }

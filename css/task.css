@@ -156,7 +156,7 @@ input[type="file"] {
     /*display: none;*/
 }
 
-#newFolder, #fileUpload, #folderSelection {
+#newFolder, #fileUpload, #folderSelection, #filterByFolder {
     display: none;
 }
 
