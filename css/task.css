@@ -189,16 +189,6 @@ Announcement/Video/Attendance styling ONLY
     height: 50%;
 }
 
-[id^="updateButton"] {
-    position: fixed;
-    right: 15px
-}
-
-[id^="cancelEditButton"]{
-    position: fixed;
-    right: 89px
-}
-
 
 
 /* VIDEOS */

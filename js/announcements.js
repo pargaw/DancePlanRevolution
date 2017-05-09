@@ -101,24 +101,28 @@ function getAnnouncementTemplate(date, msg, messageId) {
     input.style.display = "none";
     input.className = "inputs";
 
-    var cancel = document.createElement("BUTTON");
+    var textRightDiv = document.createElement("div");
+    textRightDiv.className = 'text-right';
+
+    var cancel = document.createElement("img");
     cancel.id = "cancelEditButton" + messageId;
-    cancel.innerHTML = "Cancel";
-    cancel.className = 'btn btn-danger';
+    cancel.src = "img/close.png";
+    cancel.className = 'btn formImgButtons';
     cancel.style.display = "none";
 
-    var update = document.createElement("BUTTON");
+    var update = document.createElement("img");
     update.id = "updateButton" + messageId;
-    update.innerHTML = "Update";
-    update.className = 'btn btn-primary';
+    update.src = "img/green_checkmark.png";
+    update.className = 'btn formImgButtons';
     update.style.display = "none";
 
-    announcementDiv.appendChild(input);
-    announcementDiv.appendChild(cancel);
-    announcementDiv.appendChild(update);
+    textRightDiv.appendChild(cancel);
+    textRightDiv.appendChild(update);
 
     dateDiv.id = "date";
+    announcementDiv.appendChild(input);
     announcementDiv.appendChild(dateDiv);
+    announcementDiv.appendChild(textRightDiv);
 
 	var deleteButton = document.createElement("IMG");
     deleteButton.id = "deleteBtn";
@@ -166,6 +170,7 @@ function getAnnouncementTemplate(date, msg, messageId) {
             document.getElementById("inputTxt" + key).innerHTML = oldVal;
 
             document.getElementById("message" + key).innerHTML = "";
+            document.getElementById("inputTxt" + key).focus();
 
             update.onclick = function() {
                 var inp = document.getElementById("inputTxt" + key).value;
@@ -185,7 +190,7 @@ function getAnnouncementTemplate(date, msg, messageId) {
 
                 var ref = danceDatabase.ref('announcements/' + currentDanceGroupID);
 
-		        var announcementRef = ref.child(key);
+		        // var announcementRef = ref.child(key);
 		        announcementRef.update({
 		          "msg": inp
 		        });
