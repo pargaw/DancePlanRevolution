@@ -108,20 +108,24 @@ function loadFolderNames() {
         var select = document.getElementById('folders');
         select.innerHTML = '';
         var data = snapshot.val();
-        var keys = Object.keys(data); 
+
         var optionDefault = document.createElement('option');
         optionDefault.id = 'defaultOption';
         optionDefault.text = 'Choose a folder';
         select.appendChild(optionDefault);
 
-        //the default option should be the first to come up in the folder dropdown
-        keys.forEach(function(key) {
-            var option = document.createElement('option');
-            option.id = key;
-            option.text = key;
-            // console.log(option);
-            select.appendChild(option);
-        })
+        if (data) {
+            var keys = Object.keys(data); 
+
+            //the default option should be the first to come up in the folder dropdown
+            keys.forEach(function(key) {
+                var option = document.createElement('option');
+                option.id = key;
+                option.text = key;
+                select.appendChild(option);
+            })
+        }
+        
         // let users create a new folder
         var option = document.createElement('option');
         option.id = 'newFolderOption';
@@ -131,7 +135,7 @@ function loadFolderNames() {
 }
 
 function chooseVideo() {
-    var fileTracker = document.getElementById("uploadFile");
+    var fileTracker = document.getElementById("uploadVideoFile");
     var txt = "";
     var selectErrorMsg = "Please choose a video!";
 
