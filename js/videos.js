@@ -6,6 +6,7 @@ var validURL = '';
 var idCount = 0;
 var videoName = '';
 var folderName = '';
+// $('.overlay').hide();
 
 function checkURLValidity(input){
     var re = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
@@ -26,13 +27,12 @@ function pushVideoToStorage(src, date){
     .done(function( data ) {
         alert( "Data Loaded: " + data );
     }); 
-
-
 }
 
 
 $(document).on('click', '#cancelVideoPost', function(e) {
     $('#newVideo').hide();
+    $('#videoNameLabel').empty();
 });
 
 $(document).on('click', '#addNewVideo', function(e) {
@@ -114,14 +114,12 @@ function loadFolderNames() {
         select.innerHTML = '';
         var data = snapshot.val();
         var keys = Object.keys(data); 
-        console.log(keys);
-        //the default option should be the first to come up in the folder dropdown
-        var optionDefault = document.create('option');
+        var optionDefault = document.createElement('option');
         optionDefault.id = 'defaultOption';
         optionDefault.text = 'Choose a folder';
-        select.prependChild(optionDefault);
-        console.log(select, optionDefault);
+        select.appendChild(optionDefault);
 
+        //the default option should be the first to come up in the folder dropdown
         keys.forEach(function(key) {
             var option = document.createElement('option');
             option.id = key;
@@ -159,6 +157,7 @@ function chooseVideo() {
 
                 if (selectedFolder) {
                     $("#submitVideo").prop('disabled', false);
+
                 }
             }
         }
@@ -219,6 +218,7 @@ function postVideo() {
 
 
     if (uploadType == 'local') {
+        overlayLoad();
         console.log('foldername', selectedFolder);
 
         console.log('filevideo (possibly changed?) name', videoName);
@@ -236,7 +236,6 @@ function postVideo() {
         console.log('folder path', folderPath);
         console.log('video path', videoPath);  
         console.log('videoName', videoName);
-
         var folderRef = danceStorage.ref(folderPath);
         var videoRef = danceStorage.ref(videoPath);
 
@@ -262,22 +261,11 @@ function postVideo() {
 
 //after input, check and if correct input => remove the disabled look and let button be clicked
 $(document).ready(function(evt){
-    // $('#videoTextInput').hide();
-    // $('#videoButtons').hide();
-
-    // displayAllVideos();
-    // addFolderHTML("ed_sheeran_shape_of_you", "dance1_version1");
-    // $("#dance1_version1").on('click', function(evt){
-        //dissapear the folder?
-    // });
-
-
     // as of right now it doesnt yet recognize the autofill properly
     setTimeout(function (evt) {
     if ($('#videoURL:-webkit-autofill').val()) {
         $('#videoURL').val() = $('#videoURL:-webkit-autofill').val();
     }  }, 1);
-
 
     $('#videoURL').on('keyup', function(){
         var input = $('#videoURL').val();
@@ -299,25 +287,25 @@ $(document).ready(function(evt){
         }
     });
 
-    $('#videoURL').on('keydown', function(evt){
-        if(evt.keyCode == 13){
-            console.log("am i pressing enter?>");
-            var input = $('#videoURL').val();
-            if (checkURLValidity(input)) {
-                validURL = input;
-                var src = input.replace("https://www.youtube.com/watch?v=", "");
-                $("#submitVideo").prop('disabled', false);
-                $("#submitVideo").unbind('click').on('click', function(evt){
-                    var date = getDate(true);
-                    addIframeVideo(src, date);
-                    postVideo();
-                    $('#videoURL').val("");
-                });
-            } else {
-                $("#submitVideo").prop('disabled', true);
-            }
-        }
-    })
+    // $('#videoURL').on('keydown', function(evt){
+    //     if(evt.keyCode == 13){
+    //         console.log("am i pressing enter?>");
+    //         var input = $('#videoURL').val();
+    //         if (checkURLValidity(input)) {
+    //             validURL = input;
+    //             var src = input.replace("https://www.youtube.com/watch?v=", "");
+    //             $("#submitVideo").prop('disabled', false);
+    //             $("#submitVideo").unbind('click').on('click', function(evt){
+    //                 var date = getDate(true);
+    //                 addIframeVideo(src, date);
+    //                 postVideo();
+    //                 $('#videoURL').val("");
+    //             });
+    //         } else {
+    //             $("#submitVideo").prop('disabled', true);
+    //         }
+    //     }
+    // })
 
     $('.left.carousel-control, .right.carousel-control').on('click', function(evt){
         pauseTheVideos();
@@ -356,6 +344,25 @@ function addFolderHTML(name, folderId){
     $('<div class="panel panel-default folder-name"><div class="row"><h4 class="panel-body" id="' + folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name 
         + '</h4></div></div>').prependTo('#videoFolders');
 }
-//<button class="editFolderButton" style="width:30px; height:30px"></button> 
-// <button class="btn btn-primary"></button> 
+
+
+function overlayLoad(){
+        // add the overlay with loading image to the page
+        var over = '<div id="overlay">' +
+            '<img id="loading" src="img/load.gif">' +
+            '</div>';
+        $(over).appendTo('body');
+
+        setTimeout(function() {
+            $('#overlay').remove();
+        }, 1000);
+
+        // hit escape to close the overlay
+        // $(document).keyup(function(e) {
+        //     if (e.which === 27) {
+        //         $('#overlay').remove();
+        //     }
+        // });
+}
+
 
