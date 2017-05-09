@@ -29,36 +29,9 @@
     <script src="js/announcements.js"></script>
     <script src="js/videos.js"></script>
     <script src="js/task.js"></script>
+    <script src="js/attendance.js"></script>
     <script src="js/taskbar.js"></script>
     <script src="js/settings.js"></script>
-</head>
-
-<body>
-    <!-- Modal for video upload -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Input Video URL</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="videoForm" data-toggle="validator" role="form">
-                        <div class="form-group">
-                            <div id="date"></div>
-                            <!--TODO: check for others with same id -->
-                            <input type="text" name="src" id="videoURL" required><br>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="uploadedVideo()" data-dismiss="modal" type="submit" id="submitVideo" disabled="disabled">Upload</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="js/attendance.js"></script>
 </head>
 
 <body>
@@ -137,6 +110,7 @@
 
                                 <!-- <img id="datepicker" src="img/calendar.png">  -->
                                 <input type="hidden" id="datepicker">
+                                <img id="filterByFolder" src="img/folder.png">
                             </div>
                         </div>
                     </div>
@@ -150,6 +124,7 @@
                     <div class="Attendance" id="attend">
                         <form class="formBackground" id="newMember" data-toggle="validator" role="form">
                             <h4>Add a New Member</h4>
+                            <h5>Note that this member will be added to the roster and to all subsequent attendance pages.</h5>
                             
                             <div class="form-group">
                                 <input type="text" class="formInput" id="addMemberKerberos" placeholder="Kerberos, e.g. davidbau" required>
@@ -161,9 +136,8 @@
                                     <!-- TODO issue: uploadFile is a special id needed by HTML file upload, but I already have another upload
                                     button of the same id below... -->
 
-
-<!--                                     <input type="file" id="uploadFile" onchange="choosePhoto()" accept="image/*"">Upload photo
- -->                                </label>
+                                    <input type="file" id="uploadPhotoFile" onchange="choosePhoto()" accept="image/*"">Upload photo
+                                </label> 
 
                                 <label id='memberImgLabel'></label>
                             </div>
@@ -203,7 +177,7 @@
                             </div>
                         </div>
                     </div>
- 
+                    
                     <form class="formBackground" id="newVideo" data-toggle="validator" role="form">
                         <div class="container" id="videoUploadForm">
                             <div id="videoTextInput">   
@@ -214,7 +188,7 @@
                             <div id="fileUpload">
                                 <label class="btn btn-default customFileUpload">
                                     <!-- insert multiple keyword if you want to allow multiple vids to be uploaded -->
-                                    <input type="file" id="uploadFile" onchange="chooseVideo()" accept="video/*"">Choose video from device
+                                    <input type="file" id="uploadVideoFile" onchange="chooseVideo()" accept="video/*"">Choose video from device
                                 </label>
 
                                 <label id='videoNameLabel'></label>
