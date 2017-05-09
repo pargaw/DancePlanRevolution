@@ -72,7 +72,6 @@ function setupMembers() {
                         member.style.borderRadius = "50%";
                         member.style.position = "relative";
 
-
                         // set up checkmark that indicates absence/presence
                         var check = document.createElement("IMG");
                         check.src = path + "img/green_checkmark.png";
@@ -96,10 +95,19 @@ function setupMembers() {
                         var txt = document.createTextNode(name);
                         caption.appendChild(txt);
 
+                        var deleteButton = document.createElement("IMG");
+					    deleteButton.id = "deleteBtnAttend";
+					    // deleteButton.className = "deleteBtnAttend" + messageNum;
+					    deleteButton.src = "img/red_trash.png";
+					    deleteButton.onclick = function() {
+					    	tdMem.parentElement.removeChild(tdMem);
+					    }
+
                         // create hierarchy of elements
                         figMem.appendChild(member);
                         figMem.appendChild(check);
                         figMem.appendChild(caption);
+                        figMem.appendChild(deleteButton);
         
                         tdMem.appendChild(figMem);
                         tr.appendChild(tdMem);
@@ -148,4 +156,3 @@ function saveAttendance() {
         x.style.visibility = "hidden";
     }, 800); 
 }
-

@@ -1,5 +1,5 @@
 /*
-Announcement/video/attendance styling ONLY
+Announcement/Video/Attendance styling ONLY
 */
 
 /* SECONDARY NAVBAR */ 
@@ -18,6 +18,18 @@ Announcement/video/attendance styling ONLY
 .nav-pills .nav-item.show .nav-link,
 .nav-pills .nav-link.active {
     font-weight: 500;    
+}
+
+.nav-item-home{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+}
+
+.nav-item-settings{
+    position: fixed;
+    top: 0px;
+    left: 0px;
 }
 
 .taskbar {
@@ -54,7 +66,7 @@ Announcement/video/attendance styling ONLY
 
 .carousel-inner {
     /*border: 1px solid gray;*/
-    width: 75%;
+    width: 90%;
     margin: auto;
     min-height: 600px;
 }
@@ -65,7 +77,9 @@ Announcement/video/attendance styling ONLY
   margin: auto;
 }
 
-
+#searchIcon{
+    position: relative;
+}
 
 /* ATTENDANCE */
 #attendanceTable td {
@@ -94,16 +108,20 @@ Announcement/video/attendance styling ONLY
     top: 0px; 
 }
 
-#sentToast, #savedToast{
+#saveButton{
+    background-color: #2DB18E;
+}
+
+#sentToast, #savedToast {
     visibility: hidden;
     width: 50%;
-    background-color: #009900;
+    background-color: #808080;
     color: #fff;
     text-align: center;
     border-radius: 2px;
     padding: 10px;
     z-index: 4;
-    font-size: 10px;
+    font-size: 15px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -113,8 +131,19 @@ Announcement/video/attendance styling ONLY
     position: fixed;
 }
 
+#deleteBtnAttend{
+    width: 25px;
+    height: 25px;
+    position:fixed;
+    z-index: 3;  
+}
+
 
 /* ANNOUNCEMENTS */
+.messages, .inputs{
+    font-size: 25px;
+}
+
 #panel-title {
     border: 0;
 }
@@ -123,21 +152,21 @@ Announcement/video/attendance styling ONLY
     margin-bottom: 10px;
 }
 
-#imgBtn{
-    width: 20px;
-    height: 20px;
-    position:fixed;
-    right:0;
-}
-
 #editBtn{
     width: 25px;
     height: 25px;
-    position:fixed;
-    right:0;
+    display: inline-block;
 }
 
-#inputTxt, #updateButton{
+#deleteBtn{
+    width: 25px;
+    height: 25px;
+    position:fixed;
+    right:10px;
+    display: inline-block;
+}
+
+#inputTxt{
     width: 50%;
     height: 50%;
     font-size: 100%;
@@ -170,14 +199,19 @@ input[type="file"] {
 }
 
 #doneUpload {
-    min-width: 100%;
-    background-color: #009900;
+    visibility: hidden;
+    width: 50%;
+    background-color: #808080;
     color: #fff;
     text-align: center;
     border-radius: 2px;
     padding: 10px;
-    z-index: 1;
+    z-index: 4;
     font-size: 15px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
     display: none;
 }
 
@@ -236,4 +270,23 @@ input[type="file"] {
     border-radius: 16px;
     border: 1px solid #d9d9d9;
     text-shadow: 1px 1px #fff;       
+}
+
+#overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+#loading {
+    width: 100px;
+    height: 127px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -28px 0 0 -25px;
 }

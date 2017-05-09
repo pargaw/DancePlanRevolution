@@ -77,6 +77,7 @@ function showSentToast() {
     }, 2000);
 }
 
+var editing = false;
 function getAnnouncementTemplate(date, msg, messageId) {
     var dateDiv = document.createElement("div");
     var dateText = document.createElement("h5");
@@ -88,44 +89,122 @@ function getAnnouncementTemplate(date, msg, messageId) {
     msgDiv.appendChild(msgText);
 
     var announcementDiv = document.createElement("div");
-    dateDiv.id = "date" + messageId;
-    announcementDiv.appendChild(dateDiv);
 
-    msgDiv.id = "message" + messageId;
+	msgDiv.id = "message" + messageId;
+    msgDiv.className = "messages";
     announcementDiv.appendChild(msgDiv);
-
-    announcementDiv.className = "panel-body";
-    announcementDiv.id = "announDiv" + messageId;
-
 
     // for editing the announcements
     var input = document.createElement('textarea');
     input.id = "inputTxt" + messageId;
-    console.log('input', input);
     input.className = 'form-control';
     input.style.display = "none";
+    input.className = "inputs";
+
+    var cancel = document.createElement("BUTTON");
+    cancel.id = "cancelEditButton" + messageId;
+    cancel.innerHTML = "Cancel";
+    cancel.className = 'btn btn-danger';
+    cancel.style.display = "none";
 
     var update = document.createElement("BUTTON");
     update.id = "updateButton" + messageId;
-    update.innerHTML = "Update post";
-    update.className = 'btn';
+    update.innerHTML = "Update";
+    update.className = 'btn btn-primary';
     update.style.display = "none";
 
     announcementDiv.appendChild(input);
+    announcementDiv.appendChild(cancel);
     announcementDiv.appendChild(update);
 
-    var editButton = document.createElement("BUTTON");
-    editButton.id = "editBtn" + messageId;
-    editButton.className = "editBtn";
-    editButton.innerHTML = '<img src="img/green_edit.png" id="imgBtn' + messageId + '"/>';
+    dateDiv.id = "date";
+    announcementDiv.appendChild(dateDiv);
 
-    var deleteButton = document.createElement("BUTTON");
-    deleteButton.id = "deleteBtn" + messageId;
-    deleteButton.className = "deleteBtn";
-    deleteButton.innerHTML = '<img src="img/red_trash.png" id="imgBtn' + messageId + '"/>';    
+	var deleteButton = document.createElement("IMG");
+    deleteButton.id = "deleteBtn";
+    deleteButton.className = "deleteBtn" + messageId;
+    deleteButton.src = "img/red_trash.png";
+    deleteButton.onclick = function() {
+    	if(confirm("Are you sure you want to delete this announcement?")){
+    		var key = getMessageID(deleteButton, 'deleteBtn'.length); 
 
-    announcementDiv.appendChild(editButton);
+    		var thisAnnounce = document.getElementById("announDiv"+key);
+		    $("#announDiv" + key).fadeOut('slow', function() {
+		        var ref = danceDatabase.ref('announcements/' + currentDanceGroup).child(key);
+		        ref.remove();
+		        announcementDiv.parentElement.remove();
+		    });	
+    	}
+    }
     announcementDiv.appendChild(deleteButton);
+
+    var editButton = document.createElement("IMG");
+    editButton.id = "editBtn";
+    editButton.className = "editBtn" + messageId;
+    editButton.src = "img/green_edit.png";
+
+    editButton.onclick = function() {
+        if (!editing) {
+            editing = true;
+
+            //get which message number
+            var key = getMessageID(editButton, 'editBtn'.length);
+
+            //hide edit button
+            editButton.style.display = "none";
+            deleteButton.style.display = "none";
+
+            document.getElementById("inputTxt" + key).style.display = "block";
+            document.getElementById("updateButton" + key).style.display = "inline-block";
+            document.getElementById("cancelEditButton" + key).style.display = "inline-block";
+
+            var oldVal = document.getElementById("message" + key).innerHTML;
+            document.getElementById("inputTxt" + key).placeholder = oldVal;
+            document.getElementById("inputTxt" + key).innerHTML = oldVal;
+
+            document.getElementById("message" + key).innerHTML = "";
+
+            update.onclick = function() {
+                var inp = document.getElementById("inputTxt" + key).value;
+
+                document.getElementById("inputTxt" + key).style.display = "none";
+                document.getElementById("updateButton" + key).style.display = "none";
+                document.getElementById("cancelEditButton" + key).style.display = "none";
+
+                if (inp == "") {
+                    document.getElementById("message" + key).innerHTML = oldVal;
+                } else {
+                    document.getElementById("message" + key).innerHTML = inp;
+                }
+                editButton.style.display = "inline-block";
+                deleteButton.style.display = "inline-block";
+                editing = false;
+
+                var ref = danceDatabase.ref('announcements/' + currentDanceGroup);
+
+		        var announcementRef = ref.child(key);
+		        announcementRef.update({
+		          "msg": inp
+		        });
+            }
+
+            cancel.onclick = function(){
+                document.getElementById("inputTxt" + key).style.display = "none";
+                document.getElementById("updateButton" + key).style.display = "none";
+                document.getElementById("cancelEditButton" + key).style.display = "none";
+
+                document.getElementById("message" + key).innerHTML = oldVal;
+               
+                editButton.style.display = "inline-block";
+                deleteButton.style.display = "inline-block";
+                editing = false;
+            }
+        }
+    }
+    announcementDiv.appendChild(editButton);
+
+    announcementDiv.className = "panel-body";
+    announcementDiv.id = "announDiv" + messageId;
 
     var panelDiv = document.createElement("div");
     panelDiv.className = "panel panel-default";
@@ -134,51 +213,8 @@ function getAnnouncementTemplate(date, msg, messageId) {
     return panelDiv;
 }
 
-
 function getMessageID(element, prefixLength) {
-    var msgId = element.attr('id'); 
+    var msgId = element.className; 
     var key = msgId.substring(prefixLength, msgId.length);
     return key;    
 }
-
-$(document).on('click', '[id^=editBtn]', function(){
-    var key = getMessageID($(this), 'editBtn'.length);
-
-    $("#inputTxt" + key).css("display", "block");
-    $("#updateButton" + key).css("display", "block");
-
-    var oldVal = $("#message" + key).html();
-    $("#inputTxt" + key).attr('placeholder', oldVal);
-    $("#inputTxt" + key).html(oldVal);
-    $("#message" + key).html('');
-
-    $(document).on('click', "#updateButton" + key, function() {
-        var inp = $("#inputTxt" + key).val();
-
-        $("#inputTxt" + key).css('display', "none");
-        $("#updateButton" + key).css('display', "none");
-
-        if (inp == "") {
-            inp = oldVal;
-        }
-
-        $("#message" + key).html(inp);
-
-        var ref = danceDatabase.ref('announcements/' + currentDanceGroup);
-
-        var announcementRef = ref.child(key);
-        announcementRef.update({
-          "msg": inp
-        });
-    });
-});
-
-$(document).on('click', '[id^=deleteBtn]', function(){
-    var key = getMessageID($(this), 'deleteBtn'.length); 
-
-    $("#announDiv" + key).fadeOut('slow', function() {
-        var ref = danceDatabase.ref('announcements/' + currentDanceGroup).child(key);
-        ref.remove();
-        $(this).parent().remove();
-    });
-});

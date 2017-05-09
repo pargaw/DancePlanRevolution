@@ -30,27 +30,35 @@
     <script src="js/videos.js"></script>
     <script src="js/task.js"></script>
     <script src="js/attendance.js"></script>
+    <script src="js/taskbar.js"></script>
+    <script src="js/settings.js"></script>
 </head>
 
 <body>
     <!-- Navbar -->
     <nav class="navbar-default">
         <ul class="nav nav-pills nav-fill nav-center">
-            <li class="nav-item"> 
+            <li class="nav-item-home"> 
                 <a href="#">
-                  <span class="glyphicon glyphicon-home"></span> dpr
+                  <span type="button" class="glyphicon glyphicon-home" onclick="goHome()"></span>
                 </a>
             </li>
-            <li class="nav-item">
-                <form class="form-search form-inline">
-                    <input id="searchText" type="text" class="form-control search-query"/>
-                </form>
+            <li class="nav-item-dpr">
+                <a id='logo' href="#" onclick="goToTask()">dance plan revolution</a>
             </li>
-            <li class="nav-item dance-group">
-                <a href="#"></a>
+            <li class="nav-item-settings">
+                <a href="#">
+                    <span type="button" class="glyphicon glyphicon-cog" onclick="goToSettings()"></span>
+                </a>
+            </li>
+            <li class="nav-item-dt">
+                <li class="nav-item dance-group">
+                    <a href="#" onclick="goToTask()" style="font-size: 25px"></a>
+                </li>
             </li>
         </ul>
     </nav>
+    
     <!-- Secondary navbar for task pages -->
     <nav class="navbar">
         <ul class="taskbar nav nav-pills nav-fill nav-center">
@@ -70,21 +78,25 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <div id="myCarousel" class="carousel">
             <!-- Left and right controls -->
-            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <!--<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
             </a>
             <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
                 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
-            </a>
+            </a>-->
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
                 <!-- Page title -->
                 <div class="panel panel-default" id="panel-title">
                     <h4 class="panel-body task-name"></h4>
+                    <form id=searchIcon class="form-search form-inline">
+                        <input id="searchText" type="text" class="form-control search-query"/>
+                    </form>
                 </div>
+
                 <!-- Add New and Filter By-->
                 <div class="topButtons">
                     <div class="row">
@@ -121,8 +133,9 @@
                                 <label class="btn btn-default customFileUpload">
                                     <!-- TODO issue: uploadFile is a special id needed by HTML file upload, but I already have another upload
                                     button of the same id below... -->
+
                                     <!-- <input type="file" id="uploadFile" onchange="choosePhoto()" accept="image/*"">Upload photo -->
-                                </label>
+                                </label> 
 
                                 <label id='memberImgLabel'></label>
                             </div>
@@ -160,7 +173,7 @@
                             </div>
                         </div>
                     </div>
- 
+                    
                     <form class="formBackground" id="newVideo" data-toggle="validator" role="form">
                         <div class="container" id="videoUploadForm">
                             <div id="videoTextInput">   
@@ -182,7 +195,8 @@
 
                             <div class="form-group" id="folderSelection">
                                 <label for="folders">Choose folder for video</label>
-                                <select class="form-control" id="folders"></select> 
+                                    <select class="form-control" id="folders">
+                                    </select> 
                                 <input type="text" class="formInput" id="newFolder" placeholder="Type new folder name here..."> 
                             </div>
 

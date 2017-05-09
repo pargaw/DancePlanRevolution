@@ -5,9 +5,9 @@ Control page for determining which content is displayed for given task
 var TASKS = ["Attendance", "Video", "Announcements"]
 var currentTask = 0; // should be 0, 1, or 2, specifying one of the above tasks
 var currentDanceGroup = localStorage.getItem("currentDanceGroup");
-
 // SETUP
 function initializePage() {
+    // $('.overlay').hide();
     // stop automatic carousel movement 
     $("#myCarousel").carousel({
         pause: true,
@@ -50,7 +50,7 @@ window.onload = initializePage;
 
 
 
-// CLICK HANDLERS
+// CLICK HANDLERS -->TODO what is this for????
 $(document).on('click', '.navbar-brand', function(e) {
     window.location.href = 'index.html';
 });
