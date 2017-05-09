@@ -151,11 +151,7 @@ Announcement/Video/Attendance styling ONLY
 }
 
 
-/* ANNOUNCEMENTS */
-.messages, .inputs{
-    font-size: 25px;
-}
-
+/* ANNOUNCEMENTS */ 
 #panel-title {
     border: 0;
 }

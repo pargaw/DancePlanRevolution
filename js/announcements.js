@@ -93,19 +93,17 @@ function showSentToast() {
 
 var editing = false;
 function getAnnouncementTemplate(date, msg, messageId) {
-    var dateDiv = document.createElement("div");
-    var dateText = document.createElement("h5");
-    dateText.innerHTML = date;
+    var dateDiv = document.createElement("h6");
+    var dateText = document.createTextNode(date);
     dateDiv.appendChild(dateText);
 
-    var msgDiv = document.createElement("div");
+    var msgDiv = document.createElement("h5");
     var msgText = document.createTextNode(msg);
     msgDiv.appendChild(msgText);
 
     var announcementDiv = document.createElement("div");
 
 	msgDiv.id = "message" + messageId;
-    msgDiv.className = "messages";
     announcementDiv.appendChild(msgDiv);
 
     // for editing the announcements
@@ -113,7 +111,6 @@ function getAnnouncementTemplate(date, msg, messageId) {
     input.id = "inputTxt" + messageId;
     input.className = 'form-control';
     input.style.display = "none";
-    input.className = "inputs";
 
     var textRightDiv = document.createElement("div");
     textRightDiv.className = 'text-right';
