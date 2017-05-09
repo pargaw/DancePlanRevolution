@@ -4,7 +4,9 @@ Control page for determining which content is displayed for given task
 // GLOBALS
 var TASKS = ["Attendance", "Video", "Announcements"]
 var currentTask = 0; // should be 0, 1, or 2, specifying one of the above tasks
+var currentDanceGroupID = localStorage.getItem("currentDanceGroupID");
 var currentDanceGroup = localStorage.getItem("currentDanceGroup");
+
 // SETUP
 function initializePage() {
     // $('.overlay').hide();
@@ -26,13 +28,13 @@ function initializePage() {
     }
 
     // set dance group
-    if (localStorage.currentDanceGroup != "undefined") {
-        this.currentDanceGroup = localStorage.currentDanceGroup;
+    if (localStorage.currentDanceGroupID != "undefined") {
+        this.currentDanceGroupID = localStorage.currentDanceGroupID;
     }
 
 
     // set current dance group based on the last one seen
-    if (this.currentDanceGroup) {
+    if (this.currentDanceGroupID) {
         $(".dance-group a").text(this.currentDanceGroup);
     } else {
         $(".dance-group a").text(this.currentDanceGroup);
@@ -210,7 +212,7 @@ function getDate(time_included, delimiter) {
 
 // get list of all members across all dance groups
 function getMembers(){
-    var membersRef = danceDatabase.ref('groups/' + currentDanceGroup + '/members/');
+    var membersRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/members/');
     membersRef.on("value", function(snapshot) {
         var members = snapshot.val();
         return members;

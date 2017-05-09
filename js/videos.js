@@ -102,7 +102,7 @@ function include(arr, filename) {
 }
 
 function loadFolderNames() {
-    var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroup);
+    var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID);
     dbFoldersRef.on('value', function(snapshot) {
         var select = document.getElementById('folders');
         select.innerHTML = '';
@@ -209,10 +209,10 @@ function resetVideoParams() {
 }
 
 function postVideo() {
-    var dbVideoRef = danceDatabase.ref('videos/' + currentDanceGroup);
+    var dbVideoRef = danceDatabase.ref('videos/' + currentDanceGroupID);
 
     // need id from dbVideoRef 
-    var dbFolderRef = danceDatabase.ref('videofolders/' + currentDanceGroup + selectedFolder);
+    var dbFolderRef = danceDatabase.ref('videofolders/' + currentDanceGroupID + selectedFolder);
 
 
     if (uploadType == 'local') {
@@ -228,7 +228,7 @@ function postVideo() {
         //     videoName += file_ext;
         // } 
 
-        var folderPath = 'groups/' + currentDanceGroup + selectedFolder;
+        var folderPath = 'groups/' + currentDanceGroupID + selectedFolder;
         var videoPath = folderPath + videoName;
 
         console.log('folder path', folderPath);
