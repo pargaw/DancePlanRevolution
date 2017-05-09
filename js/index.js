@@ -67,30 +67,26 @@ $(document).on('keydown', 'input', function(e) {
     }
 });
 
+var currentDanceGroupID;
 var currentDanceGroup;
 
-
 $(document).on('click', '.group-name h4', function(e) {
-    console.log($(this));
-
-    // TODO every time new dance group is chosen on main page,
-    // update currentDanceGroup and localStorage accordingly
+    // every time new dance group is chosen on main page,
+    // update currentDanceGroupID and localStorage accordingly
     localStorage.clear();
-    currentDanceGroup = $(this).attr('id');
-    if (currentDanceGroup) {
+    currentDanceGroupID = $(this).attr('id');
+    currentDanceGroup = $('#' + currentDanceGroupID).html();
+    if (currentDanceGroupID) {
+        localStorage.setItem("currentDanceGroupID", currentDanceGroupID);
         localStorage.setItem("currentDanceGroup", currentDanceGroup);
     }
-    console.log(currentDanceGroup);
+    console.log(currentDanceGroupID, currentDanceGroup);
     window.location.href = 'task.html';
 });
 
 function addNewGroup() {
     var name = $('#groupInp').val();
-    console.log(name);
-
-    // TODO get and save members
-    // var members;
-
+    console.log(name); 
 
     if (name) {
         // replace spaces with dashes and convert to lowercase

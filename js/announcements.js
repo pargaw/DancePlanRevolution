@@ -14,7 +14,7 @@ function addNewAnnouncement() {
 
     if (msg) {
         var date = getDate(true);
-        var ref = danceDatabase.ref('announcements/' + currentDanceGroup);
+        var ref = danceDatabase.ref('announcements/' + currentDanceGroupID);
 
         // create new ref and save data to it in one step
         var userRef = ref.push({
@@ -40,7 +40,7 @@ function createNewAnnouncement() {
 }
 
 function displayAllAnnouncements() {
-    var ref = danceDatabase.ref('announcements/' + currentDanceGroup + '/');
+    var ref = danceDatabase.ref('announcements/' + currentDanceGroupID + '/');
 
     ref.on("value", function(snapshot) {
         var announcementContainer = document.getElementById("announcementsDisplay");
@@ -130,7 +130,7 @@ function getAnnouncementTemplate(date, msg, messageId) {
 
     		var thisAnnounce = document.getElementById("announDiv"+key);
 		    $("#announDiv" + key).fadeOut('slow', function() {
-		        var ref = danceDatabase.ref('announcements/' + currentDanceGroup).child(key);
+		        var ref = danceDatabase.ref('announcements/' + currentDanceGroupID).child(key);
 		        ref.remove();
 		        announcementDiv.parentElement.remove();
 		    });	
@@ -180,7 +180,7 @@ function getAnnouncementTemplate(date, msg, messageId) {
                 deleteButton.style.display = "inline-block";
                 editing = false;
 
-                var ref = danceDatabase.ref('announcements/' + currentDanceGroup);
+                var ref = danceDatabase.ref('announcements/' + currentDanceGroupID);
 
 		        var announcementRef = ref.child(key);
 		        announcementRef.update({

@@ -8,5 +8,5 @@ function goToSettings(){
 }
 
 function goToTask(){
-	location.reload();//change later to respective slide
+	location.reload(); //change later to respective slide
 }

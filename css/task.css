@@ -53,6 +53,7 @@ Announcement/Video/Attendance styling ONLY
 
 
 
+
 /* CAROUSEL CUSTOMIZATION */
 .carousel-control {
     background-image: none !important;
@@ -83,7 +84,7 @@ Announcement/Video/Attendance styling ONLY
 
 /* ATTENDANCE */
 #attendanceTable td {
-    padding: 3px 3px 20px 3px;
+    padding: 3px 3px 40px 3px;
     word-wrap: break-word;
 }
 
@@ -106,10 +107,6 @@ Announcement/Video/Attendance styling ONLY
     display: block;
     position: absolute; 
     top: 0px; 
-}
-
-#saveButton{
-    background-color: #2DB18E;
 }
 
 #sentToast, #savedToast {
@@ -172,6 +169,12 @@ Announcement/Video/Attendance styling ONLY
     font-size: 100%;
 }
 
+#saveButton {
+    width: 60%;
+    margin: 30px 20%;
+}
+
+
 
 /* VIDEOS */
 input[type="file"] {
@@ -183,6 +186,11 @@ input[type="file"] {
     margin: 10px 0;
     padding: 5px;
     /*display: none;*/
+}
+
+.uploadFrom {
+    text-align: center;
+    padding-bottom: 24px;
 }
 
 #newFolder, #fileUpload, #folderSelection, #filterByFolder {
@@ -230,6 +238,10 @@ input[type="file"] {
 #uploadOptions { 
     padding: 20px 0;
     font-size: 20px; 
+}
+
+#uploadOptions a {
+    text-decoration: none;
 }
 
 .formBackground {
@@ -289,4 +301,21 @@ input[type="file"] {
     top: 50%;
     left: 50%;
     margin: -28px 0 0 -25px;
+}
+
+
+/* GENERAL */
+.greenButton {
+    color: #fff;
+    background-color: #46A999; /* shades: #38AF94 , #40A990 */
+}
+
+.greenButton:hover, .greenButton:focus {
+    color: #fff;
+    background-color: #2DB18E;  
+}
+
+.formImgButtons {
+    width: 65px; 
+    padding: 0px 0px 0px 12px;
 }

@@ -13,7 +13,15 @@ Homepage styling ONLY
 
 .group-name:hover,
 .group-name:focus {
-    background-color: #ddd;
+    color: #fff;
+    background-color: #2DB18E;
+}
+
+.group-name h4 {
+    text-align: center;
+    font-size: 21px;
+    letter-spacing: 1px;
+    padding: 5px;
 }
 
 .topButtons {

@@ -44,7 +44,7 @@
                 </a>
             </li>
             <li class="nav-item-dpr">
-                <a id='logo' href="#" onclick="goToTask()">dance plan revolution</a>
+                <a id='logo' href="#" onclick="goHome()">dance plan revolution</a>
             </li>
             <li class="nav-item-settings">
                 <a href="#">
@@ -144,7 +144,7 @@
                             <div class="form-group">
                                 <div class="text-right">
                                     <button id="cancelMemberButton" type="cancel" class="btn btn-danger">Cancel</button>
-                                    <button id="addMemberButton" type="submit" class="btn btn-primary">Add</button>
+                                    <button id="addMemberButton" type="submit" class="btn greenButton">Add</button>
                                 </div>
                             </div>
                         </form> 
@@ -152,7 +152,7 @@
                         <table id="attendanceTable" align="center"></table>
                     </div>
                     
-                    <button id="saveButton" style="float:right" class="btn btn-primary" onclick="saveAttendance()">Save</button>
+                    <button id="saveButton" class="btn greenButton" onclick="saveAttendance()">Save</button>
                 </div>
 
                 <!-- Videos -->
@@ -161,15 +161,19 @@
 
                     <div class="container formBackground" id="uploadOptions">
                         <div class="row">
+                            <div class="col-xs-12 uploadFrom">Upload from...</div>  
+                        </div>
+
+                        <div class="row">
                             <div class="col-xs-6" id="localUpload">
                                 <a href="#">
-                                    <span class="glyphicon glyphicon-upload"></span> Upload from device
+                                    <span class="glyphicon glyphicon-upload"></span> device
                                 </a>
                             </div> 
 
                             <div class="col-xs-6" id="urlUpload">
                                 <a href="#">
-                                    <span class="glyphicon glyphicon-link"></span> Upload from link
+                                    <span class="glyphicon glyphicon-link"></span> link
                                 </a>
                             </div>
                         </div>
@@ -204,7 +208,7 @@
                             <div class="form-group" id="videoButtons">
                                 <div class="text-right">
                                     <button type="button" class="btn btn-danger" id="cancelVideoPost">Cancel</button>
-                                    <button type="button" class="btn btn-primary" onclick="postVideo()" type="submit" id="submitVideo" disabled="disabled">Post</button>
+                                    <button type="button" class="btn greenButton" onclick="postVideo()" type="submit" id="submitVideo" disabled="disabled">Post</button>
                                     <div id="doneUpload" style="float:center">Done!</div>
                                 </div>
                             </div> 
@@ -230,8 +234,11 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="text-right">
-                                        <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
-                                        <button id="doneButton" type="submit" class="btn btn-primary">Post</button>
+                                        <!-- <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
+                                        <button id="doneButton" type="submit" class="btn greenButton">Post</button> -->
+                                        <img id="cancelButton" type="cancel" class="btn formImgButtons" src="img/close.png">
+                                        <img id="doneButton" type="submit" class="btn formImgButtons" src="img/green_checkmark.png">
+                                        
                                     </div>
                                 </div>
                             </div>

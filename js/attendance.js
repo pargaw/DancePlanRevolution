@@ -23,8 +23,8 @@ function saveMemberToDatabase(kerberos, name, url) {
     }
 
     // console.log(kerberos, name, url);
-    var attendanceRef = danceDatabase.ref('attendance/' + currentDanceGroup + '/' + hyphen_delimited_date);
-    var groupsRef = danceDatabase.ref('groups/' + currentDanceGroup + '/members/');
+    var attendanceRef = danceDatabase.ref('attendance/' + currentDanceGroupID + '/' + hyphen_delimited_date);
+    var groupsRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/members/');
     var membersRef = danceDatabase.ref('members/');
 
     var updateObjFalse = {};
@@ -35,7 +35,7 @@ function saveMemberToDatabase(kerberos, name, url) {
     attendanceRef.update(updateObjFalse);
     groupsRef.update(updateObjTrue);
     membersRef.child(kerberos).set({
-        groups: [currentDanceGroup],
+        groups: [currentDanceGroupID],
         kerberos: kerberos,
         name: name,
         photo: url
@@ -111,9 +111,9 @@ function choosePhoto() {
 }
 
 function setupMembers() { 
-    return danceDatabase.ref('attendance/' + currentDanceGroup + '/' + hyphen_delimited_date).once('value').then(function(snapshot) {
+    return danceDatabase.ref('attendance/' + currentDanceGroupID + '/' + hyphen_delimited_date).once('value').then(function(snapshot) {
         var attendance = snapshot.val(); 
-        var membersRef = danceDatabase.ref('groups/' + currentDanceGroup + '/members/');
+        var membersRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/members/');
 
         membersRef.on("value", function(snapshot) {
             var members = snapshot.val();
@@ -237,7 +237,7 @@ function saveAttendance() {
     }); 
 
     // save new attendance to db
-    var ref = danceDatabase.ref('attendance/' + currentDanceGroup + '/' + hyphen_delimited_date);
+    var ref = danceDatabase.ref('attendance/' + currentDanceGroupID + '/' + hyphen_delimited_date);
     ref.set(newAttendance); 
 
     // notify user of saved changes with toast 
