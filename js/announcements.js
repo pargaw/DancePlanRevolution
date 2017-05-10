@@ -249,7 +249,7 @@ function getAnnouncementTemplate(date, msg, messageId) {
 	        ref.remove();
 	        announcementDiv.parentElement.remove();
 	      });	
-		  $('#myModal').modal('hide');
+		  $('#myDeleteModal').modal('hide');
 		});
     }
     rDiv.appendChild(deleteButton);
