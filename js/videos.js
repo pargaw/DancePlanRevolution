@@ -145,8 +145,8 @@ function displayFolderNames(){
                     id +=1;
                 });            
             }
+            numOfFolders = keys.length;
         });
-
         folderIsAlreadyClicked = true;
     }
     else{
@@ -156,6 +156,10 @@ function displayFolderNames(){
     }
 }
 
+$('#videoFolders').on('click', function(e){
+
+})
+
 function displayAllVideosInFolder(foldername){
     var selectedFolder = '/'+ foldername + '/';
     var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID + selectedFolder);
@@ -163,8 +167,6 @@ function displayAllVideosInFolder(foldername){
         var data = snapshot.val();
         console.log(data);
         var keys = Object.keys(data);
-        numOfFolders = keys.length;
-        console.log(numOfFolders);
     });
 }
 
@@ -334,7 +336,8 @@ $(document).ready(function(evt){
             $("#submitVideo").prop('disabled', false);
             $("#submitVideo").unbind('click').on('click', function(evt){
                 var date =  getDate(true);
-                addIframeVideo(src, date);
+                var groupName = "test"; //hardcoded to test for now
+                addIframeVideo(src, date, groupName)
                 postVideo();
                 $('#videoURL').val("");
                 $('#newVideo').hide();
@@ -361,10 +364,15 @@ function createDateForVideo() {
     document.getElementById("date").innerHTML = "<h4>" + getDate() + "</h4>";
 }
 
-function addIframeVideo (src,date) {
+function createGroupTagForVideo(groupName){
+    document.getElementById('groupTag').innerHTML = "<h4> #" + groupName + "</h4>";
+}
+
+function addIframeVideo (src,date, groupName) {
     console.log("adding video", src);
     $('<div class="panel panel-default"><div class="videoDates" style="position: relative">'+ date
-        +'</div><div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
+        +'</div>'+'<div class="groupTag" style="position: relative"> <h4> #'+ groupName
+        +'</h4></div>' +'<div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
         src+'"></iframe></div></div>').prependTo('#videoDisplay');
     idCount +=1;
 }

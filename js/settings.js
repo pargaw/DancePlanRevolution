@@ -7,7 +7,7 @@
 // }
 
 
-
+var newTeamName = currentDanceGroup;
 
 /*
 Control page for determining which content is displayed for given task
@@ -43,6 +43,9 @@ function initializePage() {
         this.currentDanceGroupID = localStorage.currentDanceGroupID;
     }
 
+    console.log($('#editTeamName>h4'));
+    $('#editTeamName>input')[0].value = this.currentDanceGroup;
+    // $('#editTeamName>input')[0].placeholder = 'Moo';
 
     // set current dance group based on the last one seen
     if (this.currentDanceGroupID) {
@@ -59,6 +62,29 @@ function initializePage() {
 }
 
 window.onload = initializePage;
+
+
+
+$(document).on('keyup', '#editTeamName>input', function(){
+    newTeamName = $(this).val();
+});
+
+$(document).on('click', '#cancelNameChangeButton', function() {
+    $('#editTeamName>input').val(localStorage.getItem("currentDanceGroup"));
+});
+
+$(document).on('click', '#changeNameButton', function() {
+    var danceGroupRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/');
+
+    var updateObj = {};
+    updateObj['name'] = newTeamName;
+
+    danceGroupRef.update(updateObj);
+    $(".dance-group a").text(newTeamName);
+    localStorage.setItem("currentDanceGroup", newTeamName);
+
+    // danceGroupRef.child('name').setValue(newTeamName);
+});
 
 
 
@@ -251,14 +277,16 @@ $(document).on('click', '#addMemberButton', function(e) {
         memberRef.put(memberPhoto).then(function(snapshot) {
             folderRef.child(imagePath).getDownloadURL().then(function(url) {
                 console.log('inp 2', kerberos, name);
-                addedMembers.push([kerberos,name,url]);
+                saveMemberToDatabase(kerberos,name,url);
+                // addedMembers.push([kerberos,name,url]); -> save separately after pressing save button
             }).catch(function(error) {
                 console.log('error', error);
             });
         }); 
     } else {
         console.log('no member photo', kerberos, name);
-        addedMembers.push([kerberos,name]);
+        saveMemberToDatabase(kerberos,name);
+        // addedMembers.push([kerberos,name]); -> save separately after pressing save button
     }
     $('#newMember').hide();
 });
@@ -414,14 +442,15 @@ function saveEditMembers() {
      		deleteMemberFromDatabase(deletedMembers[i][0], deletedMembers[i][1]);
      	}
      }
+     deletedMembers = [];
 
-     for (var j = 0; j < addedMembers.length; j++){
-     	if (addedMembers[j].length==3){
-			saveMemberToDatabase(addedMembers[j][0], addedMembers[j][1], addedMembers[j][2]);
-     	} else{
-     		saveMemberToDatabase(addedMembers[j][0], addedMembers[j][1]);
-     	}
-     }
+   //   for (var j = 0; j < addedMembers.length; j++){
+   //   	if (addedMembers[j].length==3){
+			// saveMemberToDatabase(addedMembers[j][0], addedMembers[j][1], addedMembers[j][2]);
+   //   	} else{
+   //   		saveMemberToDatabase(addedMembers[j][0], addedMembers[j][1]);
+   //   	}
+   //   }
 
     // notify user of saved changes with toast 
     var x = document.getElementById("savedToast");

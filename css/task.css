@@ -27,6 +27,10 @@ Announcement/Video/Attendance styling ONLY
     display: inline-block;
 }
 
+#centerTitle{
+    pointer-events:none;
+}
+
 #leftBtn{
     position: fixed;
     top: 20px;
