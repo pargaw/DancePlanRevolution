@@ -75,37 +75,31 @@ $(document).on('change', 'select', function(e) {
         $(document).bind('keyup', '#newFolder', function(e) {
             folderName = $('#newFolder').val();
             selectedFolder = '/' + folderName + '/';
-            console.log('selectedFolder in keyup', selectedFolder);
 
             // TODO check that selectedFolder name isn't duplicate of existing one
         });
     } else {
-        console.log('updated folder?');
         folderName = selectedFolder;
         selectedFolder = '/' + folderName + '/';
     }
 
     if ((validURL || file) && videoName) { 
-        console.log('videoName that unlocks submit button', videoName);
         $("#submitVideo").prop('disabled', false);
     };
 });
 
 $(document).on('keyup', '#videoNameInput', function(e) {
     videoName = $(this).val();
-    console.log('videoName in keyup', videoName);
 
     // TODO check that selectedFolder name isn't duplicate of existing one
 });
 
 $(document).on('click','#folderIDadd_new_folder', function(evt){
-    console.log("add new folder gurl");
 })
 
 function include(arr, filename) {
     var file_ext = filename.substring(filename.length-3, filename.length);
     var valid_file = arr.indexOf(file_ext) != -1;
-    console.log('valid file', valid_file);
     return valid_file;
 }
 
@@ -142,13 +136,13 @@ function loadFolderNames() {
 }
 
 function displayFolderNames(){
-    console.log("being called", folderIsAlreadyClicked);
+
     if(!folderIsAlreadyClicked){
-        console.log("gotta be here");
         numOfFolders = 0;
         var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID);
         dbFoldersRef.on('value', function(snapshot) {
             var data = snapshot.val();
+            console.log(data);
             if (data) {
                 var keys = Object.keys(data); 
                 var id = 0;
@@ -176,24 +170,25 @@ function displayAllVideosInFolder(foldername){
     console.log(foldername);
     var selectedFolder = '/'+ foldername + '/';
     var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID + selectedFolder);
+    var dbVideosRef = danceDatabase.ref('/videos/' + currentDanceGroupID);
+
     console.log(selectedFolder, "dis folder");
     dbFoldersRef.on('value', function(snapshot) {
         var data = snapshot.val();
         var keys = Object.keys(data);
         keys.forEach(function(key){
-            console.log(key);
-            VALID_FILE_EXTS.forEach(function(extension){
-                if(key.includes(extension)){
-                    console.log("this is a videeeo");
-                }
-                else{
-                    var date = getDate(true); //hardcoded for now
-                    console.log(key, foldername);
-                    addIframeVideo (key, date, foldername);
-                }
+            dbVideosRef.on('value', function(snapshot){
+                var dataVideo = snapshot.val();
+                var keyVideo = Object.keys(dataVideo);
+                keyVideo.forEach(function(key){
+                    var date = dataVideo[key].date;  
+                    console.log(dataVideo,  dataVideo[key],'url here' ,foldername);
+                    addIframeVideo (dataVideo[key].url, date, foldername);
+
+                })
             })
-        });
-    });
+        })
+    })
 }
 
 function chooseVideo() {
@@ -204,15 +199,15 @@ function chooseVideo() {
     if ('files' in fileTracker) {
         if (fileTracker.files.length == 0) {
             // TODO bootstrap validation
-            console.log(selectErrorMsg);
+            // console.log(selectErrorMsg);
             return;
         } else {
             for (var i = 0; i < fileTracker.files.length; i++) {
                 file = fileTracker.files[i];
-                console.log('file', file);
+                // console.log('file', file);
 
                 var videoNameLabel = document.getElementById('videoNameLabel');
-                console.log('videoNameLabel', videoNameLabel);
+                // console.log('videoNameLabel', videoNameLabel);
                 videoNameLabel.innerHTML = file.name;
                 videoName = file.name;
 
@@ -225,11 +220,11 @@ function chooseVideo() {
     } else {
         if (fileTracker.value == "") {
             // TODO bootstrap validation
-            console.log(selectErrorMsg);
+            // console.log(selectErrorMsg);
         } else {
             // TODO bootstrap validation
-            console.log('Uploading from file is not supported by this browser. Please upload from URL instead.')
-            console.log('path of selected file', fileTracker.value);
+            // console.log('Uploading from file is not supported by this browser. Please upload from URL instead.')
+            // console.log('path of selected file', fileTracker.value);
         }
     }
 }
@@ -280,7 +275,7 @@ function postVideo() {
     var dbVideoRef = danceDatabase.ref('videos/' + currentDanceGroupID);
     var dbFolderRef = danceDatabase.ref('videofolders/' + currentDanceGroupID + selectedFolder);
 
-    console.log('file and selectedFolder', this.file, this.selectedFolder);
+    // console.log('file and selectedFolder', this.file, this.selectedFolder);
 
     if (uploadType == 'local') {
         if (file && selectedFolder) {
