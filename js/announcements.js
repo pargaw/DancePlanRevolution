@@ -107,8 +107,14 @@ function getAnnouncementTemplate(date, msg, messageId) {
 
     var announcementDiv = document.createElement("div");
 
+    var lDiv = document.createElement("div");
+    lDiv.id = "leftDiv";
+    lDiv.style.wordBreak ="break-all"; 
+    lDiv.style.wordWrap = "break-word";
+
 	msgDiv.id = "message" + messageId;
-    announcementDiv.appendChild(msgDiv);
+    msgDiv.className = "messages";
+    lDiv.appendChild(msgDiv);
 
     // for editing the announcements
     var input = document.createElement('textarea');
@@ -141,31 +147,17 @@ function getAnnouncementTemplate(date, msg, messageId) {
     textRightDiv.appendChild(cancel);
     textRightDiv.appendChild(update);
 
-    dateDiv.id = "date";
-    announcementDiv.appendChild(input);
-    announcementDiv.appendChild(errorHelpBlock);
-    announcementDiv.appendChild(dateDiv);
-    announcementDiv.appendChild(textRightDiv);
+    lDiv.appendChild(input);
+    lDiv.appendChild(errorHelpBlock);
+    lDiv.appendChild(textRightDiv);
 
-	var deleteButton = document.createElement("IMG");
-    deleteButton.id = "deleteBtn";
-	deleteButton.src = 'img/red_trash.png';
-    deleteButton.className = "deleteBtn" + messageId;
-    deleteButton.onclick = function() {
-		var key = getMessageID(deleteButton, 'deleteBtn'.length); 
-		$('#myDeleteModal').modal('show');
+    dateDiv.id = "date"; 
+    lDiv.appendChild(dateDiv);
+    announcementDiv.appendChild(lDiv);
 
-		$('#yesBtn').on('click', function() {
-		  var thisAnnounce = document.getElementById("announDiv"+key);
-	      $("#announDiv" + key).fadeOut('slow', function() {
-	      	var ref = danceDatabase.ref('announcements/'+currentDanceGroupID).child(key);
-	        ref.remove();
-	        announcementDiv.parentElement.remove();
-	      });	
-		  $('#myModal').modal('hide');
-		});
-    }
-    announcementDiv.appendChild(deleteButton);
+
+    var rDiv = document.createElement("div");
+    rDiv.id = "rightDiv";
 
     var editButton = document.createElement("IMG");
     editButton.id = "editBtn";
@@ -179,9 +171,10 @@ function getAnnouncementTemplate(date, msg, messageId) {
             //get which message number
             var key = getMessageID(editButton, 'editBtn'.length);
 
-            //hide edit button
+            //hide edit and delete buttons and extend div
             editButton.style.display = "none";
             deleteButton.style.display = "none";
+            lDiv.style.width = "100%";
 
             document.getElementById("inputTxt" + key).style.display = "block";
             document.getElementById("updateButton" + key).style.display = "inline-block";
@@ -209,16 +202,19 @@ function getAnnouncementTemplate(date, msg, messageId) {
                 } else {
                     document.getElementById("message" + key).innerHTML = inp;
                 }
-                editButton.style.display = "inline-block";
-                deleteButton.style.display = "inline-block";
+
+                lDiv.style.width = "80%";
+                editButton.style.display = "block";
+                deleteButton.style.display = "block";
+
                 editing = false;
 
                 var ref = danceDatabase.ref('announcements/' + currentDanceGroupID);
 
-		        var announcementRef = ref.child(key);
-		        announcementRef.update({
-		          "msg": inp
-		        });
+                var announcementRef = ref.child(key);
+                announcementRef.update({
+                  "msg": inp
+                });
             }
 
             cancel.onclick = function(){
@@ -227,18 +223,42 @@ function getAnnouncementTemplate(date, msg, messageId) {
 
                 document.getElementById("inputTxt" + key).style.display = "none";
                 document.getElementById("updateButton" + key).style.display = "none";
-                document.getElementById("cancelEditButton" + key).style.display = "none";
+                document.getElementById("cancelEditButton" + key).style.display = "none"; 
+                document.getElementById("message" + key).innerHTML = oldVal;
 
-                editButton.style.display = "inline-block";
-                deleteButton.style.display = "inline-block";
+                lDiv.style.width = "80%";
+                editButton.style.display = "block";
+                deleteButton.style.display = "block";
                 editing = false;
             }
         }
     }
-    announcementDiv.appendChild(editButton);
+    rDiv.appendChild(editButton);
+
+	var deleteButton = document.createElement("IMG");
+    deleteButton.id = "deleteBtn";
+	deleteButton.src = 'img/red_trash.png';
+    deleteButton.className = "deleteBtn" + messageId;
+    deleteButton.onclick = function() {
+		var key = getMessageID(deleteButton, 'deleteBtn'.length); 
+		$('#myDeleteModal').modal('show');
+
+		$('#yesBtn').on('click', function() {
+		  var thisAnnounce = document.getElementById("announDiv"+key);
+	      $("#announDiv" + key).fadeOut('slow', function() {
+	      	var ref = danceDatabase.ref('announcements/'+currentDanceGroupID).child(key);
+	        ref.remove();
+	        announcementDiv.parentElement.remove();
+	      });	
+		  $('#myModal').modal('hide');
+		});
+    }
+    rDiv.appendChild(deleteButton);
+    announcementDiv.appendChild(rDiv);
 
     announcementDiv.className = "panel-body";
     announcementDiv.id = "announDiv" + messageId;
+    announcementDiv.style.position = "relative";
 
     var panelDiv = document.createElement("div");
     panelDiv.className = "panel panel-default";
