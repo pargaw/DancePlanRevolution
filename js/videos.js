@@ -23,6 +23,15 @@ $(document).on('click', '#cancelVideoPost', function(e) {
 
 $(document).on('click',  '#filterByFolder' , function(e){
     displayFolderNames();
+    for(i =0; i<= numOfFolders-1;i++){
+        $('#folderID'+i).on('click', function(evt){
+            console.log("clicking happening", this);
+            var folderName = $(this).text();
+            displayAllVideosInFolder(folderName);
+            $('#videoFolders').empty();
+        })
+    }
+
 });
 
 $(document).on('click', '#addNewVideo', function(e) {
@@ -132,6 +141,7 @@ function loadFolderNames() {
 
 function displayFolderNames(){
     if(!folderIsAlreadyClicked){
+        numOfFolders = 0;
         console.log(folderIsAlreadyClicked);
         var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID);
         dbFoldersRef.on('value', function(snapshot) {
@@ -143,30 +153,42 @@ function displayFolderNames(){
                 keys.forEach(function(key) {
                     addFolderHTML(key, id);
                     id +=1;
+                    numOfFolders+=1;
                 });            
             }
-            numOfFolders = keys.length;
         });
         folderIsAlreadyClicked = true;
     }
     else{
+        numOfFolders=0;
         //remove folders?
         $('#videoFolders').empty();
         folderIsAlreadyClicked = false;
     }
 }
 
-$('#videoFolders').on('click', function(e){
-
-})
-
 function displayAllVideosInFolder(foldername){
+    console.log(foldername);
     var selectedFolder = '/'+ foldername + '/';
     var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID + selectedFolder);
+    console.log(selectedFolder, "dis folder");
     dbFoldersRef.on('value', function(snapshot) {
         var data = snapshot.val();
-        console.log(data);
         var keys = Object.keys(data);
+        keys.forEach(function(key){
+            console.log(key);
+            VALID_FILE_EXTS.forEach(function(extension){
+                if(key.includes(extension)){
+                    console.log("this is a videeeo");
+                }
+                else{
+                    var date = getDate(true); //hardcoded for now
+                    console.log(key, foldername);
+                    addIframeVideo (key, date, foldername);
+                }
+            })
+
+        });
     });
 }
 
@@ -369,10 +391,10 @@ function createGroupTagForVideo(groupName){
 }
 
 function addIframeVideo (src,date, groupName) {
-    console.log("adding video", src);
-    $('<div class="panel panel-default"><div class="videoDates" style="position: relative">'+ date
-        +'</div>'+'<div class="groupTag" style="position: relative"> <h4> #'+ groupName
-        +'</h4></div>' +'<div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
+    console.log("adding video", src, groupName);
+    $('<div class="panel panel-default"><div class="videoDates" style="position: relative"><h4>'+ date
+        +'</h4></div>'+'<div class="groupTag" style="position: relative"> <h4>#'+ groupName 
+        +'folder </h4></div>' +'<div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
         src+'"></iframe></div></div>').prependTo('#videoDisplay');
     idCount +=1;
 }
