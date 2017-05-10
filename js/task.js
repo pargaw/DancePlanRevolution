@@ -16,17 +16,6 @@ function initializePage() {
         interval: false
     });
 
-    // set page title
-    if (currentTask == 0) {
-        $(".task-name").text(TASKS[currentTask] + " for " + getDate());
-    } else if(currentTask == 1){
-        console.log(TASKS[currentTask] + "folders ");
-        $(".task-name").text(TASKS[currentTask] + "folders ");
-    }
-    else {
-        $(".task-name").text(TASKS[currentTask]);
-    }
-
     // set dance group
     if (localStorage.currentDanceGroupID != "undefined") {
         this.currentDanceGroupID = localStorage.currentDanceGroupID;
@@ -44,7 +33,6 @@ function initializePage() {
     }
 
     updateTaskPgContent();
-    displayAllAnnouncements();
     setupMembers();
 }
 
@@ -81,14 +69,27 @@ $(document).ready(function() {
             return changeDate(newDate);
         }
     });
+
+    if (currentTask == 0) {
+        var dateTooltipText = 'Select date';
+    } else {
+        var dateTooltipText = 'Filter by date';
+    }
+    $(".ui-datepicker-trigger").attr("data-toggle","tooltip");
+    $(".ui-datepicker-trigger").attr("data-original-title", dateTooltipText);
+    $(".ui-datepicker-trigger").attr("title", dateTooltipText);
+
+    $('[data-toggle="tooltip"]').tooltip(); 
+
 });
+
+$()
 
 
 // use new index of carousel to update page content
 $(document).on('slide.bs.carousel', '.carousel', function(e) {
     var slideFrom = $(this).find('.active').index();
     var slideTo = $(e.relatedTarget).index();
-    // console.log(slideFrom+' => '+slideTo);
     currentTask = slideTo - 2;
     // updateTaskPgContent();
 });
@@ -109,7 +110,7 @@ function changeDate(date) {
     } else if (currentTask == 1) {
         
     } else {
-
+        displayAllAnnouncements(date);
     }
 }
 
@@ -119,7 +120,7 @@ function updateTaskPgContent(indirect) {
         $("#myCarousel").carousel(parseInt(currentTask));
     }
 
-    // update page title
+    // set page title
     if (currentTask == 0) {
         $(".task-name").text(TASKS[currentTask] + " for " + getDate());
     } else {
@@ -132,39 +133,35 @@ function updateTaskPgContent(indirect) {
 
     var newTaskButton = $('#addNew');
     var newVideoButton = $('#addNewVideo');
-    var datePicker = $('.ui-datepicker-trigger');
-    var dateButton = $('#dateButton');
     var searchText = $('#searchText')[0];
     var filterByFolder = $('#filterByFolder');
+    var resetDateFilter = $('.resetRow');
+    var datePicker = $('.ui-datepicker-trigger');
 
     if (currentTask == 0) {
+        $('#addNew').attr('data-original-title', 'Add new member');
         searchText.placeholder = "Search dancers...";
-
         newVideoButton.hide();
         newTaskButton.show();
         filterByFolder.hide();
         datePicker.show();
-
-        // newTaskButton.find('p').text('Add member');
-        // dateButton.find('p').text('Choose date');
+        resetDateFilter.hide();
     } else if (currentTask == 1) {
         searchText.placeholder = "Search videos...";
-
         newVideoButton.show();
         newTaskButton.hide();
         datePicker.hide();
         filterByFolder.show();
+        resetDateFilter.hide();
         loadFolderNames();
-        // dateButton.find('p').text('Filter by date');
     } else if (currentTask == 2) {
+        displayAllAnnouncements();
+        $('#addNew').attr('data-original-title', 'Add new announcement');
         searchText.placeholder = "Search announcements...";
-
         newVideoButton.hide();
         newTaskButton.show();
         filterByFolder.hide();
         datePicker.show();
-        // newTaskButton.find('p').text('Add announcement');
-        // dateButton.find('p').text('Filter by date');
     }
 }
 

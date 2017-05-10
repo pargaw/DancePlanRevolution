@@ -39,28 +39,42 @@ function createNewAnnouncement() {
     $('#newAnnouncement').toggle();
 }
 
-function displayAllAnnouncements() {
+$(document).on('click', '#resetButton', function() {
+    displayAllAnnouncements();
+});
+
+function displayAllAnnouncements(filterDate) {
     var ref = danceDatabase.ref('announcements/' + currentDanceGroupID + '/');
+
+    if (filterDate) {
+        $('.resetRow').show();
+    } else {
+        $('.resetRow').hide();
+    }
 
     ref.on("value", function(snapshot) {
         var announcementContainer = document.getElementById("announcementsDisplay");
         announcementsDisplay.innerHTML = '';
-
         var announcements = snapshot.val();
-        var announcement_list = Object.keys(announcements);
 
-        // TODO note the backward iteration
-        // must be consistent with display order of other tasks
-        for (i = announcement_list.length; i--;) {
-            var key = announcement_list[i];
-            var announcement = announcements[key];
+        if (announcements) {
+            var announcement_list = Object.keys(announcements);
 
-            if (announcement) {
-                var date = announcement["date"];
-                var msg = announcement["msg"];
+            // TODO note the backward iteration
+            // must be consistent with display order of other tasks
+            for (i = announcement_list.length; i--;) {
+                var key = announcement_list[i];
+                var announcement = announcements[key];
 
-                var template = getAnnouncementTemplate(date, msg, key);
-                announcementContainer.appendChild(template);
+                if (announcement) {
+                    var date = announcement["date"];
+                    var msg = announcement["msg"]; 
+
+                    if (!filterDate || (filterDate && filterDate === date.substring(0, filterDate.length))) {  
+                        var template = getAnnouncementTemplate(date, msg, key);
+                        announcementContainer.appendChild(template);  
+                    }
+                }
             }
         }
     }, function(error) {
@@ -79,12 +93,11 @@ function showSentToast() {
 
 var editing = false;
 function getAnnouncementTemplate(date, msg, messageId) {
-    var dateDiv = document.createElement("div");
-    var dateText = document.createElement("h5");
-    dateText.innerHTML = date;
+    var dateDiv = document.createElement("h6");
+    var dateText = document.createTextNode(date);
     dateDiv.appendChild(dateText);
 
-    var msgDiv = document.createElement("div");
+    var msgDiv = document.createElement("h5");
     var msgText = document.createTextNode(msg);
     msgDiv.appendChild(msgText);
 
@@ -104,23 +117,27 @@ function getAnnouncementTemplate(date, msg, messageId) {
     input.id = "inputTxt" + messageId;
     input.className = 'form-control';
     input.style.display = "none";
-    input.className = "inputs";
 
-    var cancel = document.createElement("BUTTON");
+    var textRightDiv = document.createElement("div");
+    textRightDiv.className = 'text-right';
+
+    var cancel = document.createElement("img");
     cancel.id = "cancelEditButton" + messageId;
-    cancel.innerHTML = "Cancel";
-    cancel.className = 'btn btn-danger';
+    cancel.src = "img/close.png";
+    cancel.className = 'btn formImgButtons';
     cancel.style.display = "none";
 
-    var update = document.createElement("BUTTON");
+    var update = document.createElement("img");
     update.id = "updateButton" + messageId;
-    update.innerHTML = "Update";
-    update.className = 'btn btn-primary';
+    update.src = "img/green_checkmark.png";
+    update.className = 'btn formImgButtons';
     update.style.display = "none";
 
+    textRightDiv.appendChild(cancel);
+    textRightDiv.appendChild(update);
+
     lDiv.appendChild(input);
-    lDiv.appendChild(cancel);
-    lDiv.appendChild(update);
+    lDiv.appendChild(textRightDiv);
 
     dateDiv.id = "date";
     lDiv.appendChild(dateDiv);
@@ -158,6 +175,7 @@ function getAnnouncementTemplate(date, msg, messageId) {
             document.getElementById("inputTxt" + key).innerHTML = oldVal;
 
             document.getElementById("message" + key).innerHTML = "";
+            document.getElementById("inputTxt" + key).focus();
 
             update.onclick = function() {
                 var inp = document.getElementById("inputTxt" + key).value;
