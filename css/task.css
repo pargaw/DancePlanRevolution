@@ -193,7 +193,21 @@ Announcement/Video/Attendance styling ONLY
     height: 50%;
 }
 
+.leftDiv{
+    height: 100%;
+    width: 80%;
+    display: inline-block;
+}
 
+.rightDiv{
+    height: 100%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    /*border-left: 1px solid grey;*/
+
+}
 
 /* VIDEOS */
 .formInput {

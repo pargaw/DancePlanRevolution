@@ -25,13 +25,11 @@ $(document).on('click',  '#filterByFolder' , function(e){
     displayFolderNames();
     for(i =0; i<= numOfFolders-1;i++){
         $('#folderID'+i).on('click', function(evt){
-            console.log("clicking happening", this);
             var folderName = $(this).text();
             displayAllVideosInFolder(folderName);
             $('#videoFolders').empty();
         })
     }
-
 });
 
 $(document).on('click', '#addNewVideo', function(e) {
@@ -100,6 +98,10 @@ $(document).on('keyup', '#videoNameInput', function(e) {
     // TODO check that selectedFolder name isn't duplicate of existing one
 });
 
+$(document).on('click','#folderIDadd_new_folder', function(evt){
+    console.log("add new folder gurl");
+})
+
 function include(arr, filename) {
     var file_ext = filename.substring(filename.length-3, filename.length);
     var valid_file = arr.indexOf(file_ext) != -1;
@@ -140,21 +142,24 @@ function loadFolderNames() {
 }
 
 function displayFolderNames(){
+    console.log("being called", folderIsAlreadyClicked);
     if(!folderIsAlreadyClicked){
+        console.log("gotta be here");
         numOfFolders = 0;
-        console.log(folderIsAlreadyClicked);
         var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID);
         dbFoldersRef.on('value', function(snapshot) {
             var data = snapshot.val();
             if (data) {
                 var keys = Object.keys(data); 
                 var id = 0;
+                // addFolderHTML("Add new folder...", "add_new_folder");         
                 //the default option should be the first to come up in the folder dropdown
                 keys.forEach(function(key) {
+                    console.log(key, id);
                     addFolderHTML(key, id);
                     id +=1;
                     numOfFolders+=1;
-                });            
+                }); 
             }
         });
         folderIsAlreadyClicked = true;
@@ -187,11 +192,9 @@ function displayAllVideosInFolder(foldername){
                     addIframeVideo (key, date, foldername);
                 }
             })
-
         });
     });
 }
-
 
 function chooseVideo() {
     var fileTracker = document.getElementById("uploadVideoFile");
@@ -399,7 +402,6 @@ function addIframeVideo (src,date, groupName) {
     idCount +=1;
 }
 
-
 function pauseTheVideos(){
     for (i=0; i <= idCount-1; i++){
         $('#iframe'+i).attr('src', $('#iframe'+i).attr('src'));
@@ -408,11 +410,12 @@ function pauseTheVideos(){
 
 // folder stuff
 function addFolderHTML(name, folderId){
-    $('<div class="panel panel-default folder-name" style="margin-top:20px"><div class="row"><h4 class="panel-body" id="folderID' + 
-        folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name 
-        + '</h4></div></div>').prependTo('#videoFolders');
+    // $('<div class="panel panel-default folder-name" style="margin-top:20px"><div class="row"><h4 class="panel-body" id="folderID' + 
+    //     folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name 
+    //     + '</h4></div></div>').prependTo('#videoFolders');
+    $('<div class="panel panel-default folder-name" style="margin-top:20px"> <div class="row"><div class="col-6"><div id="leftDiv"><h4 class="panel-body" id="folderID' + folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name 
+        + '</h4></div></div><div class="col"><div class="rightDiv"><img id="editBtn" class="editBtn src="img/green_edit.png"><img class="deleteBtn src="img/red_trash.png" class="deleteBtn-KjkaykfGOpbn-rf683r"></div></div></div>').prependTo('#videoFolders');
 }
-
 
 function addLoadingOverlay() {
     $("<div id='loadingOverlay' />").css({
@@ -429,5 +432,3 @@ function addLoadingOverlay() {
 function removeLoadingOverlay(){ 
     $('#loadingOverlay').remove();
 }
-
-
