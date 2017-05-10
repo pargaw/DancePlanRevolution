@@ -15,19 +15,9 @@ function checkURLValidity(input){
     else{return false;}
 }
 
-//not detecting autocomplete at the moment 
-//from here: https://stackoverflow.com/questions/14631592/detecting-autofill-on-chrome
-function pushVideoToStorage(src, date){
-    $.get( "getTitle.php", { src: src } )
-    .done(function( data ) {
-        alert( "Data Loaded: " + data );
-    }); 
-}
 
-
-$(document).on('click', '#cancelVideoPost', function(e) {
-    $('#newVideo').hide();
-    $('#videoNameLabel').empty();
+$(document).on('click', '#cancelVideoPost, #filterByFolder', function(e) { 
+    hideVideoUploadForm();
 });
 
 $(document).on('click', '#addNewVideo', function(e) {
@@ -39,22 +29,24 @@ $(document).on('click', '#addNewVideo', function(e) {
 $(document).on('click', '#localUpload', function(e) {
     uploadType = 'local';
     $('#uploadOptions').toggle();
-    $('#newVideo').show();
-    $('#fileUpload').show();
-    $('#folderSelection').show();
-    $('#videoTextInput').hide();
-    $('#videoButtons').show();
+    $('#videoNameInput, #videoURL').hide();
+    $('#folderSelection, #fileUpload, #newVideo, #videoButtons').show();
+
+    $('#videoURL').removeAttr('required');
+    $('#videoNameInput').removeAttr('required');
+    $('#uploadVideoFile').attr('required', '');
 });
 
 $(document).on('click', '#urlUpload', function(e) {
     uploadType = 'url';
     $('#uploadOptions').toggle();
-    $('#newVideo').show();
     $('#fileUpload').hide();
-    $('#folderSelection').show();
-    $('#videoTextInput').show();
-    $('#videoButtons').show();
+    $('#folderSelection, #newVideo, #videoNameInput, #videoURL, #videoButtons').show();
     $('#videoURL').focus();
+
+    $('#videoURL').attr('required', '');
+    $('#videoNameInput').attr('required', '');
+    $('#uploadVideoFile').removeAttr('required');
 });
 
 $(document).on('change', 'select', function(e) {
@@ -203,57 +195,87 @@ function resetVideoParams() {
     validURL = '';
     videoName = '';
     folderName = '';
-
     $('#videoNameInput').val('');
+    hideVideoUploadForm();
 }
 
-function postVideo() {
-    var dbVideoRef = danceDatabase.ref('videos/' + currentDanceGroupID);
+function hideVideoUploadForm() {
+    removeLoadingOverlay();
+    $('#newVideo')[0].reset();
+    $('#newVideo').hide();
+}
 
-    // need id from dbVideoRef 
+function postVideo() { 
+    var dbVideoRef = danceDatabase.ref('videos/' + currentDanceGroupID);
     var dbFolderRef = danceDatabase.ref('videofolders/' + currentDanceGroupID + selectedFolder);
 
+    console.log('file and selectedFolder', this.file, this.selectedFolder);
 
     if (uploadType == 'local') {
-        overlayLoad();
-        console.log('foldername', selectedFolder);
+        if (file && selectedFolder) {
+            addLoadingOverlay();
+            console.log('foldername', selectedFolder);
 
-        console.log('filevideo (possibly changed?) name', videoName);
-        var videoName = file.name;
+            console.log('filevideo (possibly changed?) name', videoName);
+            var videoName = file.name;
 
-        // var file_ext = name.substring(name.length-4, name.length);
+            // var file_ext = name.substring(name.length-4, name.length);
 
-        // if (videoName.substring(videoName.length-4, videoName.length) != file_ext) {
-        //     videoName += file_ext;
-        // } 
+            // if (videoName.substring(videoName.length-4, videoName.length) != file_ext) {
+            //     videoName += file_ext;
+            // } 
 
-        var folderPath = 'groups/' + currentDanceGroupID + selectedFolder;
-        var videoPath = folderPath + videoName;
+            var folderPath = 'groups/' + currentDanceGroupID + selectedFolder;
+            var videoPath = folderPath + videoName;
 
-        console.log('folder path', folderPath);
-        console.log('video path', videoPath);  
-        console.log('videoName', videoName);
-        var folderRef = danceStorage.ref(folderPath);
-        var videoRef = danceStorage.ref(videoPath);
+            console.log('folder path', folderPath);
+            console.log('video path', videoPath);  
+            console.log('videoName', videoName);
+            var folderRef = danceStorage.ref(folderPath);
+            var videoRef = danceStorage.ref(videoPath);
 
-        // draw thumbnail of video in form
-        // var canvas = document.getElementById('thumbnailCanvas');
-        // canvas.getContext('2d').drawImage(file, 0, 0, file.videoWidth, file.videoHeight);
+            // draw thumbnail of video in form
+            // var canvas = document.getElementById('thumbnailCanvas');
+            // canvas.getContext('2d').drawImage(file, 0, 0, file.videoWidth, file.videoHeight);
 
-        videoRef.put(file).then(function(snapshot) {
-            console.log('videoName inside videoRef fn', videoName);
-            folderRef.child(videoName).getDownloadURL().then(function(url) {
-                console.log('videoName in upload before saveVideoToDatabase', videoName);
-                saveVideoToDatabase(dbVideoRef, dbFolderRef, videoName, url);
-            }).catch(function(error) {
-                console.log('error', error);
-            });
-        }); 
-    } else {
-        console.log('videoName in link before saveVideoToDatabase', this.videoName);
-        saveVideoToDatabase(dbVideoRef, dbFolderRef, this.videoName, validURL);
+            videoRef.put(file).then(function(snapshot) {
+                console.log('videoName inside videoRef fn', videoName);
+                folderRef.child(videoName).getDownloadURL().then(function(url) {
+                    console.log('videoName in upload before saveVideoToDatabase', videoName);
+                    saveVideoToDatabase(dbVideoRef, dbFolderRef, videoName, url);
+                }).catch(function(error) {
+                    console.log('error', error);
+                });
+            }); 
+        } else {
+            if (!this.file) {
+                $('#fileUpload').effect( "shake" );
+            }
+
+            if (!this.selectedFolder) {
+                $('#folderSelection').effect( "shake" ); 
+        }
+    } else if (uploadType == 'url') {
+        console.log('url, name, folder', this.validURL, this.videoName, this.selectedFolder);
+        
+        if (validURL && videoName && selectedFolder) {
+            addLoadingOverlay();
+            console.log('videoName in link before saveVideoToDatabase', this.videoName);
+            saveVideoToDatabase(dbVideoRef, dbFolderRef, this.videoName, validURL);    
+        } else {
+            if (!this.validURL) {
+                $('#videoURL').effect( "shake" );
+            }  
+
+            if (!this.videoName) {
+                $('#videoNameInput').effect( "shake" );
+            }
+
+            if (!this.selectedFolder) {
+                $('#folderSelection').effect( "shake" );
+            }   
+        }
     }
-
 }
 
 //after input, check and if correct input => remove the disabled look and let button be clicked
@@ -276,7 +298,6 @@ $(document).ready(function(evt){
                 postVideo();
                 $('#videoURL').val("");
                 $('#newVideo').hide();
-                $('#videoTextInput').hide();
                 $('#videoButtons').hide();
             });
         } else {
@@ -343,23 +364,27 @@ function addFolderHTML(name, folderId){
 }
 
 
-function overlayLoad(){
-        // add the overlay with loading image to the page
-        var over = '<div id="overlay">' +
-            '<img id="loading" src="img/load.gif">' +
-            '</div>';
-        $(over).appendTo('body');
+function addLoadingOverlay() {
+    $("<div id='loadingOverlay' />").css({
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        left: 0,
+        top: 0,
+        zIndex: 100, 
+        background: "url(img/load.gif) no-repeat 50% 50%"
+    }).appendTo($("#newVideo").css("position", "relative")); 
+}
 
-        setTimeout(function() {
-            $('#overlay').remove();
-        }, 1000);
+function removeLoadingOverlay(){ 
+    $('#loadingOverlay').remove();
 
-        // hit escape to close the overlay
-        // $(document).keyup(function(e) {
-        //     if (e.which === 27) {
-        //         $('#overlay').remove();
-        //     }
-        // });
+    // hit escape to close the overlay
+    // $(document).keyup(function(e) {
+    //     if (e.which === 27) {
+    //         $('#overlay').remove();
+    //     }
+    // });
 }
 
 

@@ -253,11 +253,11 @@ input[type="file"],
 
 #uploadOptions { 
     padding: 20px 0;
-    font-size: 20px; 
 }
 
 #uploadOptions a {
     text-decoration: none;
+    font-size: 20px;
 }
 
 .formBackground {
@@ -334,4 +334,12 @@ input[type="file"],
 .formImgButtons {
     width: 65px; 
     padding: 0px 0px 0px 12px;
+}
+
+button[type="submit"] {
+    visibility: hidden;
+}
+
+button > img {
+    visibility: visible;
 }
