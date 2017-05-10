@@ -212,8 +212,8 @@ function getAnnouncementTemplate(date, msg, messageId) {
                 document.getElementById("message" + key).innerHTML = oldVal;
 
                 lDiv.style.width = "80%";
-                editButton.style.display = "inline-block";
-                deleteButton.style.display = "inline-block";
+                editButton.style.display = "block";
+                deleteButton.style.display = "block";
                 editing = false;
             }
         }
