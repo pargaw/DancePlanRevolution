@@ -2,7 +2,7 @@
 Control page for determining which content is displayed for given task
 */
 // GLOBALS
-var TASKS = ["Attendance", "Video", "Announcements"]
+var TASKS = ["Attendance", "Videos", "Announcements"]
 var currentTask = 0; // should be 0, 1, or 2, specifying one of the above tasks
 var currentDanceGroupID = localStorage.getItem("currentDanceGroupID");
 var currentDanceGroup = localStorage.getItem("currentDanceGroup");

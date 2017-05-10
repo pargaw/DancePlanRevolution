@@ -171,17 +171,34 @@ Announcement/Video/Attendance styling ONLY
 }
 
 #editBtn{
-    width: 25px;
-    height: 25px;
-    display: inline-block;
+    width: 30px;
+    height: 30px;
+    display: block;
+    position: relative;
+    top: 5px;
 }
 
 #deleteBtn{
-    width: 25px;
-    height: 25px;
-    position:fixed;
-    right:10px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    display: block;
+    bottom: 5px;
+}
+
+#leftDiv{
+    height: 100%;
+    width: 80%;
     display: inline-block;
+}
+
+#rightDiv{
+    height: 100%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    /*border-left: 1px solid grey;*/
 }
 
 .inputs{
