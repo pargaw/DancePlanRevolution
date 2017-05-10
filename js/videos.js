@@ -259,6 +259,30 @@ function saveVideoToDatabase(dbVideoRef, dbFolderRef, videoName, url) {
     });
 }
 
+// function deleteVideo(key,folder){
+
+  
+//     // $('#myDeleteModal').modal('show');
+
+//     // $('#yesBtn').on('click', function() {
+
+//     //     var vid = danceDatabase.ref('videos/'+currentDanceGroupID).child(key);
+//     //     // vid.remove();
+
+//     //     var folder = danceDatabase.ref('videofolders/'+currentDanceGroupID+"/"+folder).child(key);
+//     //     // folder.remove();
+
+//     //   // $("#announDiv" + key).fadeOut('slow', function() {
+//     //   //   var ref = danceDatabase.ref('announcements/'+currentDanceGroupID).child(key);
+//     //   //   ref.remove();
+//     //   //   announcementDiv.parentElement.remove();
+//     //   // });   
+//     //   $('#myModal').modal('hide');
+//     // });
+        
+    
+// }
+
 function resetVideoParams() { 
     selectedFolder = ''; 
     file = null;
@@ -395,11 +419,28 @@ function createGroupTagForVideo(groupName){
 
 function addIframeVideo (src,date, groupName) {
     console.log("adding video", src, groupName);
-    $('<div class="panel panel-default"><div class="videoDates" style="position: relative"><h4>'+ date
-        +'</h4></div>'+'<div class="groupTag" style="position: relative"> <h4>#'+ groupName 
+    $('<div class="panel panel-default" id="video'+ src+'"><div class="videoDates" style="position: relative"><h4>'+ date
+        +'</h4><img class="deleteVid" src="img/red_trash.png" id="deleteVid"'+ src+'></div>'+'<div class="groupTag" style="position: relative"> <h4>#'+ groupName 
         +'folder </h4></div>' +'<div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
         src+'"></iframe></div></div>').prependTo('#videoDisplay');
     idCount +=1;
+
+    document.getElementById("video"+src).onclick = function() {
+        console.log("here to delete "+'videos/'+currentDanceGroupID+" "+src+"\n and "+'videofolders/'+currentDanceGroupID+"/"+groupName);
+        $('#myDeleteVidModal').modal('show');
+
+        $('#yesVidBtn').on('click', function() {
+          $("#video" + src).fadeOut('slow', function() {
+            var vid = danceDatabase.ref('videos/'+currentDanceGroupID).child(src);
+            vid.remove();
+
+            var folder = danceDatabase.ref('videofolders/'+currentDanceGroupID+"/"+groupName).child(src);
+            folder.remove();
+            document.getElementById("video"+src).remove();
+          });   
+          $('#myDeleteVidModal').modal('hide');
+        });
+    }
 }
 
 function pauseTheVideos(){

@@ -221,6 +221,15 @@ Announcement/Video/Attendance styling ONLY
     padding-bottom: 24px;
 }
 
+.deleteVid{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    right: 5px;
+}
+
 #addNewVideo,
 input[type="file"],
 #fileUpload, 
