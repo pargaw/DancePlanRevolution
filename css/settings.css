@@ -335,3 +335,12 @@ input[type="file"],
     width: 65px; 
     padding: 0px 0px 0px 12px;
 }
+
+#deleteBtnAttend{
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0; 
+}

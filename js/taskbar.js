@@ -8,5 +8,9 @@ function goToSettings(){
 }
 
 function goToTask(){
-	location.reload(); //change later to respective slide
+	window.location.href = 'task.html'; //change later to respective slide
+}
+
+function getTeamName(){
+	return localStorage.getItem("currentDanceGroup");
 }

@@ -42,6 +42,10 @@ function saveMemberToDatabase(kerberos, name, url) {
     });
 }
 
+$(document).on('click', '#cancelMemberButton', function(e) {
+	$('#newMember').hide();
+});
+
 $(document).on('click', '#addMemberButton', function(e) {
     // assume all fields have been validated 
     var kerberos = $('#addMemberKerberos').val();
@@ -67,6 +71,7 @@ $(document).on('click', '#addMemberButton', function(e) {
         console.log('no member photo', kerberos, name);
         saveMemberToDatabase(kerberos, name);
     }
+    $('#newMember').hide();
 });
 
 
@@ -183,6 +188,8 @@ function setupMembers() {
                             var caption = document.createElement("FIGCAPTION");
                             var txt = document.createTextNode(name);
                             caption.appendChild(txt);
+
+                            
 
                             // create hierarchy of elements
                             figMem.appendChild(member);

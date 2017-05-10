@@ -252,10 +252,6 @@ function getAnnouncementTemplate(date, msg, messageId) {
     return panelDiv;
 }
 
-function deleteConfirmed(){
-	return true;
-}
-
 function getMessageID(element, prefixLength) {
     var msgId = element.className; 
     var key = msgId.substring(prefixLength, msgId.length);
