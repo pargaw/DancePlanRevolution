@@ -160,8 +160,8 @@ function getAnnouncementTemplate(date, msg, messageId) {
     rDiv.id = "rightDiv";
 
     var editButton = document.createElement("IMG");
-    editButton.id = "editBtn";
-    editButton.className = "editBtn" + messageId;
+    editButton.className = "editBtn";
+    editButton.id = "editBtn" + messageId;
     editButton.src = "img/green_edit.png";
 
     editButton.onclick = function() {
