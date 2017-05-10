@@ -6,6 +6,8 @@ var validURL = '';
 var idCount = 0;
 var videoName = '';
 var folderName = '';
+var folderIsAlreadyClicked = true;
+var numOfFolders = 0;
 // $('.overlay').hide();
 
 function checkURLValidity(input){
@@ -15,9 +17,12 @@ function checkURLValidity(input){
     else{return false;}
 }
 
-
-$(document).on('click', '#cancelVideoPost, #filterByFolder', function(e) { 
+$(document).on('click', '#cancelVideoPost', function(e) { 
     hideVideoUploadForm();
+});
+
+$(document).on('click',  '#filterByFolder' , function(e){
+    displayFolderNames();
 });
 
 $(document).on('click', '#addNewVideo', function(e) {
@@ -94,12 +99,12 @@ function include(arr, filename) {
 }
 
 function loadFolderNames() {
+
     var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID);
     dbFoldersRef.on('value', function(snapshot) {
         var select = document.getElementById('folders');
         select.innerHTML = '';
         var data = snapshot.val();
-
         var optionDefault = document.createElement('option');
         optionDefault.id = 'defaultOption';
         optionDefault.text = 'Choose a folder';
@@ -124,6 +129,45 @@ function loadFolderNames() {
         select.appendChild(option);
     });
 }
+
+function displayFolderNames(){
+    if(!folderIsAlreadyClicked){
+        console.log(folderIsAlreadyClicked);
+        var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID);
+        dbFoldersRef.on('value', function(snapshot) {
+            var data = snapshot.val();
+            if (data) {
+                var keys = Object.keys(data); 
+                var id = 0;
+                //the default option should be the first to come up in the folder dropdown
+                keys.forEach(function(key) {
+                    addFolderHTML(key, id);
+                    id +=1;
+                });            
+            }
+        });
+
+        folderIsAlreadyClicked = true;
+    }
+    else{
+        //remove folders?
+        $('#videoFolders').empty();
+        folderIsAlreadyClicked = false;
+    }
+}
+
+function displayAllVideosInFolder(foldername){
+    var selectedFolder = '/'+ foldername + '/';
+    var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID + selectedFolder);
+    dbFoldersRef.on('value', function(snapshot) {
+        var data = snapshot.val();
+        console.log(data);
+        var keys = Object.keys(data);
+        numOfFolders = keys.length;
+        console.log(numOfFolders);
+    });
+}
+
 
 function chooseVideo() {
     var fileTracker = document.getElementById("uploadVideoFile");
@@ -218,13 +262,6 @@ function postVideo() {
 
             console.log('filevideo (possibly changed?) name', videoName);
             var videoName = file.name;
-
-            // var file_ext = name.substring(name.length-4, name.length);
-
-            // if (videoName.substring(videoName.length-4, videoName.length) != file_ext) {
-            //     videoName += file_ext;
-            // } 
-
             var folderPath = 'groups/' + currentDanceGroupID + selectedFolder;
             var videoPath = folderPath + videoName;
 
@@ -247,15 +284,18 @@ function postVideo() {
                     console.log('error', error);
                 });
             }); 
-        } else {
+        } 
+        else {
             if (!this.file) {
                 $('#fileUpload').effect( "shake" );
             }
 
             if (!this.selectedFolder) {
                 $('#folderSelection').effect( "shake" ); 
-        }
-    } else if (uploadType == 'url') {
+            }
+        } 
+    }
+    else if (uploadType == 'url') {
         console.log('url, name, folder', this.validURL, this.videoName, this.selectedFolder);
         
         if (validURL && videoName && selectedFolder) {
@@ -304,27 +344,6 @@ $(document).ready(function(evt){
             $("#submitVideo").prop('disabled', true);
         }
     });
-
-    // $('#videoURL').on('keydown', function(evt){
-    //     if(evt.keyCode == 13){
-    //         console.log("am i pressing enter?>");
-    //         var input = $('#videoURL').val();
-    //         if (checkURLValidity(input)) {
-    //             validURL = input;
-    //             var src = input.replace("https://www.youtube.com/watch?v=", "");
-    //             $("#submitVideo").prop('disabled', false);
-    //             $("#submitVideo").unbind('click').on('click', function(evt){
-    //                 var date = getDate(true);
-    //                 addIframeVideo(src, date);
-    //                 postVideo();
-    //                 $('#videoURL').val("");
-    //             });
-    //         } else {
-    //             $("#submitVideo").prop('disabled', true);
-    //         }
-    //     }
-    // })
-
     $('.left.carousel-control, .right.carousel-control').on('click', function(evt){
         pauseTheVideos();
     }); 
@@ -359,7 +378,8 @@ function pauseTheVideos(){
 
 // folder stuff
 function addFolderHTML(name, folderId){
-    $('<div class="panel panel-default folder-name"><div class="row"><h4 class="panel-body" id="' + folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name 
+    $('<div class="panel panel-default folder-name" style="margin-top:20px"><div class="row"><h4 class="panel-body" id="folderID' + 
+        folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name 
         + '</h4></div></div>').prependTo('#videoFolders');
 }
 
@@ -378,13 +398,6 @@ function addLoadingOverlay() {
 
 function removeLoadingOverlay(){ 
     $('#loadingOverlay').remove();
-
-    // hit escape to close the overlay
-    // $(document).keyup(function(e) {
-    //     if (e.which === 27) {
-    //         $('#overlay').remove();
-    //     }
-    // });
 }
 
 

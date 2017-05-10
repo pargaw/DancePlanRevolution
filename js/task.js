@@ -153,6 +153,7 @@ function updateTaskPgContent(indirect) {
         resetDateFilter.hide();
     } else if (currentTask == 1) {
         searchText.placeholder = "Search videos...";
+        displayFolderNames();
         newVideoButton.show();
         newTaskButton.hide();
         datePicker.hide();

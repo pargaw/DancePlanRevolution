@@ -343,3 +343,8 @@ button[type="submit"] {
 button > img {
     visibility: visible;
 }
+
+.panel.panel-default.folder-name{
+    cursor: pointer; 
+    cursor: hand; 
+}
