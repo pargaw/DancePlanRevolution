@@ -27,6 +27,7 @@
     <!-- local scripts -->
     <script src="js/validator.js"></script>
     <script src="js/taskbar.js"></script>
+    <script src="js/index.js"></script>
     <script src="js/settings.js"></script>
 </head>
 
@@ -77,7 +78,7 @@
     <nav class="navbar">
         <ul class="taskbar nav nav-pills nav-fill nav-center">
             <li class="nav-item">
-                <a class="nav-link" id="0" href="#">Change Team Name</a>
+                <a class="nav-link" id="0" href="#">Edit Team Name</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="1" href="#">Edit Members</a>
@@ -93,30 +94,18 @@
             <div class="carousel-inner" role="listbox">
                 <!-- Page title -->
                 <div class="panel panel-default" id="panel-title">
-                    <h4 class="panel-body task-name"></h4>
+                    <h4 class="panel-body task-name">Settings</h4>
                     
-                </div>
+                </div> 
 
-                <!-- Add New and Filter By-->
-                <div class="topButtons">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="btn-group" role="group">
-                                <img id="addNew" data-toggle="tooltip" title="" src="img/green_plus.png"> 
-                            </div>
-                        </div>
+                <!-- Edit Team Name -->
+                <div class="container item active" id='editTeamName'>
+                    <input>
+
+                    <div class="text-right">
+                        <img id="cancelNameChangeButton" type="cancel" class="btn formImgButtons" src="img/close.png">
+                        <img id="changeNameButton" type="submit" class="btn formImgButtons" src="img/green_checkmark.png">
                     </div>
-                    <div class="row resetRow">
-                        <div class="col-xs-12">
-                            <button id='resetButton' class="btn greenButton">Reset Filter</button>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Change Team Name -->
-                <div class="item active">
-                    
                 </div>
 
 

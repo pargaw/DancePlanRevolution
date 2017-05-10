@@ -1,8 +1,16 @@
 /*
-Announcement/Video/Attendance styling ONLY
+Settings styling ONLY
 */
 
-/* SECONDARY NAVBAR */ 
+.wrapper a {
+    text-decoration: none;
+}
+
+.wrapper a:hover, .navbar-default a:hover {
+    color: white;
+}
+
+/* SECONDARY NAVBAR */  
 .nav-pills .nav-item.show .nav-link,
 .nav-pills .nav-link.active,
 .taskbar li>a:focus,

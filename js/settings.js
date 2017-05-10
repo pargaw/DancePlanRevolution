@@ -7,7 +7,7 @@
 // }
 
 
-
+var newTeamName = currentDanceGroup;
 
 /*
 Control page for determining which content is displayed for given task
@@ -43,6 +43,9 @@ function initializePage() {
         this.currentDanceGroupID = localStorage.currentDanceGroupID;
     }
 
+    console.log($('#editTeamName>h4'));
+    $('#editTeamName>input')[0].value = this.currentDanceGroup;
+    // $('#editTeamName>input')[0].placeholder = 'Moo';
 
     // set current dance group based on the last one seen
     if (this.currentDanceGroupID) {
@@ -59,6 +62,29 @@ function initializePage() {
 }
 
 window.onload = initializePage;
+
+
+
+$(document).on('keyup', '#editTeamName>input', function(){
+    newTeamName = $(this).val();
+});
+
+$(document).on('click', '#cancelNameChangeButton', function() {
+    $('#editTeamName>input').val(localStorage.getItem("currentDanceGroup"));
+});
+
+$(document).on('click', '#changeNameButton', function() {
+    var danceGroupRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/');
+
+    var updateObj = {};
+    updateObj['name'] = newTeamName;
+
+    danceGroupRef.update(updateObj);
+    $(".dance-group a").text(newTeamName);
+    localStorage.setItem("currentDanceGroup", newTeamName);
+
+    // danceGroupRef.child('name').setValue(newTeamName);
+});
 
 
 
