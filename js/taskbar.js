@@ -10,7 +10,3 @@ function goToSettings(){
 function goToTask(){
 	window.location.href = 'task.html'; //change later to respective slide
 }
-
-function getTeamName(){
-	return localStorage.getItem("currentDanceGroup");
-}

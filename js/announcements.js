@@ -181,7 +181,6 @@ function getAnnouncementTemplate(date, msg, messageId) {
             document.getElementById("cancelEditButton" + key).style.display = "inline-block";
 
             var oldVal = document.getElementById("message" + key).innerHTML;
-            console.log('old val', oldVal);
 
             document.getElementById("inputTxt" + key).value = oldVal;
             document.getElementById("message" + key).innerHTML = "";

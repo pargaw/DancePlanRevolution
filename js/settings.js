@@ -251,14 +251,16 @@ $(document).on('click', '#addMemberButton', function(e) {
         memberRef.put(memberPhoto).then(function(snapshot) {
             folderRef.child(imagePath).getDownloadURL().then(function(url) {
                 console.log('inp 2', kerberos, name);
-                addedMembers.push([kerberos,name,url]);
+                saveMemberToDatabase(kerberos,name,url);
+                // addedMembers.push([kerberos,name,url]); -> save separately after pressing save button
             }).catch(function(error) {
                 console.log('error', error);
             });
         }); 
     } else {
         console.log('no member photo', kerberos, name);
-        addedMembers.push([kerberos,name]);
+        saveMemberToDatabase(kerberos,name);
+        // addedMembers.push([kerberos,name]); -> save separately after pressing save button
     }
     $('#newMember').hide();
 });
@@ -414,14 +416,15 @@ function saveEditMembers() {
      		deleteMemberFromDatabase(deletedMembers[i][0], deletedMembers[i][1]);
      	}
      }
+     deletedMembers = [];
 
-     for (var j = 0; j < addedMembers.length; j++){
-     	if (addedMembers[j].length==3){
-			saveMemberToDatabase(addedMembers[j][0], addedMembers[j][1], addedMembers[j][2]);
-     	} else{
-     		saveMemberToDatabase(addedMembers[j][0], addedMembers[j][1]);
-     	}
-     }
+   //   for (var j = 0; j < addedMembers.length; j++){
+   //   	if (addedMembers[j].length==3){
+			// saveMemberToDatabase(addedMembers[j][0], addedMembers[j][1], addedMembers[j][2]);
+   //   	} else{
+   //   		saveMemberToDatabase(addedMembers[j][0], addedMembers[j][1]);
+   //   	}
+   //   }
 
     // notify user of saved changes with toast 
     var x = document.getElementById("savedToast");
