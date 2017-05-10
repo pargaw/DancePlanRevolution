@@ -27,24 +27,14 @@ Announcement/Video/Attendance styling ONLY
     display: inline-block;
 }
 
+#centerTitle{
+	pointer-events:none;
+}
+
 #leftBtn{
     position: fixed;
     top: 20px;
     left: 20px;
-    font-size: 20px;
-}
-
-.nav-item-settings{
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    display: inline-block;
-}
-
-#rightBtn{
-    position: fixed;
-    top: 20px;
-    right: 20px;
     font-size: 20px;
 }
 
@@ -59,7 +49,7 @@ Announcement/Video/Attendance styling ONLY
 
 
 /* ADD AND FILTER BUTTONS */
-#addNew, #addNewVideo {
+#addNew {
     margin-right: 25px;
 }
 
