@@ -23,7 +23,10 @@
 
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+
+    <!-- validator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 
     <!-- local scripts -->
     <script src="js/announcements.js"></script>
@@ -154,26 +157,26 @@
                             <h5>Note that this member will be added to all attendance pages of this dance group.</h5>
                             
                             <div class="form-group">
-                                <input type="text" class="formInput" id="addMemberKerberos" placeholder="Kerberos, e.g. davidbau" required>
-                                <!-- <div class="help-block with-errors">This field is required</div> -->
-                                <input type="text" class="formInput" id="addMemberName" placeholder="Full name, e.g. David Bau" required>
-                                <!-- <div class="help-block with-errors">This field is required</div> -->
+                                <input type="text" class="formInput form-control" id="addMemberKerberos" pattern="/^[\w]+$/" placeholder="Kerberos with NO spaces, e.g. davidbau" required>
+                                <div class="help-block with-errors"></div>
+                            </div>
 
+                            <div class="form-group">
+                                <input type="text" class="formInput form-control" id="addMemberName" placeholder="Full name, e.g. David Bau" required>
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="btn btn-default customFileUpload">
-                                    <!-- TODO issue: uploadFile is a special id needed by HTML file upload, but I already have another upload
-                                    button of the same id below... -->
-
                                     <input type="file" id="uploadPhotoFile" onchange="choosePhoto()" accept="image/*"">Upload photo
                                 </label> 
 
                                 <label id='memberImgLabel'></label>
                             </div>
 
-                            <div class="form-group">
-                                <div class="text-right">
-                                    <img id="cancelMemberButton" type="cancel" class="btn formImgButtons" src="img/close.png">
-                                    <img id="addMemberButton" type="submit" class="btn formImgButtons" src="img/green_checkmark.png">
-                                </div>
+                            <div class="form-group text-right">
+                                <img id="cancelMemberButton" type="cancel" class="formImgButtons" src="img/close.png">
+                                <button id="addMemberButton" type="submit"><img class="formImgButtons" src="img/green_checkmark.png"></button>
                             </div>
                         </form> 
 
@@ -191,7 +194,7 @@
 
                     <div class="container formBackground" id="uploadOptions">
                         <div class="row">
-                            <div class="col-xs-12 uploadFrom">Upload from...</div>  
+                            <div class="col-xs-12 uploadFrom"><h4>Upload from...</h4></div>  
                         </div>
 
                         <div class="row">
@@ -210,40 +213,40 @@
                     </div>
                     
                     <form class="formBackground" id="newVideo" data-toggle="validator" role="form">
-                        <div class="container" id="videoUploadForm">
-                            <div id="videoTextInput">   
-                                <input type="text" class="formInput" name="src" id="videoURL" placeholder="Paste a video URL here..."><br> 
-                                <input type="text" class="formInput" id="videoNameInput" placeholder="Type video name here...">
-                            </div>
-
-                            <div id="fileUpload">
-                                <label class="btn btn-default customFileUpload">
-                                    <!-- insert multiple keyword if you want to allow multiple vids to be uploaded -->
-                                    <input type="file" id="uploadVideoFile" onchange="chooseVideo()" accept="video/*"">Choose video from device
-                                </label>
-
-                                <label id='videoNameLabel'></label>
-
-                                <!-- TODO http://stackoverflow.com/questions/36883037/generate-a-thumbnail-snapshot-of-a-video-file-selected-by-a-file-input-at-a-spec -->
-                                <!-- <canvas id="thumbnailCanvas"></canvas> -->
-                            </div>
-
-                            <div class="form-group" id="folderSelection">
-                                <label for="folders">Choose folder for video</label>
-                                    <select class="form-control" id="folders">
-                                    </select> 
-                                <input type="text" class="formInput" id="newFolder" placeholder="Type new folder name here..."> 
-                            </div>
-
-                            <div class="form-group" id="videoButtons">
-                                <div class="text-right">
-                                    <img id="cancelVideoPost" type="cancel" class="btn formImgButtons" src="img/close.png">
-                                    <img id="submitVideo" type="submit" class="btn formImgButtons" src="img/green_checkmark.png" disabled="disabled" onclick="postVideo()">
-
-                                    <div id="doneUpload" style="float:center">Done!</div>
-                                </div>
-                            </div> 
+                        <div class="form-group">   
+                            <input type="url" class="formInput form-control" name="src" id="videoURL" placeholder="Paste a video URL here..." required>
+                            <div class="help-block with-errors"></div><br>
                         </div>
+
+                        <div class="form-group">
+                            <input type="text" class="formInput form-control" id="videoNameInput" placeholder="Type video name here..." required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <div class="form-group" id="fileUpload">
+                            <label class="btn btn-default customFileUpload">
+                                <input type="file" id="uploadVideoFile" onchange="chooseVideo()" accept="video/*" required>Choose video from device
+                            </label>
+
+                            <label id='videoNameLabel'></label>
+
+                            <!-- TODO http://stackoverflow.com/questions/36883037/generate-a-thumbnail-snapshot-of-a-video-file-selected-by-a-file-input-at-a-spec -->
+                            <!-- <canvas id="thumbnailCanvas"></canvas> -->
+                        </div>
+
+                        <div class="form-group" id="folderSelection">
+                            <label for="folders">Choose folder for video</label>
+                            <select class="form-control" id="folders" required></select> 
+                            <input type="text" class="formInput" id="newFolder" placeholder="Type new folder name here..."> 
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <div class="form-group text-right" id="videoButtons">
+                            <img id="cancelVideoPost" type="cancel" class="formImgButtons" src="img/close.png">
+                            <button type="submit" id='submitVideo'><img class="formImgButtons" src="img/green_checkmark.png" disabled="disabled" onclick="postVideo()"></button>
+
+                            <div id="doneUpload" style="float:center">Done!</div>
+                        </div> 
                     </form>
 
                     <div id="videoDisplay"></div>
@@ -257,23 +260,17 @@
                     <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
 
                     <div id="sentToast" style="float:right">Sent announcement to dance team!</div>
-                    
+
                     <div class="announcements">
                         <form class="formBackground" id="newAnnouncement" data-toggle="validator" role="form">
-                            <div class="form-group">
-                                <div id="dateHeader"></div>
-                                <div class="form-group">
-                                    <div id="inputText">
-                                        <textarea class="form-control" rows="5" id="announcementInp" placeholder="Type announcement here..." data-minlength="15" required></textarea>
-                                        <div class="help-block with-errors">Minimum of 15 characters, please!</div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="text-right">
-                                        <img id="cancelButton" type="cancel" class="btn formImgButtons" src="img/close.png">
-                                        <img id="doneButton" type="submit" class="btn formImgButtons" src="img/green_checkmark.png">
-                                    </div>
-                                </div>
+                            <div id="dateHeader"></div>
+                            <div class="form-group" id="inputText">
+                                <textarea class="form-control" rows="3" id="announcementInp" placeholder="Type announcement here..." data-minlength="15" required></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group text-right">
+                                <img id="cancelButton" type="cancel" class="formImgButtons" src="img/close.png">
+                                <button type="submit" id="doneButton"><img class="formImgButtons" src="img/green_checkmark.png"></button>
                             </div>
                         </form>
                         <div id="announcementsDisplay"> 

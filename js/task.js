@@ -39,11 +39,11 @@ function initializePage() {
 window.onload = initializePage;
 
 
-
 // CLICK HANDLERS -->TODO what is this for????
 $(document).on('click', '.navbar-brand', function(e) {
     window.location.href = 'index.html';
 });
+
 
 // if we change currentTask, change content displayed by the carousel 
 $(document).on('click', '.taskbar a', function(e) {
@@ -67,6 +67,10 @@ $(document).ready(function() {
         onSelect: function(dateText, inst) { 
             var newDate = dateText.replace(/\//g, '-');
             return changeDate(newDate);
+        },
+        beforeShow: function () { 
+            hideAttendanceForm();
+            hideAnnouncementForm();
         }
     });
 
@@ -80,10 +84,7 @@ $(document).ready(function() {
     $(".ui-datepicker-trigger").attr("title", dateTooltipText);
 
     $('[data-toggle="tooltip"]').tooltip(); 
-
 });
-
-$()
 
 
 // use new index of carousel to update page content
@@ -96,6 +97,10 @@ $(document).on('slide.bs.carousel', '.carousel', function(e) {
 
 
 // GENERAL TASK MANIPULATION
+function strip_text(text) {
+    return text.replace(/^\s+|\s+$/g, '');
+}
+
 function addNewTaskItem() {
     if (currentTask == 0) {
         // ???

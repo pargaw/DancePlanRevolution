@@ -6,10 +6,13 @@ var memberPhoto;
 var full_path = location.pathname;
 var path = full_path.substr(0, full_path.lastIndexOf("/") + 1);
 
-
+function hideAttendanceForm() {
+    $('#newMember')[0].reset();
+    $('#newMember').hide();
+}
 
 $(document).on('click', '#cancelMemberButton', function(e) {
-    $('#newMember').hide();
+    hideAttendanceForm();
 });
 
 $(document).on('click', '#addNew', function(e) {
@@ -40,32 +43,35 @@ function saveMemberToDatabase(kerberos, name, url) {
         name: name,
         photo: url
     });
+
+    hideAttendanceForm();
 }
 
 $(document).on('click', '#addMemberButton', function(e) {
     // assume all fields have been validated 
-    var kerberos = $('#addMemberKerberos').val();
-    var name = $('#addMemberName').val();
-    console.log('inp fields', kerberos, name);
+    var kerberos = strip_text($('#addMemberKerberos').val());
+    var name = strip_text($('#addMemberName').val());
+    console.log('stripped member np fields', kerberos, name);
 
-    if (memberPhoto) {
-        // assumes jpg files only
-        var folderPath = 'members/';
-        var imagePath = kerberos + '.jpg';
-        var memberRef = danceStorage.ref(folderPath + imagePath);
-        var folderRef = danceStorage.ref(folderPath);
+    if (kerberos && name) {
+        if (memberPhoto) {
+            // assumes jpg files only
+            var folderPath = 'members/';
+            var imagePath = kerberos + '.jpg';
+            var memberRef = danceStorage.ref(folderPath + imagePath);
+            var folderRef = danceStorage.ref(folderPath);
 
-        memberRef.put(memberPhoto).then(function(snapshot) {
-            folderRef.child(imagePath).getDownloadURL().then(function(url) {
-                console.log('inp 2', kerberos, name);
-                saveMemberToDatabase(kerberos, name, url);
-            }).catch(function(error) {
-                console.log('error', error);
-            });
-        }); 
-    } else {
-        console.log('no member photo', kerberos, name);
-        saveMemberToDatabase(kerberos, name);
+            memberRef.put(memberPhoto).then(function(snapshot) {
+                folderRef.child(imagePath).getDownloadURL().then(function(url) {
+                    saveMemberToDatabase(kerberos, name, url);
+                }).catch(function(error) {
+                    console.log('error', error);
+                });
+            }); 
+        } else {
+            console.log('no member photo', kerberos, name);
+            saveMemberToDatabase(kerberos, name);
+        }
     }
 });
 

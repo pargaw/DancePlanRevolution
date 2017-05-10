@@ -8,11 +8,16 @@ $(document).on('click', '#doneButton', function(e) {
 });
 
 
+function hideAnnouncementForm() {
+    $('#newAnnouncement')[0].reset();
+    $('#newAnnouncement').hide();
+}
+
 // MAIN ACTIONS ON ANNOUNCEMENTS
 function addNewAnnouncement() {
-    var msg = $('#announcementInp').val();
+    var msg = strip_text($('#announcementInp').val());
 
-    if (msg) {
+    if (msg && msg.length >= 15) {
         var date = getDate(true);
         var ref = danceDatabase.ref('announcements/' + currentDanceGroupID);
 
@@ -24,8 +29,7 @@ function addNewAnnouncement() {
 
         var id = userRef.key;
 
-        $('#announcementInp').val(null);
-        $('#newAnnouncement').hide(); 
+        hideAnnouncementForm();
 
         //show toast of sent announcement
         showSentToast();
@@ -110,7 +114,10 @@ function getAnnouncementTemplate(date, msg, messageId) {
     var input = document.createElement('textarea');
     input.id = "inputTxt" + messageId;
     input.className = 'form-control';
-    input.style.display = "none";
+    input.style.display = "none"; 
+
+    var errorHelpBlock = document.createElement('div');
+    errorHelpBlock.className = 'help-block with-errors';
 
     var textRightDiv = document.createElement("div");
     textRightDiv.className = 'text-right';
@@ -118,20 +125,25 @@ function getAnnouncementTemplate(date, msg, messageId) {
     var cancel = document.createElement("img");
     cancel.id = "cancelEditButton" + messageId;
     cancel.src = "img/close.png";
-    cancel.className = 'btn formImgButtons';
+    cancel.className = 'formImgButtons';
     cancel.style.display = "none";
+
+    var updateBtnWrapper = document.createElement('button');
+    updateBtnWrapper.type = 'submit'; 
 
     var update = document.createElement("img");
     update.id = "updateButton" + messageId;
     update.src = "img/green_checkmark.png";
-    update.className = 'btn formImgButtons';
+    update.className = 'formImgButtons';
     update.style.display = "none";
 
+    updateBtnWrapper.appendChild(update);
     textRightDiv.appendChild(cancel);
     textRightDiv.appendChild(update);
 
     dateDiv.id = "date";
     announcementDiv.appendChild(input);
+    announcementDiv.appendChild(errorHelpBlock);
     announcementDiv.appendChild(dateDiv);
     announcementDiv.appendChild(textRightDiv);
 
@@ -176,22 +188,24 @@ function getAnnouncementTemplate(date, msg, messageId) {
             document.getElementById("cancelEditButton" + key).style.display = "inline-block";
 
             var oldVal = document.getElementById("message" + key).innerHTML;
+            console.log('old val', oldVal);
 
-            // document.getElementById("inputTxt" + key).placeholder = oldVal;
-            document.getElementById("inputTxt" + key).innerHTML = oldVal;
-
+            document.getElementById("inputTxt" + key).value = oldVal;
             document.getElementById("message" + key).innerHTML = "";
             document.getElementById("inputTxt" + key).focus();
 
             update.onclick = function() {
                 var inp = document.getElementById("inputTxt" + key).value;
+                console.log('inp', inp, inp.length, oldVal);
 
                 document.getElementById("inputTxt" + key).style.display = "none";
                 document.getElementById("updateButton" + key).style.display = "none";
                 document.getElementById("cancelEditButton" + key).style.display = "none";
 
-                if (inp == "") {
-                    document.getElementById("message" + key).innerHTML = oldVal;
+                if (inp.length < 15) {
+                    console.log('shouldnt update!', inp.length);
+                    document.getElementById("message" + key).value = oldVal;
+                    document.getElementById("inputTxt" + key).value = oldVal;
                 } else {
                     document.getElementById("message" + key).innerHTML = inp;
                 }
@@ -208,11 +222,12 @@ function getAnnouncementTemplate(date, msg, messageId) {
             }
 
             cancel.onclick = function(){
+                document.getElementById("inputTxt" + key).value = oldVal;
+                document.getElementById("message" + key).innerHTML = oldVal;
+
                 document.getElementById("inputTxt" + key).style.display = "none";
                 document.getElementById("updateButton" + key).style.display = "none";
                 document.getElementById("cancelEditButton" + key).style.display = "none";
-
-                document.getElementById("message" + key).innerHTML = oldVal;
 
                 editButton.style.display = "inline-block";
                 deleteButton.style.display = "inline-block";
