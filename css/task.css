@@ -249,7 +249,7 @@ input[type="file"],
     cursor: pointer;
 
     /* hidden for now until we debug */
-    display: none;
+    /*display: none;*/
 }
 
 #doneUpload {

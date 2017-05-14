@@ -141,7 +141,7 @@ function displayFolderNames(){
         var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID);
         dbFoldersRef.on('value', function(snapshot) {
             var data = snapshot.val();
-            console.log(data);
+            console.log(data, snapshot, 'here');
             if (data) {
                 var keys = Object.keys(data); 
                 var id = 0;
@@ -250,27 +250,19 @@ function saveVideoToDatabase(dbVideoRef, dbFolderRef, videoName, url) {
 }
 
 // function deleteVideo(key,folder){
-
-  
-//     // $('#myDeleteModal').modal('show');
-
+// $('#myDeleteModal').modal('show');
 //     // $('#yesBtn').on('click', function() {
-
 //     //     var vid = danceDatabase.ref('videos/'+currentDanceGroupID).child(key);
 //     //     // vid.remove();
-
 //     //     var folder = danceDatabase.ref('videofolders/'+currentDanceGroupID+"/"+folder).child(key);
 //     //     // folder.remove();
-
 //     //   // $("#announDiv" + key).fadeOut('slow', function() {
 //     //   //   var ref = danceDatabase.ref('announcements/'+currentDanceGroupID).child(key);
 //     //   //   ref.remove();
 //     //   //   announcementDiv.parentElement.remove();
 //     //   // });   
 //     //   $('#myModal').modal('hide');
-//     // });
-        
-    
+//     // });    
 // }
 
 function resetVideoParams() { 
