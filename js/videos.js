@@ -6,7 +6,7 @@ var validURL = '';
 var idCount = 0;
 var videoName = '';
 var folderName = '';
-var folderIsAlreadyClicked = true;
+var folderIsAlreadyClicked = false;
 var numOfFolders = 0;
 // $('.overlay').hide();
 
@@ -24,7 +24,9 @@ $(document).on('click', '#cancelVideoPost', function(e) {
 $(document).on('click',  '#filterByFolder' , function(e){
     displayFolderNames();
     for(i =0; i<= numOfFolders-1;i++){
+        console.log("i-s");
         $('#folderID'+i).on('click', function(evt){
+            console.log("is this even?");
             var folderName = $(this).text();
             displayAllVideosInFolder(folderName);
             $('#videoFolders').empty();
@@ -174,17 +176,19 @@ function displayAllVideosInFolder(foldername){
         var data = snapshot.val();
         var keys = Object.keys(data);
         keys.forEach(function(key){
+            console.log(keys, key);
             dbVideosRef.on('value', function(snapshot){
-                console.log(key,"the key before");
                 var dataVideo = snapshot.val();
                 var keyVideo = Object.keys(dataVideo);
+                var names =[];  
+                var dates = [];
                 keyVideo.forEach(function(key){
-                    console.log(dataVideo,keyVideo.length);
-                    var date = dataVideo[key].date;  
-                    if(dataVideo[key].folder == foldername){
-                        console.log("key:",key, 'dataVideo[key]', dataVideo[key], date, foldername);
-                        addIframeVideo (dataVideo[key].url, date, foldername);
-
+                    var date = dataVideo[key].date;
+                    if(dataVideo[key].folder == foldername && !(dataVideo[key].name in names)  && !(dataVideo[key].date in dates)){
+                        console.log("key:",key, 'dataVideo[key]', dataVideo[key], date, foldername, names, dates);
+                        names.push(dataVideo[key].name);
+                        dates.push(dataVideo[key].date);
+                        // addIframeVideo (dataVideo[key].url, date, foldername);
                     }
                 })
             })
