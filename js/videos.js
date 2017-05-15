@@ -168,7 +168,8 @@ function displayFolderNames(){
 }
 
 function displayAllVideosInFolder(foldername){
-    console.log(foldername);
+    var names =[];  
+    var dates = [];
     var selectedFolder = '/'+ foldername + '/';
     var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID + selectedFolder);
     var dbVideosRef = danceDatabase.ref('/videos/' + currentDanceGroupID);
@@ -176,12 +177,10 @@ function displayAllVideosInFolder(foldername){
         var data = snapshot.val();
         var keys = Object.keys(data);
         keys.forEach(function(key){
-            console.log(keys, key);
+            // console.log(keys, key);
             dbVideosRef.on('value', function(snapshot){
                 var dataVideo = snapshot.val();
                 var keyVideo = Object.keys(dataVideo);
-                var names =[];  
-                var dates = [];
                 keyVideo.forEach(function(key){
                     var date = dataVideo[key].date;
                     if(dataVideo[key].folder == foldername && !(dataVideo[key].name in names)  && !(dataVideo[key].date in dates)){
