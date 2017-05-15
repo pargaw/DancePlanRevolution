@@ -175,11 +175,17 @@ function displayAllVideosInFolder(foldername){
         var keys = Object.keys(data);
         keys.forEach(function(key){
             dbVideosRef.on('value', function(snapshot){
+                console.log(key,"the key before");
                 var dataVideo = snapshot.val();
                 var keyVideo = Object.keys(dataVideo);
                 keyVideo.forEach(function(key){
+                    console.log(dataVideo,keyVideo.length);
                     var date = dataVideo[key].date;  
-                    addIframeVideo (dataVideo[key].url, date, foldername);
+                    if(dataVideo[key].folder == foldername){
+                        console.log("key:",key, 'dataVideo[key]', dataVideo[key], date, foldername);
+                        addIframeVideo (dataVideo[key].url, date, foldername);
+
+                    }
                 })
             })
         })
@@ -334,9 +340,10 @@ function postVideo() {
     else if (uploadType == 'url') {
         console.log('url, name, folder', this.validURL, this.videoName, this.selectedFolder);
         
-        if (validURL && videoName && selectedFolder) {
+        if (this.validURL && this.videoName && this.selectedFolder) {
+            console.log("are we entereing here?");
             addLoadingOverlay();
-            console.log('videoName in link before saveVideoToDatabase ', this.videoName);
+            // console.log('videoName in link before saveVideoToDatabase ', this.videoName);
             saveVideoToDatabase(dbVideoRef, dbFolderRef, this.videoName, validURL);    
         } else {
             if (!this.validURL) {
@@ -405,19 +412,30 @@ function createGroupTagForVideo(groupName){
 function addIframeVideo (src,date, groupName) {
     console.log("adding video", src, groupName);
     $('<div class="panel panel-default" id="video'+ src+'"><div class="videoDates" style="position: relative"><h4>'+ date
-        +'</h4><img class="deleteVid" src="img/red_trash.png" id="deleteVid'+ src+'"></div>'+'<div class="groupTag" style="position: relative"> <h4>#'+ groupName 
-        +'folder </h4></div>' +'<div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
+        +'</h4><img class="deleteVid" src="img/red_trash.png" id="deleteVid'+ 
+        idCount+'"></div>'+'<div class="groupTag" style="position: relative"> <h4>#'+ 
+        groupName +'folder </h4></div>' +'<div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ 
+        idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
         src+'"></iframe></div></div>').prependTo('#videoDisplay');
     idCount +=1;
 
     document.getElementById("video"+src).onclick = function() {
         console.log("here to delete "+'videos/'+currentDanceGroupID+" "+src+"\n and "+'videofolders/'+currentDanceGroupID+"/"+groupName);
         $('#myDeleteVidModal').modal('show');
+        console.log($(this), $(this).attr('id'));
+
         console.log("what about here?");
         $('#yesVidBtn').on('click', function() {
             console.log("i said yes");
-            console.log($("#video" + src), src);
-          $("#player").fadeOut('slow', function() {
+            console.log(document.getElementById("video"+src), src);
+            //load all videos again
+            //displayAllVideosInFolder();
+            // or delete this one
+            document.getElementById("video"+src).remove();
+            document.getElementById('iframe'+ idCount);
+            //iframe+id removes it. but how to get id???? 
+
+            // document.getElementById("video"+src).fadeOut('slow', function() 
             console.log("is this inside yet?");
             var vid = danceDatabase.ref('videos/'+currentDanceGroupID).child(src);
             vid.remove();
@@ -425,7 +443,7 @@ function addIframeVideo (src,date, groupName) {
             var folder = danceDatabase.ref('videofolders/'+currentDanceGroupID+"/"+groupName).child(src);
             folder.remove();
             document.getElementById("video"+src).remove();
-          });   
+
           $('#myDeleteVidModal').modal('hide');
         });
     }
