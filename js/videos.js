@@ -8,6 +8,7 @@ var videoName = '';
 var folderName = '';
 var folderIsAlreadyClicked = false;
 var numOfFolders = 0;
+var inCurrentFolder = false;
 // $('.overlay').hide();
 
 function checkURLValidity(input){
@@ -23,16 +24,22 @@ $(document).on('click', '#cancelVideoPost', function(e) {
 
 $(document).on('click',  '#filterByFolder' , function(e){
     displayFolderNames();
+    if(inCurrentFolder){
+        $('#videoDisplay').empty();
+        displayFolderNames();
+    }
     for(i =0; i<= numOfFolders-1;i++){
-        console.log("i-s");
         $('#folderID'+i).on('click', function(evt){
-            console.log("is this even?");
+            inCurrentFolder = true;
             var folderName = $(this).text();
             displayAllVideosInFolder(folderName);
+            console.log("this should remove stuff");
             $('#videoFolders').empty();
         })
     }
 });
+
+
 
 $(document).on('click', '#addNewVideo', function(e) {
     $('#uploadOptions').toggle();
@@ -96,7 +103,8 @@ $(document).on('keyup', '#videoNameInput', function(e) {
     // TODO check that selectedFolder name isn't duplicate of existing one
 });
 
-$(document).on('click','#folderIDadd_new_folder', function(evt){
+$(document).on('click','#0', function(evt){
+    pauseTheVideos();
 })
 
 function include(arr, filename) {
@@ -164,6 +172,7 @@ function displayFolderNames(){
         //remove folders?
         $('#videoFolders').empty();
         folderIsAlreadyClicked = false;
+
     }
 }
 
@@ -183,16 +192,22 @@ function displayAllVideosInFolder(foldername){
                 var keyVideo = Object.keys(dataVideo);
                 keyVideo.forEach(function(key){
                     var date = dataVideo[key].date;
-                    if(dataVideo[key].folder == foldername && !(dataVideo[key].name in names)  && !(dataVideo[key].date in dates)){
-                        console.log("key:",key, 'dataVideo[key]', dataVideo[key], date, foldername, names, dates);
+                    if(dataVideo[key].folder == foldername && !names.includes(dataVideo[key].name)  && !dates.includes(dataVideo[key].date in dates)){
+                        console.log("key:",key, 'dataVideo[key]', dataVideo[key], names.includes(dataVideo[key].name), dates.includes(dataVideo[key]), names, dates);
                         names.push(dataVideo[key].name);
                         dates.push(dataVideo[key].date);
-                        // addIframeVideo (dataVideo[key].url, date, foldername);
+                        var src = dataVideo[key].url.replace("https://www.youtube.com/watch?v=", "");
+                        addIframeVideo (src, date, foldername);
                     }
                 })
             })
         })
     })
+}
+
+
+function removeVideosNotInTheFolder(){
+    $('#videoDisplay').empty();
 }
 
 function chooseVideo() {
