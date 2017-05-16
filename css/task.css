@@ -106,6 +106,12 @@ Announcement/Video/Attendance styling ONLY
 
 
 /* ATTENDANCE */
+.attendanceInstructions {
+    text-align: center;
+    margin-top: 40px;
+    display: none;
+}
+
 #attendanceTable td {
     padding: 3px 3px 40px 3px;
     word-wrap: break-word;

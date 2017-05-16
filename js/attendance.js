@@ -114,7 +114,7 @@ function checkAttendanceTable() {
 }
 
 function requestToAddMembers() {
-    $("#attendanceTable").html('There are no members right now! Add by clicking the + button above!');
+    $("#attendanceTable").html('There are no members right now! Add by clicking the + button above. You can also do this in <a href="settings.html">Settings</a>.');
 }
 
 function choosePhoto() {
@@ -167,6 +167,8 @@ function setupMembers() {
                 var counter = 0;
 
                 $('#attendanceTable').empty();
+                $('.attendanceInstructions').show();
+
                 var t = document.getElementById('attendanceTable'); 
 
                 for (var memberKey in members) {
