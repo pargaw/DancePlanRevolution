@@ -28,6 +28,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 
     <!-- local scripts -->
+    <script src="js/utilities.js"></script>
     <script src="js/validator.js"></script>
     <script src="js/index.js"></script>
 </head>
@@ -62,25 +63,13 @@
         <form id="newGroup" data-toggle="validator" role="form">
             <div class="form-group">
                 <label for="name">Group Name</label>
-                <input type="name" class="form-control width-50" id="groupInp" aria-describedby="groupName" placeholder="e.g. Twinkle Toes" data-minlength="6" required></input>
+                <input type="name" class="form-control width-50" id="groupInp" aria-describedby="groupName" placeholder="e.g. Twinkle Toes" data-minlength="1" required></input>
                 <div class="help-block with-errors"></div>
             </div>
-            <br>
-            <div class="form-group">
-                <div id="inputText">
-                    <div class="input_fields_wrap">
-                        <label for="name">Add Members</label>
-                        <div><input class="form-control width-50 inline member" type="text" name="mytext[]" placeholder="e.g. Beth Hadley"><span class="glyphicon glyphicon-remove remove_field" aria-hidden="true"></span></div>
-                    </div>
-                    <button class="btn btn-default add_field_button">Add another member</button>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <div class="text-right">
-                    <button id="cancelButton" type="cancel" class="btn btn-danger">Cancel</button>
-                    <button id="doneButton" type="submit" class="btn btn-primary">Submit</button>
-                </div>
+            <div class="form-group text-right">
+                <img id="cancelButton" type="cancel" class="formImgButtons" src="img/close.png">
+                <button id="doneButton" type="submit"><img class="formImgButtons" src="img/green_checkmark.png"></button>
             </div>
         </form>
 
