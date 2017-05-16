@@ -28,15 +28,31 @@ $(document).on('click',  '#filterByFolder' , function(e){
         $('#videoDisplay').empty();
         displayFolderNames();
     }
+    if(!folderIsAlreadyClicked){
+        $('#videoFolders').empty(); //removing folders here 
+    }
+    console.log(folderIsAlreadyClicked);
+
     for(i =0; i<= numOfFolders-1;i++){
         $('#folderID'+i).on('click', function(evt){
             inCurrentFolder = true;
             var folderName = $(this).text();
             displayAllVideosInFolder(folderName);
-            console.log("this should remove stuff");
             $('#videoFolders').empty();
         })
+        console.log(i);
+        $('#editFolder_'+i).on('click', function(evt){
+            var folderName = $(this).text();
+            var newInput = '';
+            console.log(folderName, 'editing');
+        })
+        $('#deleteFolder_'+i).on('click', function(evt){
+            var folderName = $(this).text();
+            var newInput = '';
+            console.log(folderName, 'editing');
+        })
     }
+    console.log(folderIsAlreadyClicked);
 });
 
 
@@ -482,7 +498,7 @@ function addFolderHTML(name, folderId){
 $('<div class="panel panel-default folder-name" style="margin-top:20px">'
     + '<div id="leftDiv"><h4 class="panel-body" id="folderID' +  folderId + '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name + '</h4>  <img class="deleteFolder" src="img/red_trash.png" id="deleteFolder_'+ 
     folderId +'"><img class="editFolder" src="img/green_edit.png" id="editFolder_'+  folderId +'"></div><div class="groupTag" style="position: relative"></div>' 
-    +'</div>').prependTo('#videoDisplay');
+    +'</div>').prependTo('#videoFolders');
 
 }
 
