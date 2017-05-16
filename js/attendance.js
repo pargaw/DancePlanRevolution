@@ -80,8 +80,9 @@ $(document).on('click', '#addMemberButton', function(e) {
             console.log('no member photo', kerberos, name);
             saveMemberToDatabase(kerberos, name);
         }
+    } else {
+        $("#newMember").effect("shake");
     }
-    $('#newMember').hide();
 });
 
 
@@ -92,12 +93,27 @@ function reloadAttendance(newDate) {
     checkAttendanceTable();
 }
 
-function checkAttendanceTable() {
-    if (getMembers()) {
-        requestToAddMembers();
-    } else {
+// get list of all members for a given group
+let getMembers = new Promise(function(resolve, reject) {
+    var membersRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/members/');
+    membersRef.on("value", function(snapshot) {
+        var members = snapshot.val();
+        if (members) {
+            console.log('members', members);
+            resolve(members);
+        } else {
+            console.log('no members?');
+            reject(false);
+        }
+    });
+});
+
+function checkAttendanceTable() { 
+    getMembers.then(function(fromResolve) {
         setupMembers();
-    }
+    }).catch(function(fromReject){
+        requestToAddMembers();
+    });
 }
 
 function requestToAddMembers() {
@@ -144,88 +160,92 @@ function setupMembers() {
 
         membersRef.on("value", function(snapshot) {
             var members = snapshot.val();
-            var numMembers = Object.keys(members).length;
-            // console.log(members, Object.keys(members), numMembers); 
 
-            var numRows = Math.ceil(numMembers / 3.0);
-            var counter = 0;
+            if (members) {
+                var numMembers = Object.keys(members).length;
+                // console.log(members, Object.keys(members), numMembers); 
 
-            $('#attendanceTable').empty();
-            var t = document.getElementById('attendanceTable'); 
 
-            for (var memberKey in members) {
-                if (members.hasOwnProperty(memberKey)) {
-                    // console.log(memberKey + " -> " + members[memberKey]);
-                    var memberRef = danceDatabase.ref('members/' + memberKey);
+                var numRows = Math.ceil(numMembers / 3.0);
+                var counter = 0;
 
-                    // retrieve and set up data for each group ember
-                    memberRef.on("value", function(snapshot) {
-                        var memberData = snapshot.val();
+                $('#attendanceTable').empty();
+                var t = document.getElementById('attendanceTable'); 
 
-                        if (memberData) {
-                            var kerberos = memberData.kerberos;
-                            var name = memberData.name;
-                            var imgURL = memberData.photo;
+                for (var memberKey in members) {
+                    if (members.hasOwnProperty(memberKey)) {
+                        // console.log(memberKey + " -> " + members[memberKey]);
+                        var memberRef = danceDatabase.ref('members/' + memberKey);
 
-                            // make new row for every 3 people
-                            if (counter % 3 == 0) {
-                                tr = t.insertRow();
-                            } 
+                        // retrieve and set up data for each group ember
+                        memberRef.on("value", function(snapshot) {
+                            var memberData = snapshot.val();
 
-                            // make td with figure of img, caption, checkmark per member
-                            var tdMem = document.createElement("TD");
-                            var figMem = document.createElement("FIGURE");
-                            var member = document.createElement("IMG");
+                            if (memberData) {
+                                var kerberos = memberData.kerberos;
+                                var name = memberData.name;
+                                var imgURL = memberData.photo;
 
-                            figMem.setAttribute("id", "fig_" + kerberos); 
+                                // make new row for every 3 people
+                                if (counter % 3 == 0) {
+                                    tr = t.insertRow();
+                                } 
 
-                            imgPath = imgURL ? imgURL : path + "img/no-user-img.jpg";
-                            member.setAttribute("src", imgPath);
-                            member.setAttribute("id", 'img_' + kerberos);
-                            member.setAttribute("class", "member");
-                            member.width = "80";
-                            member.height = "80";
-                            member.style.borderRadius = "50%";
-                            member.style.position = "relative";
+                                // make td with figure of img, caption, checkmark per member
+                                var tdMem = document.createElement("TD");
+                                var figMem = document.createElement("FIGURE");
+                                var member = document.createElement("IMG");
 
-                            // set up checkmark that indicates absence/presence
-                            var check = document.createElement("IMG");
-                            check.src = path + "img/green_checkmark.png";
-                            check.setAttribute("class", "checkmark");
-                            check.style.width = member.width + 'px';
-                            check.style.height = member.height + 'px';
-                            check.style.opacity = 0;
+                                figMem.setAttribute("id", "fig_" + kerberos); 
 
-                            // how we indicate someone as present 
-                            if (attendance && attendance[kerberos]) {
-                                check.style.opacity = 0.5; 
+                                imgPath = imgURL ? imgURL : path + "img/no-user-img.jpg";
+                                member.setAttribute("src", imgPath);
+                                member.setAttribute("id", 'img_' + kerberos);
+                                member.setAttribute("class", "member");
+                                member.width = "80";
+                                member.height = "80";
+                                member.style.borderRadius = "50%";
+                                member.style.position = "relative";
+
+                                // set up checkmark that indicates absence/presence
+                                var check = document.createElement("IMG");
+                                check.src = path + "img/green_checkmark.png";
+                                check.setAttribute("class", "checkmark");
+                                check.style.width = member.width + 'px';
+                                check.style.height = member.height + 'px';
+                                check.style.opacity = 0;
+
+                                // how we indicate someone as present 
+                                if (attendance && attendance[kerberos]) {
+                                    check.style.opacity = 0.5; 
+                                }
+
+                                // update attendance view
+                                check.setAttribute("id", "check_" + kerberos);
+                                check.onclick = function() {
+                                    changeOpacity(this.id);
+                                };
+
+                                var caption = document.createElement("FIGCAPTION");
+                                var txt = document.createTextNode(name);
+                                caption.appendChild(txt);
+
+                                
+
+                                // create hierarchy of elements
+                                figMem.appendChild(member);
+                                figMem.appendChild(check);
+                                figMem.appendChild(caption);
+                
+                                tdMem.appendChild(figMem);
+                                tr.appendChild(tdMem);
+
+                                // update counter for table layout
+                                counter += 1; 
                             }
-
-                            // update attendance view
-                            check.setAttribute("id", "check_" + kerberos);
-                            check.onclick = function() {
-                                changeOpacity(this.id);
-                            };
-
-                            var caption = document.createElement("FIGCAPTION");
-                            var txt = document.createTextNode(name);
-                            caption.appendChild(txt);
-
                             
-
-                            // create hierarchy of elements
-                            figMem.appendChild(member);
-                            figMem.appendChild(check);
-                            figMem.appendChild(caption);
-            
-                            tdMem.appendChild(figMem);
-                            tr.appendChild(tdMem);
-
-                            // update counter for table layout
-                            counter += 1; 
-                        }
-                        
-                    });
+                        });
+                    }
                 }
             }
 
