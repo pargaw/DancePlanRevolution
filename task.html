@@ -29,6 +29,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 
     <!-- local scripts -->
+    <script src="js/utilities.js"></script>
     <script src="js/announcements.js"></script>
     <script src="js/videos.js"></script>
     <script src="js/task.js"></script>
@@ -166,8 +167,6 @@
 
                 <!-- Attendance -->
                 <div class="item active">
-                    <div id="savedToast" style="float:right">Saved!</div>
-
                     <div class="Attendance" id="attend">
                         <form class="formBackground" id="newMember" data-toggle="validator" role="form">
                             <h4>Add a New Member</h4>
@@ -199,8 +198,6 @@
 
                         <table id="attendanceTable" align="center"></table>
                     </div>
-                    
-                    <button id="saveButton" class="btn greenButton" onclick="saveAttendance()">Save</button>
                 </div>
 
 
@@ -282,7 +279,7 @@
                         <form class="formBackground" id="newAnnouncement" data-toggle="validator" role="form">
                             <div id="dateHeader"></div>
                             <div class="form-group" id="inputText">
-                                <textarea class="form-control" rows="3" id="announcementInp" placeholder="Type announcement here..." data-minlength="3" required></textarea>
+                                <textarea class="form-control" rows="3" id="announcementInp" placeholder="Type announcement here..." data-minlength="1" required></textarea>
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group text-right">
