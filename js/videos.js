@@ -6,7 +6,7 @@ var validURL = '';
 var idCount = 0;
 var videoName = '';
 var folderName = '';
-var folderIsAlreadyClicked = false;
+var foldersCurrentlyShowing = true;
 var numOfFolders = 0;
 var inCurrentFolder = false;
 // $('.overlay').hide();
@@ -23,15 +23,18 @@ $(document).on('click', '#cancelVideoPost', function(e) {
 });
 
 $(document).on('click',  '#filterByFolder' , function(e){
-    displayFolderNames();
+    //displayFolderNames();
     if(inCurrentFolder){
+        console.log(inCurrentFolder, "these two pajaritos, inCurrentFolder is true");
         $('#videoDisplay').empty();
-        displayFolderNames();
+        //displayFolderNames();
     }
-    if(!folderIsAlreadyClicked){
+    if(!foldersCurrentlyShowing){
         $('#videoFolders').empty(); //removing folders here 
+        console.log("being called from document filter by folder click")
+        displayFolderNames();
+        foldersCurrentlyShowing = false;
     }
-    console.log(folderIsAlreadyClicked);
 
     for(i =0; i<= numOfFolders-1;i++){
         $('#folderID'+i).on('click', function(evt){
@@ -39,20 +42,10 @@ $(document).on('click',  '#filterByFolder' , function(e){
             var folderName = $(this).text();
             displayAllVideosInFolder(folderName);
             $('#videoFolders').empty();
-        })
-        console.log(i);
-        $('#editFolder_'+i).on('click', function(evt){
-            var folderName = $(this).text();
-            var newInput = '';
-            console.log(folderName, 'editing');
-        })
-        $('#deleteFolder_'+i).on('click', function(evt){
-            var folderName = $(this).text();
-            var newInput = '';
-            console.log(folderName, 'editing');
+            foldersCurrentlyShowing = false;
         })
     }
-    console.log(folderIsAlreadyClicked);
+    // console.log(folderIsAlreadyClicked);
 });
 
 
@@ -162,7 +155,8 @@ function loadFolderNames() {
 }
 
 function displayFolderNames(){
-    if(!folderIsAlreadyClicked){
+    // console.log(foldersCurrentlyShowing);
+    // if(foldersCurrentlyShowing){
         numOfFolders = 0;
         var dbFoldersRef = danceDatabase.ref('videofolders/' + currentDanceGroupID);
         dbFoldersRef.on('value', function(snapshot) {
@@ -174,22 +168,23 @@ function displayFolderNames(){
                 // addFolderHTML("Add new folder...", "add_new_folder");         
                 //the default option should be the first to come up in the folder dropdown
                 keys.forEach(function(key) {
-                    console.log(key, id);
                     addFolderHTML(key, id);
                     id +=1;
                     numOfFolders+=1;
                 }); 
             }
+            console.log("going in once");
         });
-        folderIsAlreadyClicked = true;
-    }
-    else{
-        numOfFolders=0;
-        //remove folders?
-        $('#videoFolders').empty();
-        folderIsAlreadyClicked = false;
-
-    }
+    // foldersCurrentlyShowing = false;
+    // }
+    // else{
+    //     numOfFolders=0;
+    //     //remove folders?
+    //     $('#videoFolders').empty();
+    //     console.log(numOfFolders);
+    //     //foldersCurrentlyShowing    
+    // }
+    // checkForEditAndDeleteFolderPress();
 }
 
 function displayAllVideosInFolder(foldername){
@@ -200,6 +195,7 @@ function displayAllVideosInFolder(foldername){
     var dbVideosRef = danceDatabase.ref('/videos/' + currentDanceGroupID);
     dbFoldersRef.on('value', function(snapshot) {
         var data = snapshot.val();
+        if(data){
         var keys = Object.keys(data);
         keys.forEach(function(key){
             // console.log(keys, key);
@@ -218,6 +214,7 @@ function displayAllVideosInFolder(foldername){
                 })
             })
         })
+    }
     })
 }
 
@@ -307,30 +304,27 @@ function hideVideoUploadForm() {
     $('#newVideo').hide();
 }
 
+function takeVideoToFolder(videoName, folderName){
+    displayAllVideosInFolder(folderName);
+}
+
 function postVideo() { 
     var dbVideoRef = danceDatabase.ref('videos/' + currentDanceGroupID);
-
-
     var dbFolderRef = danceDatabase.ref('videofolders/' + currentDanceGroupID + selectedFolder);
-
     console.log('file and selectedFolder', this.file, this.selectedFolder);
-
     if (uploadType == 'local') {
         if (file && selectedFolder) {
             addLoadingOverlay();
             console.log('foldername in local', selectedFolder);
-
             console.log('filevideo local name', videoName);
             var videoName = file.name;
             var folderPath = 'groups/' + currentDanceGroupID + selectedFolder;
             var videoPath = folderPath + videoName;
-
             console.log('folder path local', folderPath);
             console.log('video path', videoPath);  
             console.log('videoName', videoName);
             var folderRef = danceStorage.ref(folderPath);
             var videoRef = danceStorage.ref(videoPath);
-
             // draw thumbnail of video in form
             // var canvas = document.getElementById('thumbnailCanvas');
             // canvas.getContext('2d').drawImage(file, 0, 0, file.videoWidth, file.videoHeight);
@@ -356,7 +350,7 @@ function postVideo() {
         } 
     }
     else if (uploadType == 'url') {
-        console.log('url, name, folder', this.validURL, this.videoName, this.selectedFolder);
+        console.log('url, name, folder', this, this.validURL, this.videoName, this.selectedFolder);
         
         if (this.validURL && this.videoName && this.selectedFolder) {
             console.log("are we entereing here?");
@@ -382,6 +376,9 @@ function postVideo() {
 //after input, check and if correct input => remove the disabled look and let button be clicked
 $(document).ready(function(evt){
     // as of right now it doesnt yet recognize the autofill properly
+    displayFolderNames();
+    console.log("docuent. ready calling displayFolders")
+    // foldersCurrentlyShowing = false;
     setTimeout(function (evt) {
     if ($('#videoURL:-webkit-autofill').val()) {
         $('#videoURL').val() = $('#videoURL:-webkit-autofill').val();
@@ -395,8 +392,19 @@ $(document).ready(function(evt){
             $("#submitVideo").prop('disabled', false);
             $("#submitVideo").unbind('click').on('click', function(evt){
                 var date =  getDate(true);
-                var groupName = $('#newFolder').val() ; 
-                addIframeVideo(src, date, groupName)//->TODO find key
+                var videoName= $('#videoNameInput').val(); //this will be added as title just like date 
+                console.log($('#newFolder').val(), $('#folders').val());
+                if($('#newFolder').val()== ""){
+                    var folderName = $('#folders').val();
+                }
+                else{
+                    var folderName = $('#newFolder').val(); 
+                }
+                addIframeVideo(src, date, folderName)//->TODO find key
+                //remove all folders
+                $('#videoFolders').empty();
+                displayAllVideosInFolder(folderName);
+
                 postVideo();
                 $('#videoURL').val("");
                 $('#newVideo').hide();
@@ -427,11 +435,11 @@ function createGroupTagForVideo(groupName){
     document.getElementById('groupTag').innerHTML = "<h4> #" + groupName + "</h4>";
 }
 
-function addIframeVideo (src,date, groupName,key) {
-    console.log("key here is ",key);
+function addIframeVideo (src, date, folderName) {
+    console.log("key here is ",folderName);
     $('<div class="panel panel-default" id="video'+ src+'"><div class="videoDates" style="position: relative"><h4>'+ date
         +'</h4><img class="deleteVid" id="deleteVidBtn'+src+'" src="img/red_trash.png"></div>'+'<div class="groupTag" style="position: relative"> <h4>#'+ 
-        groupName +'folder </h4></div>' +'<div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ 
+        folderName +'folder </h4></div>' +'<div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ 
         idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
         src+'"></iframe></div></div>').prependTo('#videoDisplay');
     idCount +=1;
@@ -471,6 +479,17 @@ $('<div class="panel panel-default folder-name" style="margin-top:20px">'
     + '<div id="leftDiv"><h4 class="panel-body" id="folderID' +  folderId + '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name + '</h4>  <img class="deleteFolder" src="img/red_trash.png" id="deleteFolder_'+ 
     folderId +'"><img class="editFolder" src="img/green_edit.png" id="editFolder_'+  folderId +'"></div><div class="groupTag" style="position: relative"></div>' 
     +'</div>').prependTo('#videoFolders');
+    // checkForEditAndDeleteFolderPress();
+
+    $('.deleteFolder').on('click', function(evt){
+    var folderName = $(this).text();
+    var newInput = '';
+    console.log(folderName, 'gonna be deleted');
+    })
+
+    $('.editFolder').on('click', function(evt){
+    console.log("tryna edit");
+    })
 
 }
 
@@ -495,3 +514,16 @@ function getVideoID(element, prefixLength) {
     var key = msgId.substring(prefixLength, msgId.length);
     return key;    
 }
+
+// function checkForEditAndDeleteFolderPress(){
+//     for(i=0;i<=numOfFolders-1; i++){
+//         // $('#editFolder_'+i).on('click', function(evt){
+//         // })
+//         $('#deleteFolder_'+i).on('click', function(evt){
+//             var folderName = $(this).text();
+//             var newInput = '';
+//             console.log(folderName, 'editing');
+//         })
+//     }
+
+//}
