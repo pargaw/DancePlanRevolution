@@ -1,11 +1,3 @@
-// function getTeamName() {
-// 	var currentDanceGroupID = localStorage.getItem("currentDanceGroupID");
-// }
-
-// function changeTeamName(){
-// 	window.localStorage.setItem( key, JSON.stringify(value) );
-// }
-
 
 var newTeamName = currentDanceGroup;
 
@@ -24,10 +16,6 @@ var currentTask = 0; // should be 0, 1, or 2, specifying one of the above tasks
 var currentDanceGroupID = localStorage.getItem("currentDanceGroupID");
 console.log("team name is "+currentDanceGroupID);
 var currentDanceGroup = localStorage.getItem("currentDanceGroup");
-
-
-var deletedMembers = [];
-var addedMembers = [];
 
 // SETUP
 function initializePage() {
@@ -57,13 +45,18 @@ function initializePage() {
         // $(".dance-group").text("Choose a team below");
     }
 
+    // activate element in secondary bar
+    $(".taskbar li>a").removeClass('active');
+    $(".taskbar li>a#" + currentTask).addClass('active');
     updateTaskPgContent();
     setupMembers_settings();
 }
 
 window.onload = initializePage;
 
-
+function strip_text(text) {
+    return text.replace(/^\s+|\s+$/g, '');
+}
 
 $(document).on('keyup', '#editTeamName>input', function(){
     newTeamName = $(this).val();
@@ -86,34 +79,15 @@ $(document).on('click', '#changeNameButton', function() {
     // danceGroupRef.child('name').setValue(newTeamName);
 });
 
-
-
-// CLICK HANDLERS -->TODO what is this for????
-$(document).on('click', '.navbar-brand', function(e) {
-    window.location.href = 'index.html';
-});
-
 // if we change currentTask, change content displayed by the carousel 
 $(document).on('click', '.taskbar a', function(e) {
     currentTask = $(this).attr('id');
+    // activate element in secondary bar
+    $(".taskbar li>a").removeClass('active');
+    $(".taskbar li>a#" + currentTask).addClass('active');
+
     updateTaskPgContent(true);
 });
-
-$(document).on('click', '#addNew', function(e) {
-    addNewTaskItem();
-});
-
-
-// $(document).ready(function() {
-
-//     $(".ui-datepicker-trigger").attr("data-toggle","tooltip");
-//     $(".ui-datepicker-trigger").attr("data-original-title", dateTooltipText);
-//     $(".ui-datepicker-trigger").attr("title", dateTooltipText);
-
-//     $('[data-toggle="tooltip"]').tooltip(); 
-
-// });
-
 
 
 // use new index of carousel to update page content
@@ -125,79 +99,18 @@ $(document).on('slide.bs.carousel', '.carousel', function(e) {
 });
 
 
-// GENERAL TASK MANIPULATION
-function addNewTaskItem() {
-    if (currentTask == 0) {
-        // ???
-    } else if (currentTask == 2) {
-        createNewAnnouncement();
-    }
-}
-
-function changeDate(date) { 
-    if (currentTask == 0) {
-        reloadAttendance(date);
-    } else if (currentTask == 1) {
-        
-    } else {
-        displayAllAnnouncements(date);
-    }
-}
-
 function updateTaskPgContent(indirect) {
     // move to new carousel item if tab, not carousel arrow, was clicked
     if (indirect) {
         $("#myCarousel").carousel(parseInt(currentTask));
     }
 
-    // activate element in secondary bar
-    $(".taskbar li>a").removeClass('active');
-    $(".taskbar li>a#" + currentTask).addClass('active');
+    // // activate element in secondary bar
+    // $(".taskbar li>a").removeClass('active');
+    // $(".taskbar li>a#" + currentTask).addClass('active');
 
     var newTaskButton = $('#addNew');
   
-}
-
-
-// UTILITIES
-// return date in mm/dd/yy hh:mm starting form
-function getDate(time_included, delimiter) {
-    var n = new Date(); 
-    // 01, 02, 03, ... 29, 30, 31
-    var dd = (n.getDate() < 10 ? '0' : '') + n.getDate();
-    // 01, 02, 03, ... 10, 11, 12
-    var mm = ((n.getMonth() + 1) < 10 ? '0' : '') + (n.getMonth() + 1);
-    // 1970, 1971, ... 2015, 2016, ...
-    var yy = n.getFullYear();
-
-    // firebase doesn't like keys with slashes,
-    // so for attendance, we can save with hyphens instead
-    if (delimiter) {
-        var date = mm + delimiter + dd + delimiter + yy;
-    } else {
-        var date = mm + "-" + dd + "-" + yy;
-    }
-
-
-    if (time_included) {
-        hr = n.getHours();
-        min = n.getMinutes();
-        if (hr >= 13) {
-            ap = 'pm';
-            hr -= 12;
-        } else {
-            ap = 'am';
-        }
-
-        if (min < 10) {
-            min = '0' + min;
-        }
-
-        var time = " " + hr + ":" + min + ap;
-        return date + time;
-    };
-
-    return date;
 }
 
 
@@ -223,6 +136,7 @@ function saveMemberToDatabase(kerberos, name, url) {
         url = 'https://firebasestorage.googleapis.com/v0/b/danceplanrevolution.appspot.com/o/members%2Fno-user-img.jpg?alt=media&token=a00922f3-120a-4e4b-ae4e-58807d69a93e';
     }
 
+    // console.log(kerberos, name, url);
     var attendanceRef = danceDatabase.ref('attendance/' + currentDanceGroupID + '/' + hyphen_delimited_date);
     var groupsRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/members/');
     var membersRef = danceDatabase.ref('members/');
@@ -240,6 +154,13 @@ function saveMemberToDatabase(kerberos, name, url) {
         name: name,
         photo: url
     });
+
+    hideAttendanceForm();
+}
+
+function hideAttendanceForm() {
+    $('#newMember')[0].reset();
+    $('#newMember').hide();
 }
 
 function deleteMemberFromDatabase(kerberos, name, url) {
@@ -258,45 +179,44 @@ function deleteMemberFromDatabase(kerberos, name, url) {
 }
 
 $(document).on('click', '#cancelMemberButton', function(e) {
-	$('#newMember').hide();
+	hideAttendanceForm();
 });
 
 $(document).on('click', '#addMemberButton', function(e) {
     // assume all fields have been validated 
-    var kerberos = $('#addMemberKerberos').val();
-    var name = $('#addMemberName').val();
-    console.log('inp fields', kerberos, name);
+    var kerberos = strip_text($('#addMemberKerberos').val());
+    var name = strip_text($('#addMemberName').val());
+    console.log('stripped member np fields', kerberos, name);
 
-    if (memberPhoto) {
-        // assumes jpg files only
-        var folderPath = 'members/';
-        var imagePath = kerberos + '.jpg';
-        var memberRef = danceStorage.ref(folderPath + imagePath);
-        var folderRef = danceStorage.ref(folderPath);
+    if (kerberos && name) {
+        if (memberPhoto) {
+            // assumes jpg files only
+            var folderPath = 'members/';
+            var imagePath = kerberos + '.jpg';
+            var memberRef = danceStorage.ref(folderPath + imagePath);
+            var folderRef = danceStorage.ref(folderPath);
 
-        memberRef.put(memberPhoto).then(function(snapshot) {
-            folderRef.child(imagePath).getDownloadURL().then(function(url) {
-                console.log('inp 2', kerberos, name);
-                saveMemberToDatabase(kerberos,name,url);
-                // addedMembers.push([kerberos,name,url]); -> save separately after pressing save button
-            }).catch(function(error) {
-                console.log('error', error);
-            });
-        }); 
+            memberRef.put(memberPhoto).then(function(snapshot) {
+                folderRef.child(imagePath).getDownloadURL().then(function(url) {
+                    saveMemberToDatabase(kerberos, name, url);
+                }).catch(function(error) {
+                    console.log('error', error);
+                });
+            }); 
+        } else {
+            console.log('no member photo', kerberos, name);
+            saveMemberToDatabase(kerberos, name);
+        }
     } else {
-        console.log('no member photo', kerberos, name);
-        saveMemberToDatabase(kerberos,name);
-        // addedMembers.push([kerberos,name]); -> save separately after pressing save button
+        $("#newMember").effect("shake");
     }
-    $('#newMember').hide();
 });
-
 
 // on date change, update attendance display
 function reloadAttendance(newDate) {
     hyphen_delimited_date = newDate;
     $(".task-name").text(TASKS[currentTask] + " for " + hyphen_delimited_date);
-    setupMembers_settings();
+    checkAttendanceTable();
 }
 
 function choosePhoto() {
@@ -398,8 +318,7 @@ function setupMembers_settings() {
 
 								$('#yesBtn').on('click', function() {
 							      $("#tdMem_"+kerberos).fadeOut('slow', function() {
-							      	// deleteMemberFromDatabase(kerberos, name, imgURL);
-							      	deletedMembers.push([kerberos,name,imgURL])
+							      	deleteMemberFromDatabase(kerberos, name, imgURL);
 							        $("#tdMem_"+kerberos).remove();
 							      });	
 								  $('#myModal').modal('hide');
@@ -421,7 +340,6 @@ function setupMembers_settings() {
                     });
                 }
             }
-
             var div = document.getElementById("attend");
             div.appendChild(document.getElementById('attendanceTable'));
         });
@@ -432,23 +350,4 @@ function getMessageID(element, prefixLength) {
     var msgId = element.className; 
     var key = msgId.substring(prefixLength, msgId.length);
     return key;    
-}
-
-function saveEditMembers() {
-     for (var i = 0; i < deletedMembers.length; i++) {
-     	if (deletedMembers[i].length==3){
-			deleteMemberFromDatabase(deletedMembers[i][0], deletedMembers[i][1], deletedMembers[i][2]);
-     	} else{
-     		deleteMemberFromDatabase(deletedMembers[i][0], deletedMembers[i][1]);
-     	}
-     }
-     deletedMembers = [];
-
-   //   for (var j = 0; j < addedMembers.length; j++){
-   //   	if (addedMembers[j].length==3){
-			// saveMemberToDatabase(addedMembers[j][0], addedMembers[j][1], addedMembers[j][2]);
-   //   	} else{
-   //   		saveMemberToDatabase(addedMembers[j][0], addedMembers[j][1]);
-   //   	}
-   //   }
 }

@@ -75,11 +75,12 @@
         </ul>
     </nav>
 
+
     <!-- Secondary navbar for task pages -->
     <nav class="navbar">
         <ul class="taskbar nav nav-pills nav-fill nav-center">
             <li class="nav-item">
-                <a class="nav-link" id="0" href="#">Edit Team Name</a>
+                <a class="nav-link" id="0" href="#">Edit Team</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="1" href="#">Edit Members</a>
@@ -87,31 +88,68 @@
         </ul>
     </nav>
 
+
     <!-- Carousel with task info -->
     <container id="carousel">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
         <div id="myCarousel" class="carousel">
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
-                <!-- Page title -->
-                <div class="panel panel-default" id="panel-title">
-                    <h4 class="panel-body task-name">Settings</h4>
-                    
-                </div> 
 
                 <!-- Edit Team Name -->
-                <div class="container item active" id='editTeamName'>
+                <div class="item active" id='editTeamName'>
+
+                    <div class="panel panel-default" id="panel-title">
+                        <h4 class="panel-body task-name">Change Team Name: </h4>
+                    </div> 
                     <input>
 
                     <div class="text-right">
                         <img id="cancelNameChangeButton" type="cancel" class="btn formImgButtons" src="img/close.png">
                         <img id="changeNameButton" type="submit" class="btn formImgButtons" src="img/green_checkmark.png">
                     </div>
+
+                    <div>
+                        <div class="panel panel-default" id="panel-title">
+                            <h4 class="panel-body task-name">Delete Team: </h4>
+                        </div> 
+                        <button type="button" id="deleteTeamBtn">Delete Team</button>
+                    </div>
                 </div>
 
 
                 <!-- Edit Members -->
-                <div class="item">
+                <div class="item"  id="editMembers">
+                    <form class="formBackground" id="newMember" data-toggle="validator" role="form">
+                        <h4>Add a New Member</h4>
+                        <h5>Note that this member will be added to all attendance pages of this dance group.</h5>
+                        
+                        <div class="form-group">
+                            <input type="text" class="formInput form-control" id="addMemberKerberos" placeholder="Kerberos, e.g. davidbau" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="formInput form-control" id="addMemberName" placeholder="Full name, e.g. David Bau" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="btn btn-default customFileUpload">
+                                <input type="file" id="uploadPhotoFile" onchange="choosePhoto()" accept="image/*"">Upload photo
+                            </label> 
+
+                            <label id='memberImgLabel'></label>
+                        </div>
+
+                        <div class="form-group text-right">
+                            <img id="cancelMemberButton" type="cancel" class="formImgButtons" src="img/close.png">
+                            <button id="addMemberButton" type="submit"><img class="formImgButtons" src="img/green_checkmark.png"></button>
+                        </div>
+                    </form> 
+
+                    <br>
                     <!-- Add New-->
                     <div class="topButtons">
                         <div class="row">
@@ -122,37 +160,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="EditMembers" id="editMembers">
-                        <form class="formBackground" id="newMember" data-toggle="validator" role="form">
-                            <h4>Add a New Member</h4>
-                            <h5>Note that this member will be added to all attendance pages of this dance group.</h5>
-                            
-                            <div class="form-group">
-                                <input type="text" class="formInput form-control" id="addMemberKerberos" placeholder="Kerberos, e.g. davidbau" required>
-                                <div class="help-block with-errors"></div>
-                            </div>
 
-                            <div class="form-group">
-                                <input type="text" class="formInput form-control" id="addMemberName" placeholder="Full name, e.g. David Bau" required>
-                                <div class="help-block with-errors"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="btn btn-default customFileUpload">
-                                    <input type="file" id="uploadPhotoFile" onchange="choosePhoto()" accept="image/*"">Upload photo
-                                </label> 
-
-                                <label id='memberImgLabel'></label>
-                            </div>
-
-                            <div class="form-group text-right">
-                                <img id="cancelMemberButton" type="cancel" class="formImgButtons" src="img/close.png">
-                                <button id="addMemberButton" type="submit"><img class="formImgButtons" src="img/green_checkmark.png"></button>
-                            </div>
-                        </form> 
-
-                        <table id="attendanceTable" align="center"></table>
-                    </div>
+                    <table id="attendanceTable" align="center"></table>
+                    
                 </div> 
 
             </div> 

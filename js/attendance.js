@@ -51,9 +51,6 @@ function saveMemberToDatabase(kerberos, name, url) {
     hideAttendanceForm();
 }
 
-$(document).on('click', '#cancelMemberButton', function(e) {
-	$('#newMember').hide();
-});
 
 $(document).on('click', '#addMemberButton', function(e) {
     // assume all fields have been validated 
