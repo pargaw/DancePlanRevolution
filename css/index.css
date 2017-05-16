@@ -63,3 +63,24 @@ Homepage styling ONLY
     cursor: hand; 
 }
 
+#addNewVideo,
+input[type="file"],
+#fileUpload, 
+#folderSelection, 
+#filterByFolder, 
+#newFolder, 
+.resetRow {
+    display: none;
+}
+
+.customFileUpload {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 20px 10px 20px 0;
+    cursor: pointer;
+
+    /* hidden for now until we debug */
+    /*display: none;*/
+}

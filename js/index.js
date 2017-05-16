@@ -1,9 +1,64 @@
+var memberPhoto;
+var hyphen_delimited_date = getDate(false, '-');
+
+function strip_text(text) {
+    return text.replace(/^\s+|\s+$/g, '');
+}
+
 $(document).on('click', '#addNew', function(e) {
     $('#newGroup').toggle();
 });
 
 $(document).on('click', '#cancelButton', function(e) {
     $('#newGroup').hide();
+});
+
+$(document).on('click', '#addAnotherMemberButton', function(e) {
+    var addedMembersDiv = document.getElementById('addedMembers');
+
+    // assume all fields have been validated 
+    var kerberos = strip_text($('#addMemberKerberos').val());
+    var name = strip_text($('#addMemberName').val());
+    console.log('stripped member np fields', kerberos, name);
+
+    if (kerberos && name) {
+        if (memberPhoto) {
+            // assumes jpg files only
+            var folderPath = 'members/';
+            var imagePath = kerberos + '.jpg';
+            var memberRef = danceStorage.ref(folderPath + imagePath);
+            var folderRef = danceStorage.ref(folderPath);
+
+            memberRef.put(memberPhoto).then(function(snapshot) {
+                folderRef.child(imagePath).getDownloadURL().then(function(url) {
+                    saveMemberToDatabase(kerberos, name, url);
+                }).catch(function(error) {
+                    console.log('error', error);
+                });
+            }); 
+        } else {
+            console.log('no member photo', kerberos, name);
+            saveMemberToDatabase(kerberos, name);
+        }
+
+        document.getElementById("addedMemLabel").style.display="block";
+        var inp = document.createElement('input');
+        inp.value = name;
+        inp.disabled = true;
+        addedMembersDiv.appendChild(inp);
+
+        var sp = document.createElement('span');
+        sp.className = "glyphicon glyphicon-remove";
+        addedMembersDiv.appendChild(sp);
+
+        $('#addMemberKerberos').val('');
+        $('#addMemberName').val('');
+        
+
+    } else {
+        $("#newGroup").effect("shake");
+    }
+
 });
 
 $(document).on('click', '#doneButton', function(e) {
@@ -51,6 +106,8 @@ $(document).on('click', '.group-name h4', function(e) {
     goToGroupPage($(this).attr('id'));
 });
 
+
+
 function addNewGroup() {
     var name = $('#groupInp').val();
     console.log(name); 
@@ -81,6 +138,70 @@ function addNewGroup() {
     }
 }
 
+function choosePhoto() {
+    var fileTracker = document.getElementById("uploadPhotoFile");
+    var txt = "";
+    var selectErrorMsg = "Please choose an image!";
+
+    if ('files' in fileTracker) {
+        if (fileTracker.files.length == 0) {
+            // TODO bootstrap validation
+            console.log(selectErrorMsg);
+            return;
+        } else {
+            for (var i = 0; i < fileTracker.files.length; i++) {
+                file = fileTracker.files[i];
+                console.log('file', file);
+
+                var memberImgLabel = document.getElementById('memberImgLabel');
+                console.log('memberImgLabel', memberImgLabel);
+                memberImgLabel.innerHTML = file.name;
+                memberPhoto = file;
+            }
+        }
+    } else {
+        if (fileTracker.value == "") {
+            // TODO bootstrap validation
+            console.log(selectErrorMsg);
+        } else {
+            // TODO bootstrap validation
+            console.log('Uploading from file is not supported by this browser.')
+            console.log('path of selected file', fileTracker.value);
+        }
+    }
+}
+
+function saveMemberToDatabase(kerberos, name, url) {
+    if (!url) {
+        // no-user-img.jpg
+        url = 'https://firebasestorage.googleapis.com/v0/b/danceplanrevolution.appspot.com/o/members%2Fno-user-img.jpg?alt=media&token=a00922f3-120a-4e4b-ae4e-58807d69a93e';
+    }
+    console.log(kerberos, name, url);
+    var attendanceRef = danceDatabase.ref('attendance/' + currentDanceGroupID + '/' + hyphen_delimited_date);
+    var groupsRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/members/');
+    var membersRef = danceDatabase.ref('members/');
+
+    var updateObjFalse = {};
+    var updateObjTrue = {};
+    updateObjFalse[kerberos] = false;
+    updateObjTrue[kerberos] = true;
+
+    attendanceRef.update(updateObjFalse);
+    groupsRef.update(updateObjTrue);
+    membersRef.child(kerberos).set({
+        groups: [currentDanceGroupID],
+        kerberos: kerberos,
+        name: name,
+        photo: url
+    });
+
+    hideAttendanceForm();
+}
+
+function hideAttendanceForm() {
+    $('#newGroup')[0].reset();
+    $('#newGroup').hide();
+}
 
 function displayAllGroups() {
     var groupContainer = document.getElementById('groups');

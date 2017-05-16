@@ -40,17 +40,7 @@ $(document).on('click',  '#filterByFolder' , function(e){
             displayAllVideosInFolder(folderName);
             $('#videoFolders').empty();
         })
-        console.log(i);
-        $('#editFolder_'+i).on('click', function(evt){
-            var folderName = $(this).text();
-            var newInput = '';
-            console.log(folderName, 'editing');
-        })
-        $('#deleteFolder_'+i).on('click', function(evt){
-            var folderName = $(this).text();
-            var newInput = '';
-            console.log(folderName, 'editing');
-        })
+        console.log(i);        
     }
     console.log(folderIsAlreadyClicked);
 });
@@ -467,10 +457,35 @@ function addFolderHTML(name, folderId){
     // $('<div class="panel panel-default folder-name" style="margin-top:20px"> <div class="row"><div class="col-6"><div id="leftDiv"><h4 class="panel-body" id="folderID' + 
     //     folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ 
     //     name + '</h4></div></div><div class="col"><div class="rightDiv"><img id="editBtn" class="editBtn src="img/green_edit.png"><img class="deleteBtn src="img/red_trash.png" class="deleteBtn-KjkaykfGOpbn-rf683r"></div></div></div>').prependTo('#videoFolders');
-$('<div class="panel panel-default folder-name" style="margin-top:20px">'
-    + '<div id="leftDiv"><h4 class="panel-body" id="folderID' +  folderId + '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name + '</h4>  <img class="deleteFolder" src="img/red_trash.png" id="deleteFolder_'+ 
+    $('<div class="panel panel-default folder-name" style="margin-top:20px">'
+    + '<div id="leftDiv"><h4 class="panel-body" id="folderID' +  folderId + '"><span class="glyphicon glyphicon-folder-close"'
+    + ' style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name + '</h4>  <img class="deleteFolder"'
+    +'src="img/red_trash.png" id="deleteFolder_'+ 
     folderId +'"><img class="editFolder" src="img/green_edit.png" id="editFolder_'+  folderId +'"></div><div class="groupTag" style="position: relative"></div>' 
     +'</div>').prependTo('#videoFolders');
+
+    $('#editFolder_'+folderId).on('click', function(evt){ //TODO
+        var folderName = $(this).text();
+        var newInput = '';
+        console.log(folderName, 'editing');
+    })
+
+
+    $('#deleteFolder_'+folderId).on('click', function(evt){
+            $('#myDeleteFolderModal').modal('show');
+
+            $('#yesFolderBtn').on('click', function() {
+                console.log("delete folder ", 'videofolders/'+currentDanceGroupID+"/"+'folderID'+folderId);
+                $('#folderID'+folderId).parent().parent().fadeOut('slow', function() {
+                    var foldername = 'folderID'+folderId;
+                    var folder = danceDatabase.ref('videofolders/'+currentDanceGroupID+"/"+document.getElementById(foldername).innerText);
+                    folder.remove();
+                    document.getElementById('folderID'+folderId).parentNode.parentNode.remove();
+                });
+
+              $('#myDeleteFolderModal').modal('hide');
+            });
+        })
 
 }
 
