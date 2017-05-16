@@ -170,6 +170,8 @@ function setupMembers() {
                 var counter = 0;
 
                 $('#attendanceTable').empty();
+                $('#attend').prepend('<p class="attendanceInstructions">Tap a member to mark their attendance.</p>');
+
                 var t = document.getElementById('attendanceTable'); 
 
                 for (var memberKey in members) {
