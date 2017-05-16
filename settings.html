@@ -33,10 +33,9 @@
 </head>
 
 <body>
-    <!-- Modal -->
+    <!-- Delete members Modal -->
     <div id="myDeleteModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
@@ -46,6 +45,24 @@
           <div class="modal-footer text-right">
             <img id="noBtn" type="cancel" class="btn formImgButtons" data-dismiss="modal" src="img/close.png">
             <img id="yesBtn" type="submit" class="btn formImgButtons" data-dismiss="modal" src="img/green_checkmark.png">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Delete team Modal -->
+    <div id="myDeleteTeamModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Are you sure you want to delete this team?</h4>
+          </div>
+          <div class="modal-footer text-right">
+            <img id="noBtnTeam" type="cancel" class="btn formImgButtons" data-dismiss="modal" src="img/close.png">
+            <img id="yesBtnTeam" type="submit" class="btn formImgButtons" data-dismiss="modal" src="img/green_checkmark.png">
           </div>
         </div>
 
@@ -75,11 +92,12 @@
         </ul>
     </nav>
 
+
     <!-- Secondary navbar for task pages -->
     <nav class="navbar">
         <ul class="taskbar nav nav-pills nav-fill nav-center">
             <li class="nav-item">
-                <a class="nav-link" id="0" href="#">Edit Team Name</a>
+                <a class="nav-link" id="0" href="#">Edit Team</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="1" href="#">Edit Members</a>
@@ -87,63 +105,83 @@
         </ul>
     </nav>
 
+
     <!-- Carousel with task info -->
     <container id="carousel">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
         <div id="myCarousel" class="carousel">
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
-                <!-- Page title -->
-                <div class="panel panel-default" id="panel-title">
-                    <h4 class="panel-body task-name">Settings</h4>
-                    
-                </div> 
 
                 <!-- Edit Team Name -->
-                <div class="container item active" id='editTeamName'>
+                <div class="item active" id='editTeamName'>
+
+                    <div class="panel panel-default" id="panel-title">
+                        <h4 class="panel-body task-name">Change Team Name: </h4>
+                    </div> 
                     <input>
 
                     <div class="text-right">
                         <img id="cancelNameChangeButton" type="cancel" class="btn formImgButtons" src="img/close.png">
                         <img id="changeNameButton" type="submit" class="btn formImgButtons" src="img/green_checkmark.png">
                     </div>
+                    <br>
+                    <br>
+                    <div>
+                        <div class="panel panel-default" id="panel-title">
+                            <h4 class="panel-body task-name">Delete Team: </h4>
+                        </div> 
+                        <img src="img/red_trash.png" id="deleteTeamBtn" />
+                    </div>
                 </div>
 
 
                 <!-- Edit Members -->
-                <div class="item">
-                    <div class="Attendance" id="attend">
-                        <form class="formBackground" id="newMember" data-toggle="validator" role="form">
-                            <h4>Add a New Member</h4>
-                            <h5>Note that this member will be added to all attendance pages of this dance group.</h5>
-                            
-                            <div class="form-group">
-                                <input type="text" class="formInput" id="addMemberKerberos" placeholder="Kerberos, e.g. davidbau" required>
-                                <!-- <div class="help-block with-errors">This field is required</div> -->
-                                <input type="text" class="formInput" id="addMemberName" placeholder="Full name, e.g. David Bau" required>
-                                <!-- <div class="help-block with-errors">This field is required</div> -->
+                <div class="item"  id="editMembers">
+                    <form class="formBackground" id="newMember" data-toggle="validator" role="form">
+                        <h4>Add a New Member</h4>
+                        <h5>Note that this member will be added to all attendance pages of this dance group.</h5>
+                        
+                        <div class="form-group">
+                            <input type="text" class="formInput form-control" id="addMemberKerberos" placeholder="Kerberos, e.g. davidbau" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
 
-                                <label class="btn btn-default customFileUpload">
-                                    <!-- TODO issue: uploadFile is a special id needed by HTML file upload, but I already have another upload
-                                    button of the same id below... -->
+                        <div class="form-group">
+                            <input type="text" class="formInput form-control" id="addMemberName" placeholder="Full name, e.g. David Bau" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
 
-                                    <input type="file" id="uploadPhotoFile" onchange="choosePhoto()" accept="image/*"">Upload photo
-                                </label> 
+                        <div class="form-group">
+                            <label class="btn btn-default customFileUpload">
+                                <input type="file" id="uploadPhotoFile" onchange="choosePhoto()" accept="image/*"">Upload photo
+                            </label> 
 
-                                <label id='memberImgLabel'></label>
-                            </div>
+                            <label id='memberImgLabel'></label>
+                        </div>
 
-                            <div class="form-group">
-                                <div class="text-right">
-                                    <img id="cancelMemberButton" type="cancel" class="btn formImgButtons" src="img/close.png">
-                                    <img id="addMemberButton" type="submit" class="btn formImgButtons" src="img/green_checkmark.png">
+                        <div class="form-group text-right">
+                            <img id="cancelMemberButton" type="cancel" class="formImgButtons" src="img/close.png">
+                            <button id="addMemberButton" type="submit"><img class="formImgButtons" src="img/green_checkmark.png"></button>
+                        </div>
+                    </form> 
+
+                    <br>
+                    <!-- Add New-->
+                    <div class="topButtons">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="btn-group" role="group">
+                                    <img id="addNew" data-toggle="tooltip" title="" src="img/green_plus.png"> 
                                 </div>
                             </div>
-                        </form> 
+                        </div>
+                    </div>
 
-                        <table id="attendanceTable" align="center"></table>
-                    </div>                        
-                </div>
+                    <table id="attendanceTable" align="center"></table>
+                    
+                </div> 
 
             </div> 
         </div> 

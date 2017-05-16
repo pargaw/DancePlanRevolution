@@ -61,10 +61,41 @@
         </div>
 
         <form id="newGroup" data-toggle="validator" role="form">
-            <div class="form-group">
+            <div class="form-group" id="createGroup">
                 <label for="name">Group Name</label>
                 <input type="name" class="form-control width-50" id="groupInp" aria-describedby="groupName" placeholder="e.g. Twinkle Toes" data-minlength="1" required></input>
                 <div class="help-block with-errors"></div>
+
+                <div id="addedMembers">
+                    <label for="name" id="addedMemLabel" style="display:none" >Added Members:</label>
+                    <br>
+                </div>
+
+                <br>
+                <br>
+                <label for="name">Add a New Member</label>
+                <div class="form-group">
+                    <input type="text" class="formInput form-control" id="addMemberKerberos" placeholder="Kerberos, e.g. davidbau" required>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="formInput form-control" id="addMemberName" placeholder="Full name, e.g. David Bau" required>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="btn btn-default customFileUpload">
+                        <input type="file" id="uploadPhotoFile" onchange="choosePhoto()" accept="image/*"">Upload photo
+                    </label> 
+
+                    <label id='memberImgLabel'></label>
+                </div>
+
+                <div class="form-group text-right">
+                    <button id="addAnotherMemberButton" type="btn">Add Another Member</button>
+                </div> 
+
             </div>
 
             <div class="form-group text-right">

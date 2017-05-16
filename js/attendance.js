@@ -56,9 +56,6 @@ function saveMemberToDatabase(kerberos, name, url) {
     checkAttendanceTable();
 }
 
-$(document).on('click', '#cancelMemberButton', function(e) {
-	$('#newMember').hide();
-});
 
 
 let storeMemberPhoto = new Promise(function(resolve, reject) {
