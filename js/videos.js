@@ -26,11 +26,11 @@ $(document).on('click',  '#filterByFolder' , function(e){
     //displayFolderNames();
     if(inCurrentFolder){
         console.log(inCurrentFolder, "these two pajaritos, inCurrentFolder is true");
-        $('#videoDisplay').empty();
+        $('#videoDisplay').remove();
         //displayFolderNames();
     }
     if(!foldersCurrentlyShowing){
-        $('#videoFolders').empty(); //removing folders here 
+        $('#videoFolders').remove(); //removing folders here 
         console.log("being called from document filter by folder click")
         displayFolderNames();
         foldersCurrentlyShowing = false;
@@ -394,15 +394,19 @@ $(document).ready(function(evt){
                 var date =  getDate(true);
                 var videoName= $('#videoNameInput').val(); //this will be added as title just like date 
                 console.log($('#newFolder').val(), $('#folders').val());
-                if($('#newFolder').val()== ""){
+                if($('#newFolder').val()== "Choose a folder"){
                     var folderName = $('#folders').val();
                 }
                 else{
                     var folderName = $('#newFolder').val(); 
                 }
+                console.log("adding iframe video");
                 addIframeVideo(src, date, folderName)//->TODO find key
                 //remove all folders
-                $('#videoFolders').empty();
+                console.log("vidoefolders before remove", $('#videoFolders'));
+
+                $('#videoFolders').remove();
+                console.log("vidoefolders was removed", $('#videoFolders'));
                 displayAllVideosInFolder(folderName);
 
                 postVideo();
