@@ -170,7 +170,7 @@ function setupMembers() {
                 var counter = 0;
 
                 $('#attendanceTable').empty();
-                $('#attend').prepend('<p class="attendanceInstructions">Tap a member to mark their attendance.</p>');
+                $('.attendanceInstructions').show();
 
                 var t = document.getElementById('attendanceTable'); 
 
