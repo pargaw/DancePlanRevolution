@@ -17,7 +17,7 @@ function hideAnnouncementForm() {
 function addNewAnnouncement() {
     var msg = strip_text($('#announcementInp').val());
 
-    if (msg && msg.length >= 15) {
+    if (msg && msg.length >= 1) {
         var date = getDate(true);
         var ref = danceDatabase.ref('announcements/' + currentDanceGroupID);
 
@@ -194,7 +194,7 @@ function getAnnouncementTemplate(date, msg, messageId) {
                 document.getElementById("updateButton" + key).style.display = "none";
                 document.getElementById("cancelEditButton" + key).style.display = "none";
 
-                if (inp.length < 15) {
+                if (inp.length < 2) {
                     console.log('shouldnt update!', inp.length);
                     document.getElementById("message" + key).value = oldVal;
                     document.getElementById("inputTxt" + key).value = oldVal;

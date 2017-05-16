@@ -25,6 +25,7 @@
     <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
     <!-- local scripts -->
+    <script src="js/utilities.js"></script>
     <script src="js/validator.js"></script>
     <script src="js/taskbar.js"></script>
     <script src="js/index.js"></script>
@@ -111,8 +112,6 @@
 
                 <!-- Edit Members -->
                 <div class="item">
-                    <div id="savedToast" style="float:right">Saved!</div>
-
                     <div class="Attendance" id="attend">
                         <form class="formBackground" id="newMember" data-toggle="validator" role="form">
                             <h4>Add a New Member</h4>
@@ -143,10 +142,7 @@
                         </form> 
 
                         <table id="attendanceTable" align="center"></table>
-                    </div>
-                    
-                    <button id="saveButton" class="btn greenButton" onclick="saveEditMembers()">Save</button>
-                        
+                    </div>                        
                 </div>
 
             </div> 

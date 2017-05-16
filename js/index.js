@@ -1,40 +1,3 @@
-// https://www.sanwebe.com/2013/03/addremove-input-fields-dynamically-with-jquery
-$(document).ready(function() {
-    var max_fields = 20; //maximum input boxes allowed
-    var wrapper = $(".input_fields_wrap"); //Fields wrapper
-    var add_button = $(".add_field_button"); //Add button ID
-
-    var x = 1; //initlal text box count
-    $(add_button).click(function(e) { //on add input button click
-        e.preventDefault();
-        if (x < max_fields) { //max input box allowed
-            x++; //text box increment
-            $(wrapper).append('<div><input class="form-control width-50 inline member" type="text" name="mytext[]"/><span class="glyphicon glyphicon-remove remove_field" aria-hidden="true"></span></div>'); //add input box
-            $(wrapper).last().find('input').focus();
-        }
-    });
-
-    $(wrapper).on('keyup', '.member', function(e) {
-        e.preventDefault();
-
-        if ($(this).val()) {
-            if (e.keyCode == 13) {
-                if (x < max_fields) { //max input box allowed
-                    x++; //text box increment
-                    $(wrapper).append('<div><input class="form-control width-50 inline member" type="text" name="mytext[]"/><span class="glyphicon glyphicon-remove remove_field" aria-hidden="true"></span></div>'); //add input box
-                    $(wrapper).last().find('input').focus();
-                }
-            }
-        };
-    });
-
-    $(wrapper).on("click", ".remove_field", function(e) { //user click on remove text
-        e.preventDefault();
-        $(this).parent('div').remove();
-        x--;
-    })
-});
-
 $(document).on('click', '#addNew', function(e) {
     $('#newGroup').toggle();
 });
@@ -70,11 +33,9 @@ $(document).on('keydown', 'input', function(e) {
 var currentDanceGroupID;
 var currentDanceGroup;
 
-$(document).on('click', '.group-name h4', function(e) {
-    // every time new dance group is chosen on main page,
-    // update currentDanceGroupID and localStorage accordingly
+function goToGroupPage(groupID) {
     localStorage.clear();
-    currentDanceGroupID = $(this).attr('id');
+    currentDanceGroupID = groupID;
     currentDanceGroup = $('#' + currentDanceGroupID).html();
     if (currentDanceGroupID) {
         localStorage.setItem("currentDanceGroupID", currentDanceGroupID);
@@ -82,6 +43,12 @@ $(document).on('click', '.group-name h4', function(e) {
     }
     console.log(currentDanceGroupID, currentDanceGroup);
     window.location.href = 'task.html';
+}
+
+$(document).on('click', '.group-name h4', function(e) {
+    // every time new dance group is chosen on main page,
+    // update currentDanceGroupID and localStorage accordingly
+    goToGroupPage($(this).attr('id'));
 });
 
 function addNewGroup() {
@@ -93,17 +60,22 @@ function addNewGroup() {
         var id = name.replace(/\s+/g, '-').toLowerCase();
         console.log(id);
         var template = getGroupTemplate(name, id);
+        console.log(template);
         document.getElementById('groups').prepend(template);
 
         var ref = danceDatabase.ref('groups/');
+        console.log(ref.child(id)); 
 
         // write child with custom key and save
-        ref.child(id).setValue({
-            name: name
+        ref.child(id).set({
+            id: id,
+            name: name,
+            date: getDate(true) 
         });
 
         $('#newGroup').get(0).reset();
         $('#newGroup').toggle();
+        goToGroupPage(id);
     } else {
         $("#newGroup").effect("shake");
     }
@@ -114,10 +86,27 @@ function displayAllGroups() {
     var groupContainer = document.getElementById('groups');
     var ref = danceDatabase.ref('groups/');
 
-    ref.orderByChild('timestamp').on("value", function(snapshot) {
+    // ref.orderByChild.on('date', function (snapshot) {
+    //     console.log(snapshot.val());
+
+    //     snapshot.forEach(function(child) {
+    //         console.log(child.val());
+    //     };
+    // });
+    ref.orderByChild('date').on("value", function(snapshot) {
         var groups = snapshot.val();
         var group_list = Object.keys(groups);
-        console.log(group_list);
+        console.log('keys', group_list);
+        $('#groups').empty();
+
+        this.data = [];
+
+        snapshot.forEach(function(child) {
+            this.data.push(child.val());
+        }.bind(this));
+
+        console.log(this.data);
+        console.log("filtered", data.map(function(val) { return new Date(val.timestamp).toString(); }));
 
         // TODO note the backward iteration
         // must be consistent with display order of other tasks
@@ -126,11 +115,11 @@ function displayAllGroups() {
             var group = groups[group_list[i]];
 
             if (group) {
-                console.log(group);
+                console.log('GROUP', group);
                 var name = group['name'];
                 var id = group['id'];
                 var template = getGroupTemplate(name, id);
-                groupContainer.appendChild(template);
+                groupContainer.prepend(template);
             }
         }
     }, function(error) {
