@@ -123,7 +123,7 @@ Announcement/Video/Attendance styling ONLY
     top: 0px; 
 }
 
-#saveButton, #resetButton {
+#resetButton {
     width: 50%;
     margin: 20px 25%
 }
@@ -351,29 +351,6 @@ input[type="file"],
 
 
 /* GENERAL */
-.greenButton {
-    color: #fff;
-    background-color: #46A999; /* shades: #38AF94 , #40A990 */
-}
-
-.greenButton:hover, .greenButton:focus {
-    color: #fff;
-    background-color: #2DB18E;  
-}
-
-.formImgButtons {
-    width: 65px; 
-    padding: 0px 0px 0px 12px;
-}
-
-button[type="submit"] {
-    visibility: hidden;
-}
-
-button > img {
-    visibility: visible;
-}
-
 .panel.panel-default.folder-name{
     cursor: pointer; 
     cursor: hand; 
