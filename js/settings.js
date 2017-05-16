@@ -66,6 +66,21 @@ $(document).on('click', '#cancelNameChangeButton', function() {
     $('#editTeamName>input').val(localStorage.getItem("currentDanceGroup"));
 });
 
+$(document).on('click', '#deleteTeamBtn', function() {
+    $('#myDeleteTeamModal').modal('show');
+        $('#yesBtnTeam').on('click', function() {
+            var groups = danceDatabase.ref('groups/'+currentDanceGroupID);
+            var attend = danceDatabase.ref('attendance/'+currentDanceGroupID);
+            var announ = danceDatabase.ref('announcements/'+currentDanceGroupID);
+            var videos = danceDatabase.ref('videos/'+currentDanceGroupID);
+            var videofolders = danceDatabase.ref('videofolders/'+currentDanceGroupID);
+          
+            removeTeam(groups,attend,announ,videos,videofolders);
+
+        });
+});
+
+
 $(document).on('click', '#changeNameButton', function() {
     var danceGroupRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/');
 
@@ -112,7 +127,6 @@ function updateTaskPgContent(indirect) {
     var newTaskButton = $('#addNew');
   
 }
-
 
 
 //Edit members

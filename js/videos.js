@@ -197,7 +197,7 @@ function displayAllVideosInFolder(foldername){
                         names.push(dataVideo[key].name);
                         dates.push(dataVideo[key].date);
                         var src = dataVideo[key].url.replace("https://www.youtube.com/watch?v=", "");
-                        addIframeVideo (src, date, foldername);
+                        addIframeVideo (src, date, foldername,key);
                     }
                 })
             })
@@ -273,22 +273,6 @@ function saveVideoToDatabase(dbVideoRef, dbFolderRef, videoName, url) {
     });
 
 }
-
-// function deleteVideo(key,folder){
-// $('#myDeleteModal').modal('show');
-//     // $('#yesBtn').on('click', function() {
-//     //     var vid = danceDatabase.ref('videos/'+currentDanceGroupID).child(key);
-//     //     // vid.remove();
-//     //     var folder = danceDatabase.ref('videofolders/'+currentDanceGroupID+"/"+folder).child(key);
-//     //     // folder.remove();
-//     //   // $("#announDiv" + key).fadeOut('slow', function() {
-//     //   //   var ref = danceDatabase.ref('announcements/'+currentDanceGroupID).child(key);
-//     //   //   ref.remove();
-//     //   //   announcementDiv.parentElement.remove();
-//     //   // });   
-//     //   $('#myModal').modal('hide');
-//     // });    
-// }
 
 function resetVideoParams() { 
     selectedFolder = ''; 
@@ -396,7 +380,7 @@ $(document).ready(function(evt){
             $("#submitVideo").unbind('click').on('click', function(evt){
                 var date =  getDate(true);
                 var groupName = $('#newFolder').val() ; 
-                addIframeVideo(src, date, groupName)
+                addIframeVideo(src, date, groupName)//->TODO find key
                 postVideo();
                 $('#videoURL').val("");
                 $('#newVideo').hide();
@@ -427,40 +411,28 @@ function createGroupTagForVideo(groupName){
     document.getElementById('groupTag').innerHTML = "<h4> #" + groupName + "</h4>";
 }
 
-function addIframeVideo (src,date, groupName) {
-    console.log("adding video", src, groupName);
+function addIframeVideo (src,date, groupName,key) {
+    console.log("key here is ",key);
     $('<div class="panel panel-default" id="video'+ src+'"><div class="videoDates" style="position: relative"><h4>'+ date
-        +'</h4><img class="deleteVid" src="img/red_trash.png" id="deleteVid'+ 
-        idCount+'"></div>'+'<div class="groupTag" style="position: relative"> <h4>#'+ 
+        +'</h4><img class="deleteVid" id="deleteVidBtn'+src+'" src="img/red_trash.png"></div>'+'<div class="groupTag" style="position: relative"> <h4>#'+ 
         groupName +'folder </h4></div>' +'<div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ 
         idCount + '" class="embed-responsive-item" src="https://www.youtube.com/embed/'+
         src+'"></iframe></div></div>').prependTo('#videoDisplay');
     idCount +=1;
 
-    document.getElementById("video"+src).onclick = function() {
-        console.log("here to delete "+'videos/'+currentDanceGroupID+" "+src+"\n and "+'videofolders/'+currentDanceGroupID+"/"+groupName);
+    document.getElementById("deleteVidBtn"+src).onclick = function() {
         $('#myDeleteVidModal').modal('show');
-        console.log($(this), $(this).attr('id'));
 
-        console.log("what about here?");
         $('#yesVidBtn').on('click', function() {
-            console.log("i said yes");
-            console.log(document.getElementById("video"+src), src);
-            //load all videos again
-            //displayAllVideosInFolder();
-            // or delete this one
-            document.getElementById("video"+src).remove();
-            document.getElementById('iframe'+ idCount);
-            //iframe+id removes it. but how to get id???? 
+            $("#video"+src).fadeOut('slow', function() {
+                var vid = danceDatabase.ref('videos/'+currentDanceGroupID).child(key);
+                vid.remove();
 
-            // document.getElementById("video"+src).fadeOut('slow', function() 
-            console.log("is this inside yet?");
-            var vid = danceDatabase.ref('videos/'+currentDanceGroupID).child(src);
-            vid.remove();
+                var folder = danceDatabase.ref('videofolders/'+currentDanceGroupID+"/"+groupName).child(key);
+                folder.remove();
 
-            var folder = danceDatabase.ref('videofolders/'+currentDanceGroupID+"/"+groupName).child(src);
-            folder.remove();
-            document.getElementById("video"+src).remove();
+                document.getElementById("video"+src).remove();
+            });
 
           $('#myDeleteVidModal').modal('hide');
         });
@@ -496,4 +468,10 @@ function addLoadingOverlay() {
 
 function removeLoadingOverlay(){ 
     $('#loadingOverlay').remove();
+}
+
+function getVideoID(element, prefixLength) {
+    var msgId = element.className; 
+    var key = msgId.substring(prefixLength, msgId.length);
+    return key;    
 }

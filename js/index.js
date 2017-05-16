@@ -128,3 +128,12 @@ function displayAllGroups() {
 }
 
 window.onload = displayAllGroups;
+
+function removeTeam(groups,attend,announ,videos,videofolders){
+    groups.remove();
+    attend.remove();
+    announ.remove();
+    videos.remove();
+    videofolders.remove();
+    window.location.href = 'index.html';
+}
