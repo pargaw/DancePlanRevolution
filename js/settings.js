@@ -451,11 +451,4 @@ function saveEditMembers() {
    //   		saveMemberToDatabase(addedMembers[j][0], addedMembers[j][1]);
    //   	}
    //   }
-
-    // notify user of saved changes with toast 
-    var x = document.getElementById("savedToast");
-    x.style.visibility = "visible";
-    setTimeout(function() {
-        x.style.visibility = "hidden";
-    }, 800); 
 }

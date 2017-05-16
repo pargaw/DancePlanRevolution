@@ -19,6 +19,10 @@ $(document).on('click', '#addNew', function(e) {
     $('#newMember').toggle();
 });
 
+$(document).on('click', '#attendanceTable img', function(e) {
+    saveAttendance();
+});
+
 function saveMemberToDatabase(kerberos, name, url) {
     if (!url) {
         // no-user-img.jpg
@@ -85,7 +89,19 @@ $(document).on('click', '#addMemberButton', function(e) {
 function reloadAttendance(newDate) {
     hyphen_delimited_date = newDate;
     $(".task-name").text(TASKS[currentTask] + " for " + hyphen_delimited_date);
-    setupMembers();
+    checkAttendanceTable();
+}
+
+function checkAttendanceTable() {
+    if (getMembers()) {
+        requestToAddMembers();
+    } else {
+        setupMembers();
+    }
+}
+
+function requestToAddMembers() {
+    $("#attendanceTable").html('There are no members right now! Add by clicking the + button above!');
 }
 
 function choosePhoto() {
@@ -121,7 +137,7 @@ function choosePhoto() {
     }
 }
 
-function setupMembers() { 
+function setupMembers() {
     return danceDatabase.ref('attendance/' + currentDanceGroupID + '/' + hyphen_delimited_date).once('value').then(function(snapshot) {
         var attendance = snapshot.val(); 
         var membersRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/members/');
@@ -242,12 +258,5 @@ function saveAttendance() {
 
     // save new attendance to db
     var ref = danceDatabase.ref('attendance/' + currentDanceGroupID + '/' + hyphen_delimited_date);
-    ref.set(newAttendance); 
-
-    // notify user of saved changes with toast 
-    var x = document.getElementById("savedToast");
-    x.style.visibility = "visible";
-    setTimeout(function() {
-        x.style.visibility = "hidden";
-    }, 800); 
+    ref.set(newAttendance);
 }
