@@ -61,11 +61,19 @@ Announcement/Video/Attendance styling ONLY
 } 
 
 
+/* TITLE BAR */
+#panel-title {
+    border: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+
 
 /* ADD AND FILTER BUTTONS */
 #addNew, #addNewVideo {
     margin-right: 25px;
 }
+
 
 
 /* CAROUSEL CUSTOMIZATION */
@@ -96,7 +104,14 @@ Announcement/Video/Attendance styling ONLY
     position: relative;
 }
 
+
 /* ATTENDANCE */
+.attendanceInstructions {
+    text-align: center;
+    margin-top: 40px;
+    display: none;
+}
+
 #attendanceTable td {
     padding: 3px 3px 40px 3px;
     word-wrap: break-word;
@@ -123,13 +138,13 @@ Announcement/Video/Attendance styling ONLY
     top: 0px; 
 }
 
-#saveButton, #resetButton {
+#resetButton {
     width: 50%;
     margin: 20px 25%
 }
 
 #sentToast, #savedToast {
-    visibility: hidden;
+    display: none;
     width: 50%;
     background-color: #808080;
     color: #fff;
@@ -149,28 +164,38 @@ Announcement/Video/Attendance styling ONLY
 
 
 /* ANNOUNCEMENTS */ 
-#panel-title {
-    border: 0;
-}
-
 #announcementInp {
     margin-bottom: 10px;
 }
 
 #editBtn{
-    width: 30px;
+    width: 40px;
+    height: 40px;
+    display: block;
+    position: absolute;
+    bottom: 5px;
+    right: 45px;
+
+    /*width: 30px;
     height: 30px;
     display: block;
     position: relative;
-    top: 5px;
+    top: 5px;*/
 }
 
 #deleteBtn{
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     position: absolute;
     display: block;
     bottom: 5px;
+    right: 0px;
+
+    /*width: 35px;
+    height: 35px;
+    position: absolute;
+    display: block;
+    bottom: 5px;*/
 }
 
 #leftDiv{
@@ -191,6 +216,10 @@ Announcement/Video/Attendance styling ONLY
 .inputs{
     width: 100%;
     height: 50%;
+}
+
+.messages{
+    font-size: 20px;
 }
 
 .leftDiv{
@@ -230,6 +259,15 @@ Announcement/Video/Attendance styling ONLY
     right: 5px;
 }
 
+.editVid{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    right: 45px;
+}
+
 #addNewVideo,
 input[type="file"],
 #fileUpload, 
@@ -253,7 +291,7 @@ input[type="file"],
 }
 
 #doneUpload {
-    visibility: hidden;
+    display: none;
     width: 50%;
     background-color: #808080;
     color: #fff;
@@ -351,29 +389,6 @@ input[type="file"],
 
 
 /* GENERAL */
-.greenButton {
-    color: #fff;
-    background-color: #46A999; /* shades: #38AF94 , #40A990 */
-}
-
-.greenButton:hover, .greenButton:focus {
-    color: #fff;
-    background-color: #2DB18E;  
-}
-
-.formImgButtons {
-    width: 65px; 
-    padding: 0px 0px 0px 12px;
-}
-
-button[type="submit"] {
-    visibility: hidden;
-}
-
-button > img {
-    visibility: visible;
-}
-
 .panel.panel-default.folder-name{
     cursor: pointer; 
     cursor: hand; 

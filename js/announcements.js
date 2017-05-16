@@ -17,7 +17,7 @@ function hideAnnouncementForm() {
 function addNewAnnouncement() {
     var msg = strip_text($('#announcementInp').val());
 
-    if (msg && msg.length >= 3) {
+    if (msg && msg.length >= 1) {
         var date = getDate(true);
         var ref = danceDatabase.ref('announcements/' + currentDanceGroupID);
 

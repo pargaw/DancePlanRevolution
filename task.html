@@ -29,6 +29,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 
     <!-- local scripts -->
+    <script src="js/utilities.js"></script>
     <script src="js/announcements.js"></script>
     <script src="js/videos.js"></script>
     <script src="js/task.js"></script>
@@ -133,6 +134,7 @@
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
+            
                 <!-- Page title -->
                 <div class="panel panel-default" id="panel-title">
                     <h4 class="panel-body task-name"></h4>
@@ -166,20 +168,18 @@
 
                 <!-- Attendance -->
                 <div class="item active">
-                    <div id="savedToast" style="float:right">Saved!</div>
-
                     <div class="Attendance" id="attend">
                         <form class="formBackground" id="newMember" data-toggle="validator" role="form">
                             <h4>Add a New Member</h4>
                             <h5>Note that this member will be added to all attendance pages of this dance group.</h5>
                             
                             <div class="form-group">
-                                <input type="text" class="formInput form-control" id="addMemberKerberos" placeholder="Kerberos, e.g. davidbau" required>
+                                <input type="text" class="formInput form-control" id="addMemberKerberos" placeholder="Kerberos, e.g. davidbau" data-minlength="1" required>
                                 <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group">
-                                <input type="text" class="formInput form-control" id="addMemberName" placeholder="Full name, e.g. David Bau" required>
+                                <input type="text" class="formInput form-control" id="addMemberName" placeholder="Full name, e.g. David Bau" data-minlength="1" required>
                                 <div class="help-block with-errors"></div>
                             </div>
 
@@ -197,10 +197,9 @@
                             </div>
                         </form> 
 
+                        <p class="attendanceInstructions">Tap a member to mark their attendance.</p>
                         <table id="attendanceTable" align="center"></table>
                     </div>
-                    
-                    <button id="saveButton" class="btn greenButton" onclick="saveAttendance()">Save</button>
                 </div>
 
 
@@ -282,7 +281,7 @@
                         <form class="formBackground" id="newAnnouncement" data-toggle="validator" role="form">
                             <div id="dateHeader"></div>
                             <div class="form-group" id="inputText">
-                                <textarea class="form-control" rows="3" id="announcementInp" placeholder="Type announcement here..." data-minlength="3" required></textarea>
+                                <textarea class="form-control" rows="3" id="announcementInp" placeholder="Type announcement here..." data-minlength="1" required></textarea>
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group text-right">
