@@ -25,7 +25,6 @@ $(document).on('click', '#cancelVideoPost', function(e) {
 $(document).on('click',  '#filterByFolder' , function(e){
     //displayFolderNames();
     if(inCurrentFolder){
-        console.log(inCurrentFolder, "these two pajaritos, inCurrentFolder is true");
         $('#videoDisplay').remove();
         //displayFolderNames();
     }
@@ -33,15 +32,17 @@ $(document).on('click',  '#filterByFolder' , function(e){
         $('#videoFolders').remove(); //removing folders here 
         console.log("being called from document filter by folder click")
         displayFolderNames();
-        foldersCurrentlyShowing = false;
+        foldersCurrentlyShowing = true;
     }
-
+    console.log(numOfFolders, "AT LEAST THIS");
     for(i =0; i<= numOfFolders-1;i++){
+        console.log("is foderID click working?", i);
         $('#folderID'+i).on('click', function(evt){
             inCurrentFolder = true;
             var folderName = $(this).text();
             displayAllVideosInFolder(folderName);
             $('#videoFolders').empty();
+            console.log(i);        
             foldersCurrentlyShowing = false;
         })
     }
@@ -173,7 +174,7 @@ function displayFolderNames(){
                     numOfFolders+=1;
                 }); 
             }
-            console.log("going in once");
+            console.log("going in once, displayFolderNames()");
         });
     // foldersCurrentlyShowing = false;
     // }
@@ -186,7 +187,7 @@ function displayFolderNames(){
     // }
     // checkForEditAndDeleteFolderPress();
 }
-
+//is this called when we first add a video in the folder???? //bug might be there
 function displayAllVideosInFolder(foldername){
     var names =[];  
     var dates = [];
@@ -196,25 +197,26 @@ function displayAllVideosInFolder(foldername){
     dbFoldersRef.on('value', function(snapshot) {
         var data = snapshot.val();
         if(data){
-        var keys = Object.keys(data);
-        keys.forEach(function(key){
-            // console.log(keys, key);
-            dbVideosRef.on('value', function(snapshot){
-                var dataVideo = snapshot.val();
-                var keyVideo = Object.keys(dataVideo);
-                keyVideo.forEach(function(key){
-                    var date = dataVideo[key].date;
-                    if(dataVideo[key].folder == foldername && !names.includes(dataVideo[key].name)  && !dates.includes(dataVideo[key].date in dates)){
-                        console.log("key:",key, 'dataVideo[key]', dataVideo[key], names.includes(dataVideo[key].name), dates.includes(dataVideo[key]), names, dates);
-                        names.push(dataVideo[key].name);
-                        dates.push(dataVideo[key].date);
-                        var src = dataVideo[key].url.replace("https://www.youtube.com/watch?v=", "");
-                        addIframeVideo (src, date, foldername,key);
-                    }
+            var videoKeys = Object.keys(data);
+            videoKeys.forEach(function(key){
+                // console.log(keys, key);
+                dbVideosRef.on('value', function(snapshot){
+                    var dataVideo = snapshot.val();
+                    var keyVideo = Object.keys(dataVideo);
+                    keyVideo.forEach(function(key){
+                        // console.log('key', key);
+                        var date = dataVideo[key].date;
+                        if(dataVideo[key].folder == foldername && !names.includes(dataVideo[key].name)  && !dates.includes(dataVideo[key].date in dates)){
+                            names.push(dataVideo[key].name);
+                            dates.push(dataVideo[key].date);
+                            var src = dataVideo[key].url.replace("https://www.youtube.com/watch?v=", "");
+                            console.log('entering iframe from folderseref')
+                            addIframeVideo (src, date, foldername);
+                        }
+                    })
                 })
             })
-        })
-    }
+        }
     })
 }
 
@@ -311,7 +313,8 @@ function takeVideoToFolder(videoName, folderName){
 function postVideo() { 
     var dbVideoRef = danceDatabase.ref('videos/' + currentDanceGroupID);
     var dbFolderRef = danceDatabase.ref('videofolders/' + currentDanceGroupID + selectedFolder);
-    console.log('file and selectedFolder', this.file, this.selectedFolder);
+    // var olddbFolderRef = dbFolderRef;
+    // console.log('file and selectedFolder', this.file, this.selectedFolder);
     if (uploadType == 'local') {
         if (file && selectedFolder) {
             addLoadingOverlay();
@@ -332,7 +335,7 @@ function postVideo() {
             videoRef.put(file).then(function(snapshot) {
                 console.log('videoName inside videoRef fn', videoName);
                 folderRef.child(videoName).getDownloadURL().then(function(url) {
-                    console.log('videoName in upload before saveVideoToDatabase', videoName);
+                    console.log('saveVideoToDatabase comes after for local', videoName);
                     saveVideoToDatabase(dbVideoRef, dbFolderRef, videoName, url);
                 }).catch(function(error) {
                     console.log('error', error);
@@ -350,13 +353,18 @@ function postVideo() {
         } 
     }
     else if (uploadType == 'url') {
-        console.log('url, name, folder', this, this.validURL, this.videoName, this.selectedFolder);
+        console.log('url, name, folder', this.validURL, this.videoName, this.selectedFolder);
         
         if (this.validURL && this.videoName && this.selectedFolder) {
-            console.log("are we entereing here?");
             addLoadingOverlay();
-            // console.log('videoName in link before saveVideoToDatabase ', this.videoName);
+            console.log('entering iframe from postVideo()');
+            var src = this.validURL.replace("https://www.youtube.com/watch?v=", "");
+            addIframeVideo(src, this.date, this.selectedFolder.replace('/',''));
             saveVideoToDatabase(dbVideoRef, dbFolderRef, this.videoName, validURL);    
+            foldersCurrentlyShowing = false;
+            console.log(src, this.selectedFolder.replace('/','').replace('/',''), this.selectedFolder, "this is what went in");
+            displayAllVideosInFolder(this.selectedFolder.replace('/','').replace('/',''));
+
         } else {
             if (!this.validURL) {
                 $('#videoURL').effect( "shake" );
@@ -378,36 +386,22 @@ $(document).ready(function(evt){
     // as of right now it doesnt yet recognize the autofill properly
     displayFolderNames();
     console.log("docuent. ready calling displayFolders")
+
     // foldersCurrentlyShowing = false;
     setTimeout(function (evt) {
     if ($('#videoURL:-webkit-autofill').val()) {
         $('#videoURL').val() = $('#videoURL:-webkit-autofill').val();
     }  }, 1);
-
     $('#videoURL').on('keyup', function(){
         var input = $('#videoURL').val();
         if (checkURLValidity(input)) {
             validURL = input;
             var src = input.replace("https://www.youtube.com/watch?v=", "");
             $("#submitVideo").prop('disabled', false);
-            $("#submitVideo").unbind('click').on('click', function(evt){
-                var date =  getDate(true);
-                var videoName= $('#videoNameInput').val(); //this will be added as title just like date 
-                console.log($('#newFolder').val(), $('#folders').val());
-                if($('#newFolder').val()== "Choose a folder"){
-                    var folderName = $('#folders').val();
-                }
-                else{
-                    var folderName = $('#newFolder').val(); 
-                }
-                console.log("adding iframe video");
-                addIframeVideo(src, date, folderName)//->TODO find key
-                //remove all folders
-                console.log("vidoefolders before remove", $('#videoFolders'));
+            
 
+            $("#submitVideo").unbind('click').on('click', function(evt){
                 $('#videoFolders').remove();
-                console.log("vidoefolders was removed", $('#videoFolders'));
-                displayAllVideosInFolder(folderName);
 
                 postVideo();
                 $('#videoURL').val("");
@@ -440,7 +434,7 @@ function createGroupTagForVideo(groupName){
 }
 
 function addIframeVideo (src, date, folderName) {
-    console.log("key here is ",folderName);
+    console.log("foldername is",folderName, "entering iframe");
     $('<div class="panel panel-default" id="video'+ src+'"><div class="videoDates" style="position: relative"><h4>'+ date
         +'</h4><img class="deleteVid" id="deleteVidBtn'+src+'" src="img/red_trash.png"></div>'+'<div class="groupTag" style="position: relative"> <h4>#'+ 
         folderName +'folder </h4></div>' +'<div style="margin:auto" class="embed-responsive embed-responsive-16by9" style="margin-top:30px"> <iframe allowfullscreen id="iframe'+ 
@@ -479,21 +473,33 @@ function addFolderHTML(name, folderId){
     // $('<div class="panel panel-default folder-name" style="margin-top:20px"> <div class="row"><div class="col-6"><div id="leftDiv"><h4 class="panel-body" id="folderID' + 
     //     folderId+ '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ 
     //     name + '</h4></div></div><div class="col"><div class="rightDiv"><img id="editBtn" class="editBtn src="img/green_edit.png"><img class="deleteBtn src="img/red_trash.png" class="deleteBtn-KjkaykfGOpbn-rf683r"></div></div></div>').prependTo('#videoFolders');
-$('<div class="panel panel-default folder-name" style="margin-top:20px">'
-    + '<div id="leftDiv"><h4 class="panel-body" id="folderID' +  folderId + '"><span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name + '</h4>  <img class="deleteFolder" src="img/red_trash.png" id="deleteFolder_'+ 
+    $('<div class="panel panel-default folder-name" style="margin-top:20px">'
+    + '<div id="leftDiv"><h4 class="panel-body" id="folderID' +  folderId + '"><span class="glyphicon glyphicon-folder-close"'
+    + ' style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+ name + '</h4>  <img class="deleteFolder"'
+    +'src="img/red_trash.png" id="deleteFolder_'+ 
     folderId +'"><img class="editFolder" src="img/green_edit.png" id="editFolder_'+  folderId +'"></div><div class="groupTag" style="position: relative"></div>' 
     +'</div>').prependTo('#videoFolders');
     // checkForEditAndDeleteFolderPress();
 
-    $('.deleteFolder').on('click', function(evt){
-    var folderName = $(this).text();
-    var newInput = '';
-    console.log(folderName, 'gonna be deleted');
+    $('#editFolder_'+folderId).on('click', function(evt){ //TODO
+        console.log('editing');
     })
 
-    $('.editFolder').on('click', function(evt){
-    console.log("tryna edit");
-    })
+
+    $('#deleteFolder_'+folderId).on('click', function(evt){
+            $('#myDeleteFolderModal').modal('show');
+
+            $('#yesFolderBtn').on('click', function() {
+                console.log("delete folder ", 'videofolders/'+currentDanceGroupID+"/"+'folderID'+folderId);
+                $('#folderID'+folderId).parent().parent().fadeOut('slow', function() {
+                    var foldername = 'folderID'+folderId;
+                    var folder = danceDatabase.ref('videofolders/'+currentDanceGroupID+"/"+document.getElementById(foldername).innerText);
+                    folder.remove();
+                    document.getElementById('folderID'+folderId).parentNode.parentNode.remove();
+                });
+              $('#myDeleteFolderModal').modal('hide');
+            });
+        })
 
 }
 

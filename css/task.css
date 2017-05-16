@@ -352,13 +352,24 @@ input[type="file"],
     clear: both;
 }
 
-/*#editFolderButton{
-    width: 25px;
-    height: 25px;
-    position:absolute;
-    float: right;
+.editFolder{
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    position: relative;
+    bottom: 5px;
+    left: 195px;
 }
-*/
+
+.deleteFolder{
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: inline-block;
+    bottom: 5px;
+    left: 280px;
+}
+/*
 #editFolderButton{
     padding: 10px 10px 10px 36px;
     font-family: "Trebuchet MS", Arial, Verdana;   
@@ -366,7 +377,7 @@ input[type="file"],
     border-radius: 16px;
     border: 1px solid #d9d9d9;
     text-shadow: 1px 1px #fff;       
-}
+}*/
 
 #overlay {
     position: absolute;
