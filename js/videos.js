@@ -481,8 +481,108 @@ function addFolderHTML(name, folderId){
     +'</div>').prependTo('#videoFolders');
     // checkForEditAndDeleteFolderPress();
 
-    $('#editFolder_'+folderId).on('click', function(evt){ //TODO
+    var lDiv = document.getElementById("leftDiv");
+
+    // for editing the video folders
+    var input = document.createElement('textarea');
+    input.id = "inputFolderTxt" + folderId;
+    input.className = 'form-control';
+    input.style.display = "none"; 
+    input.style.width = "80%";
+
+    var errorHelpBlock = document.createElement('div');
+    errorHelpBlock.className = 'help-block with-errors';
+
+    var cancel = document.createElement("img");
+    cancel.id = "cancelFolderEditButton" + folderId;
+    cancel.src = "img/close.png";
+    cancel.className = 'formImgButtons';
+    cancel.style.display = "none";
+    cancel.style.width = "50px";
+    cancel.style.left = "225px";
+    cancel.style.bottom = "5px";
+    cancel.style.position = "relative";
+
+    var updateBtnWrapper = document.createElement('button');
+    updateBtnWrapper.type = 'submit'; 
+
+    var update = document.createElement("img");
+    update.id = "updateFolderButton" + folderId;
+    update.src = "img/green_checkmark.png";
+    update.className = 'formImgButtons';
+    update.style.display = "none";
+    update.style.position = "relative";
+    update.style.width = "50px";
+    update.style.bottom = "5px";
+    update.style.left = "220px";
+
+    updateBtnWrapper.appendChild(update);
+
+    lDiv.appendChild(input);
+    lDiv.appendChild(errorHelpBlock);
+    lDiv.appendChild(cancel);
+    lDiv.appendChild(update);
+
+    $('#editFolder_'+folderId).on('click', function(evt){
         console.log('editing');
+        var foldername = 'folderID'+folderId;
+
+        //hide edit and delete buttons and extend div
+        document.getElementById('editFolder_'+folderId).style.display = "none";
+        document.getElementById('deleteFolder_'+folderId).style.display = "none";
+        
+        document.getElementById("inputFolderTxt" + folderId).style.display = "block";
+        document.getElementById("updateFolderButton" + folderId).style.display = "inline-block";
+        document.getElementById("cancelFolderEditButton" + folderId).style.display = "inline-block";
+
+        var oldVal = document.getElementById(foldername).innerText;
+        document.getElementById(foldername).style.display = "none";
+
+        document.getElementById("inputFolderTxt" + folderId).value = oldVal;
+        document.getElementById("inputFolderTxt" + folderId).focus();
+
+        update.onclick = function() {
+            var inp = document.getElementById("inputFolderTxt" + folderId).value;
+            console.log('inp', inp, inp.length, oldVal);
+
+            document.getElementById("inputFolderTxt" + folderId).style.display = "none";
+            document.getElementById("updateFolderButton" + folderId).style.display = "none";
+            document.getElementById("cancelFolderEditButton" + folderId).style.display = "none";
+
+            document.getElementById(foldername).style.display = "block";
+            var oldVal = document.getElementById(foldername).innerText;
+            document.getElementById(foldername).innerHTML = '<span class="glyphicon glyphicon-folder-close" style="margin:auto; margin-right:20px; margin-left: 20px"></span>'+inp;
+
+            document.getElementById('editFolder_'+folderId).style.display = "inline-block";
+            document.getElementById('deleteFolder_'+folderId).style.display = "inline-block";
+
+            var ref = danceDatabase.ref('videofolders/' + currentDanceGroupID+"/");
+            ref.child(oldVal).once('value').then(function(snap) {
+              var data = snap.val();
+              console.log("data ",data);
+              var update = {};
+              update[oldVal] = null;
+              update[inp] = data;
+              return ref.update(update);
+            });
+
+            console.log("change this ", 'videofolders/' + currentDanceGroupID+"/"+oldVal);
+            
+        }
+
+        cancel.onclick = function(){
+            // document.getElementById("inputFolderTxt" + folderId).value = oldVal;
+            document.getElementById(foldername).style.display = "block";
+            // document.getElementById(foldername).innerText = oldVal;
+
+            document.getElementById("inputFolderTxt" + folderId).style.display = "none";
+            document.getElementById("updateFolderButton" + folderId).style.display = "none";
+            document.getElementById("cancelFolderEditButton" + folderId).style.display = "none"; 
+
+            document.getElementById('editFolder_'+folderId).style.display = "inline-block";
+            document.getElementById('deleteFolder_'+folderId).style.display = "inline-block";
+        }
+
     })
 
 
