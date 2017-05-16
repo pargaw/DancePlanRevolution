@@ -123,7 +123,7 @@ Settings styling ONLY
 }
 
 #sentToast, #savedToast {
-    visibility: hidden;
+    display: none;
     width: 50%;
     background-color: #808080;
     color: #fff;
@@ -145,6 +145,8 @@ Settings styling ONLY
 /* ANNOUNCEMENTS */ 
 #panel-title {
     border: 0;
+    text-align: center;
+    vertical-align: middle;
 }
 
 #announcementInp {
@@ -282,13 +284,6 @@ input[type="file"],
     clear: both;
 }
 
-/*#editFolderButton{
-    width: 25px;
-    height: 25px;
-    position:absolute;
-    float: right;
-}
-*/
 #editFolderButton{
     padding: 10px 10px 10px 36px;
     font-family: "Trebuchet MS", Arial, Verdana;   
