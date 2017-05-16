@@ -1,17 +1,4 @@
 // UTILITIES
-// get list of all members across all dance groups
-function getMembers(){
-    var membersRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/members/');
-    membersRef.on("value", function(snapshot) {
-        var members = snapshot.val();
-        if (members) {
-            return members;
-        } else {
-            return false;
-        }
-    });
-}
-
 // return date in mm/dd/yy hh:mm starting form
 function getDate(time_included, delimiter) {
     var n = new Date(); 
