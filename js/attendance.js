@@ -7,7 +7,11 @@ var full_path = location.pathname;
 var path = full_path.substr(0, full_path.lastIndexOf("/") + 1);
 
 function hideAttendanceForm() {
+    $('#memberImgLabel').empty();
     $('#newMember')[0].reset();
+    // console.log('try to empty', $('#newMember .help-block li'));
+    $('#newMember .help-block li').empty();
+    // console.log($('#newMember .help-block li'));
     $('#newMember').hide();
 }
 
@@ -30,7 +34,7 @@ function saveMemberToDatabase(kerberos, name, url) {
     }
 
     // console.log(kerberos, name, url);
-    var attendanceRef = danceDatabase.ref('attendance/' + currentDanceGroupID + '/' + hyphen_delimited_date);
+    // var attendanceRef = danceDatabase.ref('attendance/' + currentDanceGroupID + '/' + hyphen_delimited_date);
     var groupsRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/members/');
     var membersRef = danceDatabase.ref('members/');
 
@@ -39,7 +43,7 @@ function saveMemberToDatabase(kerberos, name, url) {
     updateObjFalse[kerberos] = false;
     updateObjTrue[kerberos] = true;
 
-    attendanceRef.update(updateObjFalse);
+    // attendanceRef.update(updateObjFalse);
     groupsRef.update(updateObjTrue);
     membersRef.child(kerberos).set({
         groups: [currentDanceGroupID],
@@ -49,14 +53,30 @@ function saveMemberToDatabase(kerberos, name, url) {
     });
 
     hideAttendanceForm();
+    checkAttendanceTable();
 }
 
+
+
+let storeMemberPhoto = new Promise(function(resolve, reject) {
+    var membersRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/members/');
+    membersRef.on("value", function(snapshot) {
+        var members = snapshot.val();
+        if (members) {
+            // console.log('members', members);
+            resolve(members);
+        } else {
+            // console.log('no members?');
+            reject(false);
+        }
+    });
+});
 
 $(document).on('click', '#addMemberButton', function(e) {
     // assume all fields have been validated 
     var kerberos = strip_text($('#addMemberKerberos').val());
     var name = strip_text($('#addMemberName').val());
-    console.log('stripped member np fields', kerberos, name);
+    console.log('stripped member fields', kerberos, name);
 
     if (kerberos && name) {
         if (memberPhoto) {
@@ -65,14 +85,25 @@ $(document).on('click', '#addMemberButton', function(e) {
             var imagePath = kerberos + '.jpg';
             var memberRef = danceStorage.ref(folderPath + imagePath);
             var folderRef = danceStorage.ref(folderPath);
+            console.log('image path', imagePath);
 
-            memberRef.put(memberPhoto).then(function(snapshot) {
-                folderRef.child(imagePath).getDownloadURL().then(function(url) {
-                    saveMemberToDatabase(kerberos, name, url);
-                }).catch(function(error) {
-                    console.log('error', error);
-                });
-            }); 
+            console.log('memberPhoto', memberPhoto);
+
+            var uploadTask = memberRef.put(memberPhoto);
+            uploadTask.on('state_changed', function(snapshot) {
+                console.log(snapshot.totalBytesTransferred); // progress of upload
+            });
+            // memberRef.put(memberPhoto).then(function(snapshot) {
+            //     console.log('HALP', snapshot);
+            //     // folderRef.child(imagePath).getDownloadURL().then(function(url) {
+            //     //     console.log('url', url);
+            //     //     saveMemberToDatabase(kerberos, name, url);
+            //     // }).catch(function(error) {
+            //     //     console.log('error in getting download url', error);
+            //     // }); 
+            // }).catch(function(error) {
+            //     console.log('error in storing photo', error);
+            // });
         } else {
             console.log('no member photo', kerberos, name);
             saveMemberToDatabase(kerberos, name);
@@ -96,10 +127,10 @@ let getMembers = new Promise(function(resolve, reject) {
     membersRef.on("value", function(snapshot) {
         var members = snapshot.val();
         if (members) {
-            console.log('members', members);
+            // console.log('members', members);
             resolve(members);
         } else {
-            console.log('no members?');
+            // console.log('no members?');
             reject(false);
         }
     });
@@ -107,8 +138,10 @@ let getMembers = new Promise(function(resolve, reject) {
 
 function checkAttendanceTable() { 
     getMembers.then(function(fromResolve) {
+        // console.log('members', fromResolve);
         setupMembers();
     }).catch(function(fromReject){
+        console.log('no members!');
         requestToAddMembers();
     });
 }
@@ -133,9 +166,10 @@ function choosePhoto() {
                 console.log('file', file);
 
                 var memberImgLabel = document.getElementById('memberImgLabel');
-                console.log('memberImgLabel', memberImgLabel);
+                // console.log('memberImgLabel', memberImgLabel);
                 memberImgLabel.innerHTML = file.name;
                 memberPhoto = file;
+                // console.log('memphoto', memberPhoto);
             }
         }
     } else {
