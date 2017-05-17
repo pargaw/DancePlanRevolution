@@ -1,5 +1,6 @@
 var memberPhoto;
 var hyphen_delimited_date = getDate(false, '-');
+var addedMembers = [];
 
 function strip_text(text) {
     return text.replace(/^\s+|\s+$/g, '');
@@ -31,14 +32,16 @@ $(document).on('click', '#addAnotherMemberButton', function(e) {
 
             memberRef.put(memberPhoto).then(function(snapshot) {
                 folderRef.child(imagePath).getDownloadURL().then(function(url) {
-                    saveMemberToDatabase(kerberos, name, url);
+                    // saveMemberToDatabase(kerberos, name, url);
+                    addedMembers.push([kerberos,name,url]);
                 }).catch(function(error) {
                     console.log('error', error);
                 });
             }); 
         } else {
             console.log('no member photo', kerberos, name);
-            saveMemberToDatabase(kerberos, name);
+            addedMembers.push([kerberos,name]);
+            // saveMemberToDatabase(kerberos, name);
         }
 
         document.getElementById("addedMemLabel").style.display="block";
@@ -61,7 +64,7 @@ $(document).on('click', '#addAnotherMemberButton', function(e) {
 
 });
 
-$(document).on('click', '#doneButton', function(e) {
+$(document).on('click', '#addGroupButton', function(e) {
     addNewGroup();
 });
 
@@ -111,6 +114,38 @@ $(document).on('click', '.group-name h4', function(e) {
 function addNewGroup() {
     var name = $('#groupInp').val();
     console.log(name); 
+    console.log("herreeeee");
+
+
+    var kerberos = strip_text($('#addMemberKerberos').val());
+    var memName = strip_text($('#addMemberName').val());
+    console.log('stripped member np fields', kerberos, memName);
+    
+    if (kerberos && memName) {
+        if (memberPhoto) {
+            // assumes jpg files only
+            var folderPath = 'members/';
+            var imagePath = kerberos + '.jpg';
+            var memberRef = danceStorage.ref(folderPath + imagePath);
+            var folderRef = danceStorage.ref(folderPath);
+
+            memberRef.put(memberPhoto).then(function(snapshot) {
+                folderRef.child(imagePath).getDownloadURL().then(function(url) {
+                    addedMembers.push([kerberos,memName,url]);
+                    // saveMemberToDatabase(kerberos, memName, url);
+                }).catch(function(error) {
+                    console.log('error', error);
+                });
+            }); 
+        } else {
+            console.log('no member photo', kerberos, memName);
+            // saveMemberToDatabase(kerberos, memName);
+            addedMembers.push([kerberos,memName]);
+        }
+    }
+
+    console.log("addedMembers ",addedMembers);
+    console.log("name ", name);
 
     if (name) {
         // replace spaces with dashes and convert to lowercase
@@ -129,6 +164,17 @@ function addNewGroup() {
             name: name,
             date: getDate(true) 
         });
+
+        //add members to group
+        console.log("addedMembers ",addedMembers);
+        for (var mem=0; mem < addedMembers.length; mem++) {
+            if (addedMembers[mem].length>2){
+                saveMemberToDatabase(addedMembers[mem][0],addedMembers[mem][1],name,addedMembers[mem][2],name);
+            } else{
+                saveMemberToDatabase(addedMembers[mem][0],addedMembers[mem][1],name);
+            }
+         
+        }
 
         $('#newGroup').get(0).reset();
         $('#newGroup').toggle();
@@ -171,14 +217,14 @@ function choosePhoto() {
     }
 }
 
-function saveMemberToDatabase(kerberos, name, url) {
+function saveMemberToDatabase(kerberos, name,groupName,url) {
     if (!url) {
         // no-user-img.jpg
         url = 'https://firebasestorage.googleapis.com/v0/b/danceplanrevolution.appspot.com/o/members%2Fno-user-img.jpg?alt=media&token=a00922f3-120a-4e4b-ae4e-58807d69a93e';
     }
     console.log(kerberos, name, url);
-    var attendanceRef = danceDatabase.ref('attendance/' + currentDanceGroupID + '/' + hyphen_delimited_date);
-    var groupsRef = danceDatabase.ref('groups/' + currentDanceGroupID + '/members/');
+    var attendanceRef = danceDatabase.ref('attendance/' + groupName + '/' + hyphen_delimited_date);
+    var groupsRef = danceDatabase.ref('groups/' + groupName + '/members/');
     var membersRef = danceDatabase.ref('members/');
 
     var updateObjFalse = {};
@@ -189,19 +235,17 @@ function saveMemberToDatabase(kerberos, name, url) {
     attendanceRef.update(updateObjFalse);
     groupsRef.update(updateObjTrue);
     membersRef.child(kerberos).set({
-        groups: [currentDanceGroupID],
+        groups: [groupName],
         kerberos: kerberos,
         name: name,
         photo: url
     });
-
-    hideAttendanceForm();
 }
 
-function hideAttendanceForm() {
-    $('#newGroup')[0].reset();
-    $('#newGroup').hide();
-}
+// function hideAttendanceForm() {
+//     $('#newGroup')[0].reset();
+//     $('#newGroup').hide();
+// }
 
 function displayAllGroups() {
     var groupContainer = document.getElementById('groups');
